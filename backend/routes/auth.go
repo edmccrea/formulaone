@@ -176,5 +176,7 @@ func GetUser(c *fiber.Ctx) error {
 		})
 	}
 
+	user.Password = ""
+
 	return c.Status(fiber.StatusOK).JSON(user)
 }
