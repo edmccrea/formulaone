@@ -2,4 +2,6 @@
   import "../app.css";
 </script>
 
-<slot />
+<main class="flex grow min-h-screen">
+  <slot />
+</main>
