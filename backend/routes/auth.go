@@ -19,7 +19,6 @@ func NewMiddleware() fiber.Handler {
 }
 
 func AuthMiddleware(c *fiber.Ctx) error {
-
 	sess, err := store.Get(c)
 
 	if strings.Split(c.Path(), "/")[1] == "auth" {
@@ -179,4 +178,32 @@ func GetUser(c *fiber.Ctx) error {
 	user.Password = ""
 
 	return c.Status(fiber.StatusOK).JSON(user)
+}
+
+func GetAllUsers(c *fiber.Ctx) error {
+	sess, err := store.Get(c)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "not authorized",
+		})
+	}
+
+	if sess.Get(AUTH_KEY) == nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "not authorized",
+		})
+	}
+
+	users, err := model.GetAllUsers()
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "not authorized",
+		})
+	}
+
+	for i := range users {
+		users[i].Password = ""
+	}
+
+	return c.Status(fiber.StatusOK).JSON(users)
 }

@@ -33,6 +33,27 @@ func GetUser(id string) (User, error) {
 
 }
 
+func GetAllUsers() ([]User, error) {
+	var users []User
+	statement := `select * from users;`
+
+	rows, err := db.Query(statement)
+	if err != nil {
+		return []User{}, err
+	}
+
+	for rows.Next() {
+		var user User
+		err = rows.Scan(&user.ID, &user.Username, &user.Password)
+		if err != nil {
+			return []User{}, err
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
+}
+
 func CheckUsername(username string, user *User) bool {
 	statement := `select id, username, password from users where username=$1 limit 1;`
 

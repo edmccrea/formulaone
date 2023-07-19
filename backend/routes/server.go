@@ -35,6 +35,7 @@ func Setup() {
 	router.Post("/auth/logout", Logout)
 
 	router.Get("/user", GetUser)
+	router.Get("/users", GetAllUsers)
 
 	router.Listen(":8080")
 }
