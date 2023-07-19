@@ -20,13 +20,15 @@ func Setup() {
 
 	store = session.New(session.Config{
 		CookieHTTPOnly: true,
-		// CookieSecure: true, for https
-		Expiration: time.Hour * 24,
+		CookieDomain:   "localhost",
+		// CookieSameSite: "none",
+		// CookieSecure:   true,
+		Expiration: time.Hour * 24 * 7,
 	})
 
 	router.Use(NewMiddleware(), cors.New(cors.Config{
 		AllowCredentials: true,
-		AllowOrigins:     "*",
+		AllowOrigins:     "http://localhost:5173",
 		AllowHeaders:     "Access-Control-Allow-Origin, Content-Type, Origin, Accept",
 	}))
 

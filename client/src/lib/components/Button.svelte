@@ -4,6 +4,7 @@
 </script>
 
 <button
+  on:click
   {type}
   class={kind === "primary"
     ? "bg-blue-500 hover:bg-blue-700"
