@@ -1,16 +1,11 @@
 <script lang="ts">
-  export let kind: "primary" | "secondary" = "primary";
   export let type: "button" | "submit" | "reset" = "button";
 </script>
 
 <button
   on:click
   {type}
-  class={kind === "primary"
-    ? "bg-blue-500 hover:bg-blue-700"
-    : kind === "secondary"
-    ? "bg-pink"
-    : "bg-inherit"}
+  class="bg-blue-500 hover:bg-blue-700 rounded-md py-1 px-2 w-fit"
 >
   <slot />
 </button>
