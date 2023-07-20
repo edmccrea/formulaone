@@ -15,6 +15,17 @@
       goto("/login");
     }
   }
+
+  async function getAllUsers() {
+    const url = "http://localhost:8080/user";
+    const res = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const data = await res.json();
+    console.log(data);
+  }
 </script>
 
 <div class="w-full h-full">
@@ -33,9 +44,13 @@
     <h2>Here is the calendar div</h2>
   </div>
 
-  <a href="/login">Go to login page</a>
+  <div class="flex flex-col gap-4">
+    <a href="/login">Go to login page</a>
 
-  <Button on:click={logout}>Logout</Button>
+    <Button on:click={getAllUsers}>Get all users</Button>
+
+    <Button on:click={logout}>Logout</Button>
+  </div>
 
   <!-- Scoreboard -->
 
