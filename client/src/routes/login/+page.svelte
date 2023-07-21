@@ -19,8 +19,7 @@
       body: JSON.stringify({ username, password }),
     });
 
-    const status = res.status;
-    if (status === 200) {
+    if (res.ok) {
       goto("/");
     }
   }
@@ -45,8 +44,9 @@
         class="bg-inherit border border-gray-400 rounded-md py-1 px-3 mb-4"
         placeholder="Password"
         bind:value={password}
+        autocomplete="off"
       />
-      <Button kind="primary" type="submit">Sign in</Button>
+      <Button type="submit">Sign in</Button>
     </form>
     <p class="mt-4">Forgot your password? Ask Ed</p>
   </div>

@@ -7,7 +7,7 @@ export const load = (() => {
       credentials: "include",
     });
 
-    if (res.status === 200) {
+    if (res.ok) {
       const data = await res.json();
       return {
         username: data.username,

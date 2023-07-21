@@ -6,18 +6,11 @@
   const username = data.username;
 
   async function logout() {
-    const url = "http://localhost:8080/auth/logout";
-    const res = await fetch(url, {
-      method: "POST",
-    });
-
-    if (res.status === 200) {
-      goto("/login");
-    }
+    goto("/logout");
   }
 
   async function getAllUsers() {
-    const url = "http://localhost:8080/user";
+    const url = "http://localhost:8080/users";
     const res = await fetch(url, {
       method: "GET",
       credentials: "include",
@@ -49,7 +42,9 @@
 
     <Button on:click={getAllUsers}>Get all users</Button>
 
-    <Button on:click={logout}>Logout</Button>
+    <a href="/logout">
+      <Button>Logout</Button>
+    </a>
   </div>
 
   <!-- Scoreboard -->
