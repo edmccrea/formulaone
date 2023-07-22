@@ -9,3 +9,7 @@ html {
 body {
   color: #fafafa;
 }
+
+input:focus {
+  outline: none;
+}
