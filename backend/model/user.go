@@ -1,9 +1,12 @@
 package model
 
 type User struct {
-	ID       uint64 `json:"id"`
-	Username string `json:"username"`
-	Password string `json:"password"`
+	ID       uint64   `json:"user_id"`
+	Username string   `json:"username"`
+	Password string   `json:"password"`
+	Avatar   *string  `json:"avatar"`
+	Points   *float32 `json:"points"`
+	Position *int     `json:"position"`
 }
 
 func CreateUser(user *User) error {
@@ -15,7 +18,7 @@ func CreateUser(user *User) error {
 
 func GetUser(id string) (User, error) {
 	var user User
-	statement := `select * from users where id=$1;`
+	statement := `select * from users where user_id=$1;`
 
 	rows, err := db.Query(statement, id)
 	if err != nil {
@@ -23,7 +26,7 @@ func GetUser(id string) (User, error) {
 	}
 
 	for rows.Next() {
-		err = rows.Scan(&user.ID, &user.Username, &user.Password)
+		err = rows.Scan(&user.ID, &user.Username, &user.Password, &user.Avatar, &user.Points, &user.Position)
 		if err != nil {
 			return User{}, err
 		}
@@ -44,7 +47,7 @@ func GetAllUsers() ([]User, error) {
 
 	for rows.Next() {
 		var user User
-		err = rows.Scan(&user.ID, &user.Username, &user.Password)
+		err = rows.Scan(&user.ID, &user.Username, &user.Password, &user.Avatar, &user.Points, &user.Position)
 		if err != nil {
 			return []User{}, err
 		}
@@ -55,7 +58,7 @@ func GetAllUsers() ([]User, error) {
 }
 
 func CheckUsername(username string, user *User) bool {
-	statement := `select id, username, password from users where username=$1 limit 1;`
+	statement := `select user_id, username, password from users where username=$1 limit 1;`
 
 	rows, err := db.Query(statement, username)
 	if err != nil {
