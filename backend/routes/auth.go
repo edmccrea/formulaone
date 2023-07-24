@@ -3,6 +3,7 @@ package routes
 import (
 	"fmt"
 	"formulaone/model"
+	"strconv"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -12,6 +13,15 @@ import (
 type user struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+}
+
+type bet struct {
+	BetID  uint64  `json:"bet_id"`
+	UserID uint64  `json:"user_id"`
+	RaceID uint64  `json:"race_id"`
+	First  *string `json:"first"`
+	Second *string `json:"second"`
+	Third  *string `json:"third"`
 }
 
 func NewMiddleware() fiber.Handler {
@@ -206,4 +216,103 @@ func GetAllUsers(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(users)
+}
+
+func GetRaceById(c *fiber.Ctx) error {
+	sess, err := store.Get(c)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "not authorized",
+		})
+	}
+
+	if sess.Get(AUTH_KEY) == nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "not authorized",
+		})
+	}
+
+	raceId, _ := strconv.ParseInt(c.Query("id"), 10, 64)
+	var race model.Race
+	race, err = model.GetRaceById(fmt.Sprint(raceId))
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "something went wrong " + err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(race)
+}
+
+func GetAllRaces(c *fiber.Ctx) error {
+	sess, err := store.Get(c)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "not authorized: session error",
+		})
+	}
+
+	if sess.Get(AUTH_KEY) == nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "not authorized: auth key is nil",
+		})
+	}
+
+	races, err := model.GetAllRaces()
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "not authorized: " + err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(races)
+}
+
+func PlaceUserBet(c *fiber.Ctx) error {
+	c.Accepts("application/json")
+
+	var data bet
+
+	err := c.BodyParser(&data)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "something went wrong" + err.Error(),
+		})
+	}
+
+	sess, err := store.Get(c)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "not authorized: session error",
+		})
+	}
+
+	if sess.Get(AUTH_KEY) == nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "not authorized: auth key is nil",
+		})
+	}
+
+	//TODO: get user is dynamically
+	bet := model.Bet{
+		RaceID: data.RaceID,
+		UserID: data.UserID,
+		First:  data.First,
+		Second: data.Second,
+		Third:  data.Third,
+	}
+
+	err = model.PlaceUserBet(&bet)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "something went wrong" + err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "bet placed",
+	})
+
 }

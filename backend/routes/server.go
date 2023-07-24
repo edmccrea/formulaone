@@ -39,5 +39,10 @@ func Setup() {
 	router.Get("/user", GetUser)
 	router.Get("/users", GetAllUsers)
 
+	router.Get("/race", GetRaceById)
+	router.Get("/races", GetAllRaces)
+
+	router.Post("/bet", PlaceUserBet)
+
 	router.Listen(":8080")
 }
