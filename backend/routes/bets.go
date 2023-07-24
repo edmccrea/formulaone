@@ -1,7 +1,9 @@
 package routes
 
 import (
+	"fmt"
 	"formulaone/model"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -40,4 +42,29 @@ func PlaceUserBet(c *fiber.Ctx) error {
 		"message": "bet placed",
 	})
 
+}
+
+func GetAllBets(c *fiber.Ctx) error {
+	bets, err := model.GetAllBets()
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "something went wrong " + err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(bets)
+
+}
+
+func GetBetById(c *fiber.Ctx) error {
+	betId, _ := strconv.ParseInt(c.Params("id"), 10, 64)
+	var bet model.Bet
+	bet, err := model.GetBetById(fmt.Sprint(betId))
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "something went wrong " + err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(bet)
 }

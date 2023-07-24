@@ -57,6 +57,25 @@ func GetAllUsers() ([]User, error) {
 	return users, nil
 }
 
+func GetUserById(id string) (User, error) {
+	var user User
+	statement := `select * from users where user_id=$1;`
+
+	rows, err := db.Query(statement, id)
+	if err != nil {
+		return User{}, err
+	}
+
+	for rows.Next() {
+		err = rows.Scan(&user.ID, &user.Username, &user.Password, &user.Avatar, &user.Points, &user.Position)
+		if err != nil {
+			return User{}, err
+		}
+	}
+
+	return user, nil
+}
+
 func CheckUsername(username string, user *User) bool {
 	statement := `select user_id, username, password from users where username=$1 limit 1;`
 

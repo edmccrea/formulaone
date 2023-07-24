@@ -7,6 +7,27 @@ type Result struct {
 	Third  *string `json:"third"`
 }
 
+func GetAllResults() ([]Result, error) {
+	var results []Result
+	statement := `select * from results;`
+
+	rows, err := db.Query(statement)
+	if err != nil {
+		return []Result{}, err
+	}
+
+	for rows.Next() {
+		var result Result
+		err = rows.Scan(&result.RaceID, &result.First, &result.Second, &result.Third)
+		if err != nil {
+			return []Result{}, err
+		}
+		results = append(results, result)
+	}
+
+	return results, nil
+}
+
 func GetResultByRaceId(id string) (Result, error) {
 	var result Result
 	statement := `select * from results where race_id=$1;`

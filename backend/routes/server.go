@@ -38,15 +38,19 @@ func Setup() {
 
 	router.Get("/user", GetUser)
 	router.Get("/users", GetAllUsers)
+	router.Get("/users/:id", GetUserById)
 
 	//TODO - move these under one route
-	router.Get("/race", GetRaceById)
 	router.Get("/races", GetAllRaces)
+	router.Get("/races/:id", GetRaceById)
 
+	router.Get("/bets", GetAllBets)
+	router.Get("/bets/:id", GetBetById)
 	router.Post("/bets", PlaceUserBet)
 
 	// TODO - move these under one route
-	router.Get("/results", GetResultByRaceId)
+	router.Get("/results", GetAllResults)
+	router.Get("/results/:raceId", GetResultByRaceId)
 
 	router.Listen(":8080")
 }

@@ -9,7 +9,7 @@ import (
 )
 
 func GetRaceById(c *fiber.Ctx) error {
-	raceId, _ := strconv.ParseInt(c.Query("id"), 10, 64)
+	raceId, _ := strconv.ParseInt(c.Params("id"), 10, 64)
 	var race model.Race
 	race, err := model.GetRaceById(fmt.Sprint(raceId))
 	if err != nil {

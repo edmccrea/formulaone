@@ -182,18 +182,3 @@ func GetUser(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(user)
 }
-
-func GetAllUsers(c *fiber.Ctx) error {
-	users, err := model.GetAllUsers()
-	if err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "not authorized: " + err.Error(),
-		})
-	}
-
-	for i := range users {
-		users[i].Password = ""
-	}
-
-	return c.Status(fiber.StatusOK).JSON(users)
-}
