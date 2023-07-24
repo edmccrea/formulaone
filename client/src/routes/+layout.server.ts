@@ -1,7 +1,8 @@
 import type { LayoutServerLoad } from "./$types";
 
-export const load = ((event) => {
-  const sessionId = event.cookies.get("session_id");
+export const load = (async ({ cookies }) => {
+  const sessionId = cookies.get("session_id");
+
   if (sessionId) {
     return {
       sessionId,

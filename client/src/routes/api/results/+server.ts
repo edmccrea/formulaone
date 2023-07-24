@@ -3,7 +3,7 @@ import type { RequestHandler } from "./$types";
 export const GET = (async ({ request }) => {
   const sessionId = request.headers.get("x-session-id");
 
-  const url = "http://localhost:8080/users";
+  const url = "http://localhost:8080/results";
   const res = await fetch(url, {
     method: "GET",
     credentials: "include",
