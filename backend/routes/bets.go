@@ -68,3 +68,29 @@ func GetBetById(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(bet)
 }
+
+func GetBetsByRaceId(c *fiber.Ctx) error {
+	raceId, _ := strconv.ParseInt(c.Params("id"), 10, 64)
+	var bets []model.Bet
+	bets, err := model.GetBetsByRaceId(fmt.Sprint(raceId))
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "something went wrong " + err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(bets)
+}
+
+func GetBetsByUserId(c *fiber.Ctx) error {
+	userId, _ := strconv.ParseInt(c.Params("id"), 10, 64)
+	var bets []model.Bet
+	bets, err := model.GetBetsByUserId(fmt.Sprint(userId))
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "something went wrong " + err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(bets)
+}

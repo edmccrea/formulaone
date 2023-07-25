@@ -33,3 +33,23 @@ func GetResultByRaceId(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(result)
 
 }
+
+func PostResult(c *fiber.Ctx) error {
+	c.Accepts("application/json")
+	var result model.Result
+	if err := c.BodyParser(&result); err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "something went wrong " + err.Error(),
+		})
+	}
+
+	err := model.PostResult(&result)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "something went wrong " + err.Error(),
+		})
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "result submitted",
+	})
+}

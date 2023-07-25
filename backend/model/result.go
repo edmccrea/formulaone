@@ -47,3 +47,11 @@ func GetResultByRaceId(id string) (Result, error) {
 	return result, nil
 
 }
+
+func PostResult(result *Result) error {
+	statement := `insert into results (race_id, first, second, third) values ($1, $2, $3, $4);`
+
+	_, err := db.Exec(statement, result.RaceID, result.First, result.Second, result.Third)
+	return err
+
+}

@@ -56,3 +56,45 @@ func GetBetById(id string) (Bet, error) {
 	return bet, nil
 
 }
+
+func GetBetsByRaceId(id string) ([]Bet, error) {
+	var bets []Bet
+	statement := `select user_id, race_id, first, second, third from bets where race_id=$1;`
+
+	rows, err := db.Query(statement, id)
+	if err != nil {
+		return []Bet{}, err
+	}
+
+	for rows.Next() {
+		var bet Bet
+		err = rows.Scan(&bet.UserID, &bet.RaceID, &bet.First, &bet.Second, &bet.Third)
+		if err != nil {
+			return []Bet{}, err
+		}
+		bets = append(bets, bet)
+	}
+
+	return bets, nil
+}
+
+func GetBetsByUserId(id string) ([]Bet, error) {
+	var bets []Bet
+	statement := `select user_id, race_id, first, second, third from bets where user_id=$1;`
+
+	rows, err := db.Query(statement, id)
+	if err != nil {
+		return []Bet{}, err
+	}
+
+	for rows.Next() {
+		var bet Bet
+		err = rows.Scan(&bet.UserID, &bet.RaceID, &bet.First, &bet.Second, &bet.Third)
+		if err != nil {
+			return []Bet{}, err
+		}
+		bets = append(bets, bet)
+	}
+
+	return bets, nil
+}
