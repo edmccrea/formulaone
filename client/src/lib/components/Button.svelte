@@ -6,7 +6,7 @@
 <button
   on:click
   {type}
-  class="bg-blue-500 hover:bg-blue-700 rounded-md py-1 px-2 {fullWidth
+  class="bg-red-500 hover:bg-red-700 rounded-md py-1 px-2 transition-all ease-in-out duration-300 {fullWidth
     ? 'w-full'
     : 'w-fit'}"
 >
