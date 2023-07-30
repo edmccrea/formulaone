@@ -1,15 +1,15 @@
 import type { RequestHandler } from "./$types";
 
-export const GET = (async ({ request }) => {
-  const sessionId = request.headers.get("x-session-id");
-
-  const url = "http://localhost:8080/races";
-  const res = await fetch(url, {
+export const GET = (async ({ url }) => {
+  const id = url.searchParams.get("id");
+  let apiUrl = "";
+  if (id) {
+    apiUrl = `http://localhost:8080/races/${id}`;
+  } else {
+    apiUrl = `http://localhost:8080/races`;
+  }
+  const res = await fetch(apiUrl, {
     method: "GET",
-    credentials: "include",
-    headers: {
-      Cookie: `session_id=${sessionId}`,
-    },
   });
 
   const data = await res.json();

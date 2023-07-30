@@ -30,7 +30,7 @@ func NewMiddleware() fiber.Handler {
 func AuthMiddleware(c *fiber.Ctx) error {
 	sess, err := store.Get(c)
 
-	if strings.Split(c.Path(), "/")[1] == "auth" {
+	if strings.Split(c.Path(), "/")[1] == "auth" || strings.Split(c.Path(), "/")[1] == "races" {
 		return c.Next()
 	}
 

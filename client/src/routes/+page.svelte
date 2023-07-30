@@ -19,20 +19,6 @@
     const resData = await res.json();
     console.log(resData);
   }
-
-  async function getAllRaces() {
-    const url = "/api/races";
-    const res = await fetch(url, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "x-session-id": data.sessionId || "",
-      },
-    });
-
-    const resData = await res.json();
-    console.log(resData);
-  }
 </script>
 
 <div
