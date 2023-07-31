@@ -9,7 +9,7 @@
   let betPlaced = true;
 
   function goToRace() {
-    goto(`/race?id=${race.id}`);
+    goto(`/race/${race.id}`);
   }
 </script>
 

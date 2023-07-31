@@ -1,7 +1,7 @@
 import type { LayoutLoad } from "./$types";
 
 export const load = (async ({ fetch }) => {
-  const res = await fetch("/api/races", {
+  const res = await fetch("/api/race", {
     method: "GET",
   });
 
