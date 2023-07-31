@@ -55,7 +55,7 @@
           />
           {#if incorrectLogin}
             <div
-              class="bg-red-200 rounded-md mb-2 flex items-center p-2"
+              class="bg-red-200 rounded-t-sm mb-2 flex items-center p-2 border-b-4 border-b-red-700"
               in:fade
             >
               <svg

@@ -22,6 +22,34 @@ declare global {
       raceStart: Date;
       image: string;
     }
+
+    interface Bet {
+      user_id: number;
+      first: string;
+      second: string;
+      third: string;
+      race_id: number;
+    }
+
+    interface User {
+      user_id: number;
+      username: string;
+      avatar: string;
+      points: number;
+      position: number;
+    }
+
+    type BetTable = MappedBet[];
+
+    interface MappedBet {
+      username: string;
+      user_id: number;
+      bets: {
+        first: string;
+        second: string;
+        third: string;
+      };
+    }
   }
 }
 
