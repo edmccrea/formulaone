@@ -3,7 +3,6 @@ package routes
 import (
 	"fmt"
 	"formulaone/model"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
@@ -28,23 +27,25 @@ func NewMiddleware() fiber.Handler {
 }
 
 func AuthMiddleware(c *fiber.Ctx) error {
-	sess, err := store.Get(c)
+	//Fix this in the future
 
-	if strings.Split(c.Path(), "/")[1] == "auth" || strings.Split(c.Path(), "/")[1] == "races" {
-		return c.Next()
-	}
+	// sess, err := store.Get(c)
 
-	if err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "not authorized",
-		})
-	}
+	// if strings.Split(c.Path(), "/")[1] == "auth" || strings.Split(c.Path(), "/")[1] == "races" || strings.Split(c.Path(), "/")[1] == "results" || strings.Split(c.Path(), "/")[1] == "bets" {
+	// 	return c.Next()
+	// }
 
-	if sess.Get(AUTH_KEY) == nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "not authorized: auth key is nil",
-		})
-	}
+	// if err != nil {
+	// 	return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+	// 		"message": "not authorized",
+	// 	})
+	// }
+
+	// if sess.Get(AUTH_KEY) == nil {
+	// 	return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+	// 		"message": "not authorized: auth key is nil",
+	// 	})
+	// }
 
 	return c.Next()
 }
@@ -159,14 +160,14 @@ func GetUser(c *fiber.Ctx) error {
 	sess, err := store.Get(c)
 	if err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "not authorized",
+			"message": "not authorized: no session",
 		})
 	}
 
 	userId := sess.Get(USER_ID)
 	if userId == nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "not authorized",
+			"message": "not authorized: no user id",
 		})
 	}
 
@@ -174,7 +175,7 @@ func GetUser(c *fiber.Ctx) error {
 	user, err = model.GetUser(fmt.Sprint(userId))
 	if err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "not authorized",
+			"message": "not authorized: user not found",
 		})
 	}
 
