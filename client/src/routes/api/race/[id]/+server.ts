@@ -1,7 +1,8 @@
 import type { RequestHandler } from "./$types";
 
-export const GET = (async () => {
-  const url = "http://localhost:8080/users";
+export const GET = (async ({ params }) => {
+  const id = params.id;
+  const url = `http://localhost:8080/races/${id}`;
   const res = await fetch(url, {
     method: "GET",
   });
