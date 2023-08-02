@@ -1,12 +1,12 @@
 import type { PageLoad } from "../$types";
 
-export const load = (async ({ params, fetch }) => {
+export const load = (async ({ params, fetch, data }) => {
+  const user = data.user;
   const raceId = params.id;
 
   const racesRes = await fetch(`/api/race/${raceId}`, {
     method: "GET",
   });
-
   const race = (await racesRes.json()) as App.DatabaseRace;
   const mappedRace = mapRace(race);
 
@@ -21,12 +21,12 @@ export const load = (async ({ params, fetch }) => {
   const users = (await userRes.json()) as App.User[];
 
   const betTable = createBetTable(users, bets);
-  console.log(betTable);
 
   return {
     race: mappedRace,
     bets,
     betTable,
+    user,
   };
 }) satisfies PageLoad;
 
