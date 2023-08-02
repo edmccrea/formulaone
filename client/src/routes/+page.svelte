@@ -19,7 +19,7 @@
 
 <div
   in:fade
-  class="w-full h-full mx-4 md:mx-auto max-w-sm md:max-w-2xl lg:max-w-6xl my-12 flex flex-col flex-1"
+  class="w-full h-full mx-4 md:mx-auto max-w-sm md:max-w-2xl lg:max-w-6xl mt-28 mb-12 flex flex-col flex-1"
 >
   <h1 class="text-5xl font-bold mb-4">Formula One Bets 2023</h1>
   <p>

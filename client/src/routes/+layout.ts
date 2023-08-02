@@ -13,6 +13,7 @@ export const load = (async ({ fetch }) => {
 }) satisfies LayoutLoad;
 
 function mapRaces(races: App.DatabaseRace[]): App.Race[] {
+  if (!races) return [];
   return races.map((race) => {
     return {
       id: race.race_id,
