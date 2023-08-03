@@ -1,12 +1,12 @@
 import type { RequestHandler } from "./$types";
-import { PUBLIC_API_URL, PUBLIC_ENV } from "$env/static/public";
+import { API_URL, ENV } from "$env/static/private";
 
 export const GET = (async ({ params }) => {
   const id = params.id;
   const url =
-    PUBLIC_ENV === "dev"
+    ENV === "dev"
       ? `http://localhost:8080/races/${id}`
-      : `${PUBLIC_API_URL}/races/${id}`;
+      : `${API_URL}/races/${id}`;
   const res = await fetch(url, {
     method: "GET",
   });

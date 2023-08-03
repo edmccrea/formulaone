@@ -1,13 +1,10 @@
 import type { RequestHandler } from "./$types";
-import { PUBLIC_API_URL, PUBLIC_ENV } from "$env/static/public";
+import { API_URL, ENV } from "$env/static/private";
 
 export const GET = (async ({ request }) => {
   const sessionId = request.headers.get("x-session-id");
 
-  const url =
-    PUBLIC_ENV === "dev"
-      ? "http://localhost:8080/user"
-      : `${PUBLIC_API_URL}/user`;
+  const url = ENV === "dev" ? "http://localhost:8080/user" : `${API_URL}/user`;
   const res = await fetch(url, {
     method: "GET",
     credentials: "include",
