@@ -17,7 +17,7 @@
     const url =
       PUBLIC_ENV === "dev"
         ? "http://localhost:8080/auth/login"
-        : `${PUBLIC_API_URL}/auth/login}`;
+        : `${PUBLIC_API_URL}/auth/login`;
     const res = await fetch(url, {
       method: "POST",
       credentials: "include",
