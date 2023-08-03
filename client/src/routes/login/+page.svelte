@@ -4,6 +4,7 @@
   import { Circle } from "svelte-loading-spinners";
 
   import Button from "$lib/components/Button.svelte";
+  import { PUBLIC_API_URL, PUBLIC_ENV } from "$env/static/public";
 
   let username = "";
   let password = "";
@@ -13,7 +14,10 @@
   async function handleLogin(e: Event) {
     loading = true;
     e.preventDefault();
-    const url = "http://localhost:8080/auth/login";
+    const url =
+      PUBLIC_ENV === "dev"
+        ? "http://localhost:8080/auth/login"
+        : `${PUBLIC_API_URL}/auth/login}`;
     const res = await fetch(url, {
       method: "POST",
       credentials: "include",
