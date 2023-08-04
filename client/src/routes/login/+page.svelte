@@ -36,7 +36,9 @@
         return;
       }
       const setCookieHeader = res.headers.get("set-cookie");
+      console.log(setCookieHeader);
       if (setCookieHeader && setCookieHeader.includes("session_id")) {
+        console.log("logged in");
         goto("/");
       } else {
         loginFailed = true;
