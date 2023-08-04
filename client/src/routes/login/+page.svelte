@@ -31,11 +31,6 @@
     loading = false;
     loginFailed = false;
     if (res.ok) {
-      // if (PUBLIC_ENV === "dev") {
-      //   goto("/");
-      //   return;
-      // }
-      console.log("logged in");
       goto("/");
     } else {
       loginFailed = true;

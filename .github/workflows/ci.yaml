@@ -1,11 +1,11 @@
-name: Fly Deploy
+name: CI
 on:
   push:
     branches:
       - main
 jobs:
   deploy:
-    name: Deploy app
+    name: Deploy backend to Fly 🪰
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
