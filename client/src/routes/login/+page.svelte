@@ -31,9 +31,7 @@
     loading = false;
     loginFailed = false;
     if (res.ok) {
-      setTimeout(() => {
-        goto("/");
-      }, 2000);
+      goto("/");
     } else {
       loginFailed = true;
       failedLoginMessage = "Incorrect username or password";
