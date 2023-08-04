@@ -18,21 +18,25 @@ var (
 func Setup() {
 	router := fiber.New()
 
-	store = session.New(session.Config{
-		// CookieHTTPOnly: true,
-		// CookieDomain:   "localhost",
-		// CookieSameSite: "none",
-		CookieSecure: true,
-		Expiration:   time.Hour * 24 * 7,
-	})
-
 	env := os.Getenv("ENV")
 	var allowOrigin string
+	var cookieDomain string
 	if env == "dev" {
 		allowOrigin = "http://localhost:5173"
+		cookieDomain = "localhost"
 	} else {
+		cookieDomain = ".vercel.app"
 		allowOrigin = "https://formulaone-sigma.vercel.app"
 	}
+
+	store = session.New(session.Config{
+		// CookieHTTPOnly: true,
+		CookieDomain:   cookieDomain,
+		CookieSameSite: "none",
+		CookieSecure:   true,
+		Expiration:     time.Hour * 24 * 7,
+	})
+
 	router.Use(NewMiddleware(), cors.New(cors.Config{
 		AllowCredentials: true,
 		AllowOrigins:     allowOrigin,
