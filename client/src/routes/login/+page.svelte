@@ -9,7 +9,8 @@
   let username = "";
   let password = "";
   let loading = false;
-  let incorrectLogin = false;
+  let loginFailed = false;
+  let failedLoginMessage = "";
 
   async function handleLogin(e: Event) {
     loading = true;
@@ -28,16 +29,14 @@
     });
 
     loading = false;
-    incorrectLogin = false;
+    loginFailed = false;
     if (res.ok) {
-      const setCookieHeader = res.headers.get("Set-Cookie");
-      if (setCookieHeader && setCookieHeader.includes("session_id")) {
+      setTimeout(() => {
         goto("/");
-      } else {
-        incorrectLogin = true;
-      }
+      }, 2000);
     } else {
-      incorrectLogin = true;
+      loginFailed = true;
+      failedLoginMessage = "Incorrect username or password";
     }
   }
 </script>
@@ -62,7 +61,7 @@
             bind:value={password}
             autocomplete="off"
           />
-          {#if incorrectLogin}
+          {#if loginFailed}
             <div
               class="bg-red-200 rounded-t-sm mb-2 flex items-center p-2 border-b-4 border-b-red-700"
               in:fade
