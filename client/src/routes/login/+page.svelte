@@ -30,7 +30,12 @@
     loading = false;
     incorrectLogin = false;
     if (res.ok) {
-      goto("/");
+      const setCookieHeader = res.headers.get("Set-Cookie");
+      if (setCookieHeader && setCookieHeader.includes("session_id")) {
+        goto("/");
+      } else {
+        incorrectLogin = true;
+      }
     } else {
       incorrectLogin = true;
     }
