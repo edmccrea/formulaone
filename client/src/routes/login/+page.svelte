@@ -31,7 +31,16 @@
     loading = false;
     loginFailed = false;
     if (res.ok) {
-      goto("/");
+      if (PUBLIC_ENV === "dev") {
+        goto("/");
+        return;
+      }
+      const setCookieHeader = res.headers.get("set-cookie");
+      if (setCookieHeader && setCookieHeader.includes("session_id")) {
+        goto("/");
+      } else {
+        loginFailed = true;
+      }
     } else {
       loginFailed = true;
       failedLoginMessage = "Incorrect username or password";
