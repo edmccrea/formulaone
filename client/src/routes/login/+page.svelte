@@ -31,19 +31,12 @@
     loading = false;
     loginFailed = false;
     if (res.ok) {
-      if (PUBLIC_ENV === "dev") {
-        goto("/");
-        return;
-      }
-      const setCookieHeader = res.headers.get("set-cookie");
-      console.log(setCookieHeader);
-      if (setCookieHeader && setCookieHeader.includes("session_id")) {
-        console.log("logged in");
-        goto("/");
-      } else {
-        loginFailed = true;
-        failedLoginMessage = "Something went wrong, please try again later";
-      }
+      // if (PUBLIC_ENV === "dev") {
+      //   goto("/");
+      //   return;
+      // }
+      console.log("logged in");
+      goto("/");
     } else {
       loginFailed = true;
       failedLoginMessage = "Incorrect username or password";
