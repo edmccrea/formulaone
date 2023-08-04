@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"os"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -15,20 +16,26 @@ var (
 )
 
 func Setup() {
-
 	router := fiber.New()
 
 	store = session.New(session.Config{
-		CookieHTTPOnly: true,
+		// CookieHTTPOnly: true,
 		// CookieDomain:   "localhost",
 		// CookieSameSite: "none",
 		CookieSecure: true,
 		Expiration:   time.Hour * 24 * 7,
 	})
 
+	env := os.Getenv("ENV")
+	var allowOrigin string
+	if env == "dev" {
+		allowOrigin = "http://localhost:5173"
+	} else {
+		allowOrigin = "https://formulaone-sigma.vercel.app"
+	}
 	router.Use(NewMiddleware(), cors.New(cors.Config{
 		AllowCredentials: true,
-		AllowOrigins:     "http://localhost:5173",
+		AllowOrigins:     allowOrigin,
 		AllowHeaders:     "Access-Control-Allow-Origin, Content-Type, Origin, Accept",
 	}))
 
