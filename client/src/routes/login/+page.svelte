@@ -42,6 +42,7 @@
         goto("/");
       } else {
         loginFailed = true;
+        failedLoginMessage = "Something went wrong, please try again later";
       }
     } else {
       loginFailed = true;
@@ -92,7 +93,7 @@
                 />
               </svg>
 
-              <p class="text-red-700">Incorrect username or password</p>
+              <p class="text-red-700">{failedLoginMessage}</p>
             </div>
           {/if}
           <Button fullWidth={true} type="submit"
