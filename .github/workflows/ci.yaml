@@ -1,8 +1,8 @@
 name: CI
 on:
   push:
-    branches:
-      - main
+    paths:
+      - "api/**"
 jobs:
   deploy:
     name: Deploy backend to Fly 🪰

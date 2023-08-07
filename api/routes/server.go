@@ -26,7 +26,7 @@ func Setup() {
 		cookieDomain = "localhost"
 	} else {
 		allowOrigin = "https://silverstonepitcrew.com"
-		cookieDomain = "silverstonepitcrew.com"
+		cookieDomain = ".silverstonepitcrew.com"
 	}
 
 	store = session.New(session.Config{
@@ -60,7 +60,6 @@ func Setup() {
 	router.Get("/bets/user/:id", GetBetsByUserId)
 	router.Post("/bets", PlaceUserBet)
 
-	// TODO - move these under one route
 	router.Get("/results", GetAllResults)
 	router.Get("/results/:raceId", GetResultByRaceId)
 	router.Post("/results", PostResult)
