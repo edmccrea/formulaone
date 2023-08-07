@@ -1,7 +1,6 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
 
-  import Button from "$lib/components/Button.svelte";
   import RaceCard from "$lib/components/race/RaceCard.svelte";
 
   export let data;

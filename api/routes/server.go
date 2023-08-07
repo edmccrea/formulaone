@@ -20,15 +20,18 @@ func Setup() {
 
 	env := os.Getenv("ENV")
 	var allowOrigin string
+	var cookieDomain string
 	if env == "dev" {
 		allowOrigin = "http://localhost:5173"
+		cookieDomain = "localhost"
 	} else {
-		allowOrigin = "https://formulaone-sigma.vercel.app"
+		allowOrigin = "http://silverstonepitcrew.com"
+		cookieDomain = "silverstonepitcrew.com"
 	}
 
 	store = session.New(session.Config{
 		// CookieHTTPOnly: true,
-		// CookieDomain:   cookieDomain,
+		CookieDomain:   cookieDomain,
 		CookieSameSite: "none",
 		CookieSecure:   true,
 		Expiration:     time.Hour * 24 * 7,
