@@ -1,7 +1,7 @@
 import { redirect } from "@sveltejs/kit";
 import { API_URL, ENV } from "$env/static/private";
 
-export const load = async (event) => {
+export const load = async ({ cookies, fetch }) => {
   const url =
     ENV === "dev"
       ? "http://localhost:8080/auth/logout"
@@ -11,9 +11,7 @@ export const load = async (event) => {
   });
 
   if (res.ok) {
-    event.cookies.set("session_id", "", {
-      path: "/",
-    });
+    cookies.delete("session_id");
 
     throw redirect(301, "/login");
   } else {

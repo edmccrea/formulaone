@@ -25,7 +25,7 @@ func Setup() {
 		allowOrigin = "http://localhost:5173"
 		cookieDomain = "localhost"
 	} else {
-		allowOrigin = "http://silverstonepitcrew.com"
+		allowOrigin = "https://silverstonepitcrew.com"
 		cookieDomain = "silverstonepitcrew.com"
 	}
 
