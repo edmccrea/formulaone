@@ -11,8 +11,7 @@ export const load = async ({ cookies, fetch, url }) => {
   });
 
   if (res.ok) {
-    console.log(url.hostname);
-    cookies.delete("session_id");
+    cookies.delete("session_id", { domain: "." + url.hostname });
 
     throw redirect(301, "/login");
   } else {
