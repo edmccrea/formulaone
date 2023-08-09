@@ -4,22 +4,30 @@ export const load = (async ({ params, fetch, data }) => {
   const user = data.user;
   const raceId = params.id;
 
-  const racesRes = await fetch(`/api/race/${raceId}`, {
-    method: "GET",
-  });
-  const race = (await racesRes.json()) as App.DatabaseRace;
+  async function getPageData() {
+    const raceUrl = `/api/race/${raceId}`;
+    const betUrl = `/api/bets/${raceId}`;
+    const userUrl = `/api/users`;
+
+    const responses = await Promise.all([
+      fetch(raceUrl),
+      fetch(betUrl),
+      fetch(userUrl),
+    ]);
+
+    const race = (await responses[0].json()) as App.DatabaseRace;
+    const bets = (await responses[1].json()) as App.Bet[];
+    const users = (await responses[2].json()) as App.User[];
+
+    return {
+      race,
+      bets,
+      users,
+    };
+  }
+
+  const { race, bets, users } = await getPageData();
   const mappedRace = mapRace(race);
-
-  const betsRes = await fetch(`/api/bets/${raceId}`, {
-    method: "GET",
-  });
-  const bets = (await betsRes.json()) as App.Bet[];
-
-  const userRes = await fetch(`/api/users`, {
-    method: "GET",
-  });
-  const users = (await userRes.json()) as App.User[];
-
   const betTable = createBetTable(users, bets);
 
   return {

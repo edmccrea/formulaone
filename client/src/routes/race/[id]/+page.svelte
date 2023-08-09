@@ -16,8 +16,7 @@
   function showBet(bet: string, username: string) {
     if (!bet) return ''
     if (raceStartMillis > date || username === user.username) return bet
-    return '******'
-
+    return '****'
   }
 </script>
 
@@ -30,6 +29,7 @@
       <RaceInfo {race} />
     </div>
     <div class="bg-zinc-800 p-8 rounded-md">
+
       <RaceBet />
     </div>
   </div>
