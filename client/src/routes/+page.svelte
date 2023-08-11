@@ -4,7 +4,7 @@
   import RaceCard from "$lib/components/race/RaceCard.svelte";
 
   export let data;
-  const user = data.user;
+  const user: App.User = data.user;
   const races: App.Race[] = data.races;
   const positionSuffix =
     user.position === 1

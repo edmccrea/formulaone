@@ -4,41 +4,12 @@
   import { Circle } from "svelte-loading-spinners";
 
   import Button from "$lib/components/Button.svelte";
-  import { PUBLIC_API_URL, PUBLIC_ENV } from "$env/static/public";
 
   let username = "";
   let password = "";
   let loading = false;
   let loginFailed = false;
   let failedLoginMessage = "";
-
-  async function handleLogin(e: Event) {
-    loading = true;
-    e.preventDefault();
-    const url =
-      PUBLIC_ENV === "dev"
-        ? "http://localhost:8080/auth/login"
-        : `${PUBLIC_API_URL}/auth/login`;
-    const res = await fetch(url, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
-
-    loading = false;
-    loginFailed = false;
-    if (res.ok) {
-      setTimeout(() => {
-        goto("/");
-      }, 500);
-    } else {
-      loginFailed = true;
-      failedLoginMessage = "Incorrect username or password";
-    }
-  }
 </script>
 
 <div class="flex w-full main">
@@ -47,7 +18,13 @@
       <div class="flex flex-col w-3/5 lg:w-2/5">
         <h2 class="text-4xl">Welcome Back</h2>
         <p class="mb-8">Please sign in to continue</p>
-        <form action="" class="flex flex-col" on:submit={handleLogin}>
+        <form
+          action=""
+          class="flex flex-col"
+          on:submit={() => {
+            console.log("click");
+          }}
+        >
           <input
             type="text"
             class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
@@ -111,15 +88,3 @@
     />
   </div>
 </div>
-
-<style>
-  /* .main {
-    background: rgb(24, 24, 27);
-    background: linear-gradient(
-      14deg,
-      rgba(24, 24, 27, 1) 2%,
-      rgba(57, 57, 57, 1) 28%,
-      rgba(24, 24, 27, 1) 68%
-    );
-  } */
-</style>

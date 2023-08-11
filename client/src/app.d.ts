@@ -1,53 +1,53 @@
 declare global {
   namespace App {
     interface DatabaseRace {
-      race_id: number;
-      race_name: string;
-      race_type: string;
-      country_flag: string;
-      qualifying_start: Date;
-      location: string;
-      track_name: string;
-      race_start: Date;
-      race_image: string;
+      race_id: BigInt;
+      race_name: string | null;
+      race_type: string | null;
+      country_flag: string | null;
+      qualifying_start: Date | null;
+      location: string | null;
+      track_name: string | null;
+      race_start: Date | null;
+      race_image: string | null;
     }
     interface Race {
-      id: number;
-      name: string;
-      type: string;
-      flag: string;
-      qualyStart: Date;
-      location: string;
-      track: string;
-      raceStart: Date;
-      image: string;
+      id: BigInt;
+      name: string | null;
+      type: string | null;
+      flag: string | null;
+      qualyStart: Date | null;
+      location: string | null;
+      track: string | null;
+      raceStart: Date | null;
+      image: string | null;
     }
 
     interface Bet {
-      user_id: number;
-      first: string;
-      second: string;
-      third: string;
-      race_id: number;
+      user_id: BigInt;
+      first: string | null;
+      second: string | null;
+      third: string | null;
+      race_id: BigInt;
     }
 
     interface User {
-      user_id: number;
+      user_id: BigInt;
       username: string;
-      avatar: string;
-      points: number;
-      position: number;
+      avatar: string | null;
+      points: number | null;
+      position: number | null;
     }
 
     type BetTable = MappedBet[];
 
     interface MappedBet {
-      username: string;
-      user_id: number;
+      username: string | null;
+      user_id: BigInt;
       bets: {
-        first: string;
-        second: string;
-        third: string;
+        first: string | null;
+        second: string | null;
+        third: string | null;
       };
     }
   }
