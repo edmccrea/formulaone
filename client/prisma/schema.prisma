@@ -28,6 +28,7 @@ model races {
   track_name       String
   race_start       DateTime @db.Timestamptz(6)
   race_image       String
+  track_layout     String   @default("abc")
   results          results?
 }
 

@@ -10,6 +10,7 @@ declare global {
       track_name: string;
       race_start: Date;
       race_image: string;
+      track_layout: string;
     }
     interface Race {
       id: BigInt;
@@ -21,6 +22,7 @@ declare global {
       track: string;
       raceStart: Date;
       image: string;
+      trackLayout: string;
     }
 
     interface Bet {

@@ -52,6 +52,7 @@ function mapRace(race: App.DatabaseRace): App.Race {
     track: race.track_name,
     raceStart: race.race_start,
     image: race.race_image,
+    trackLayout: race.track_layout,
   };
 }
 
