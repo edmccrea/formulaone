@@ -22,20 +22,20 @@
 
 <div
   in:fade
-  class="w-full h-full mx-4 md:mx-auto max-w-sm md:max-w-2xl lg:max-w-6xl mt-28 flex flex-col flex-1"
+  class="w-full h-full mx-4 md:mx-auto max-w-sm md:max-w-2xl lg:max-w-6xl lg:px-8 mt-28 flex flex-col flex-1"
 >
   <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-8">
-    <div class="bg-zinc-800 p-8 rounded-md">
+    <div class="bg-neutral-900 p-8 rounded-md">
       <RaceInfo {race} />
     </div>
-    <div class="bg-zinc-800 p-8 rounded-md">
+    <div class="bg-neutral-900 p-8 rounded-md">
       <RaceBet />
     </div>
   </div>
 
   <div>
     <h2 class="text-2xl font-bold mt-8">Bets</h2>
-    <div class="bg-zinc-800 p-8 rounded-md">
+    <div class="bg-neutral-900 p-8 rounded-md">
       <table>
         <thead class="border-b border-b-gray-400 bg-zinc-900/50">
           <tr>
