@@ -2,52 +2,52 @@ declare global {
   namespace App {
     interface DatabaseRace {
       race_id: BigInt;
-      race_name: string | null;
-      race_type: string | null;
-      country_flag: string | null;
-      qualifying_start: Date | null;
-      location: string | null;
-      track_name: string | null;
-      race_start: Date | null;
-      race_image: string | null;
+      race_name: string;
+      race_type: string;
+      country_flag: string;
+      qualifying_start: Date;
+      location: string;
+      track_name: string;
+      race_start: Date;
+      race_image: string;
     }
     interface Race {
       id: BigInt;
-      name: string | null;
-      type: string | null;
-      flag: string | null;
-      qualyStart: Date | null;
-      location: string | null;
-      track: string | null;
-      raceStart: Date | null;
-      image: string | null;
+      name: string;
+      type: string;
+      flag: string;
+      qualyStart: Date;
+      location: string;
+      track: string;
+      raceStart: Date;
+      image: string;
     }
 
     interface Bet {
       user_id: BigInt;
-      first: string | null;
-      second: string | null;
-      third: string | null;
+      first: string;
+      second: string;
+      third: string;
       race_id: BigInt;
     }
 
     interface User {
       user_id: BigInt;
       username: string;
-      avatar: string | null;
-      points: number | null;
-      position: number | null;
+      avatar: string;
+      points: number;
+      position: number;
     }
 
     type BetTable = MappedBet[];
 
     interface MappedBet {
-      username: string | null;
+      username: string;
       user_id: BigInt;
       bets: {
-        first: string | null;
-        second: string | null;
-        third: string | null;
+        first: string;
+        second: string;
+        third: string;
       };
     }
   }
