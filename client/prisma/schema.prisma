@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model bets {
+  user_id BigInt
+  race_id BigInt
+  first   String
+  second  String
+  third   String
+  bet_id  BigInt @default(autoincrement())
+
+  @@id([race_id, user_id, bet_id])
+}
+
+model races {
+  race_id          BigInt   @id(map: "Race_pkey") @default(autoincrement())
+  race_name        String
+  race_type        String
+  country_flag     String
+  qualifying_start DateTime @db.Timestamptz(6)
+  location         String
+  track_name       String
+  race_start       DateTime @db.Timestamptz(6)
+  race_image       String
+  track_layout     String   @default("abc")
+  results          results?
+}
+
+model results {
+  race_id BigInt @id(map: "Result_pkey")
+  first   String
+  second  String
+  third   String
+  races   races  @relation(fields: [race_id], references: [race_id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model users {
+  user_id  BigInt @id(map: "User_pkey") @default(autoincrement())
+  username String
+  password String
+  avatar   String
+  points   Float  @db.Real
+  position Int
+}

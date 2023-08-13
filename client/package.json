@@ -7,7 +7,8 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"postinstall": "prisma generate"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
@@ -23,6 +24,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@prisma/client": "^5.1.1",
+		"prisma": "^5.1.1",
 		"svelte-loading-spinners": "^0.3.4"
 	}
 }

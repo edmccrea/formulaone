@@ -1,7 +1,7 @@
 declare global {
   namespace App {
     interface DatabaseRace {
-      race_id: number;
+      race_id: BigInt;
       race_name: string;
       race_type: string;
       country_flag: string;
@@ -10,9 +10,10 @@ declare global {
       track_name: string;
       race_start: Date;
       race_image: string;
+      track_layout: string;
     }
     interface Race {
-      id: number;
+      id: BigInt;
       name: string;
       type: string;
       flag: string;
@@ -21,18 +22,19 @@ declare global {
       track: string;
       raceStart: Date;
       image: string;
+      trackLayout: string;
     }
 
     interface Bet {
-      user_id: number;
+      user_id: BigInt;
       first: string;
       second: string;
       third: string;
-      race_id: number;
+      race_id: BigInt;
     }
 
     interface User {
-      user_id: number;
+      user_id: BigInt;
       username: string;
       avatar: string;
       points: number;
@@ -43,7 +45,7 @@ declare global {
 
     interface MappedBet {
       username: string;
-      user_id: number;
+      user_id: BigInt;
       bets: {
         first: string;
         second: string;
