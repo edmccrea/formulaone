@@ -4,6 +4,12 @@
   import { drivers as driversStore } from "../../../stores/drivers";
   import Button from "../Button.svelte";
 
+  export let raceStart: string;
+
+  const date = Date.now();
+  const raceStartObject = new Date(raceStart);
+  const raceStartMillis = raceStartObject.getTime();
+
   const drivers = get(driversStore);
 
   let selection = {
@@ -14,13 +20,25 @@
 
   let betSubmitted = false;
 
-  function handleSubmit(e: Event) {
+  async function handleSubmit(e: Event) {
     e.preventDefault();
     if (!selection.first || !selection.second || !selection.third) {
       return;
     }
     betSubmitted = true;
     console.log(selection);
+
+    const res = await fetch("/api/bet", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        first: selection.first,
+        second: selection.second,
+        third: selection.third,
+      }),
+    });
   }
 
   function handleEditBet() {
@@ -79,6 +97,6 @@
       {/each}
     </select>
 
-    <Button type="submit">Place bet</Button>
+    <Button type="submit" disabled={raceStartMillis < date}>Place bet</Button>
   </form>
 {/if}

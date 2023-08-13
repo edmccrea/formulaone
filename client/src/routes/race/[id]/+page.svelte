@@ -29,36 +29,32 @@
       <RaceInfo {race} />
     </div>
     <div class="bg-neutral-900 p-8 rounded-md">
-      <RaceBet />
+      <RaceBet raceStart={race.raceStart} />
     </div>
   </div>
 
-  <div>
-    <h2 class="text-2xl font-bold mt-8">Bets</h2>
-    <div class="bg-neutral-900 p-8 rounded-md">
-      <table>
-        <thead class="border-b border-b-gray-400 bg-zinc-900/50">
-          <tr>
-            <th class="text-left py-3 px-2">User</th>
-            <th class="text-left py-3 px-2">First</th>
-            <th class="text-left py-3 px-2">Second</th>
-            <th class="text-left py-3 px-2">Third</th>
+  <div class="bg-neutral-900 p-8 rounded-md mt-8">
+    <table>
+      <thead class="border-b border-b-gray-400 bg-zinc-900/50">
+        <tr>
+          <th class="text-left py-3 px-2">User</th>
+          <th class="text-left py-3 px-2">First</th>
+          <th class="text-left py-3 px-2">Second</th>
+          <th class="text-left py-3 px-2">Third</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#each betTable as bet}
+          <tr
+            class="border-b border-b-gray-600 py-2 hover:bg-zinc-900/30 transition-all ease-in-out duration-300 hover:cursor-default"
+          >
+            <td class="py-3 px-2">{bet.username}</td>
+            <td class="py-3 px-2">{showBet(bet.bets.first, bet.username)}</td>
+            <td class="py-3 px-2">{showBet(bet.bets.second, bet.username)}</td>
+            <td class="py-3 px-2">{showBet(bet.bets.third, bet.username)}</td>
           </tr>
-        </thead>
-        <tbody>
-          {#each betTable as bet}
-            <tr
-              class="border-b border-b-gray-600 py-2 hover:bg-zinc-900/30 transition-all ease-in-out duration-300 hover:cursor-default"
-            >
-              <td class="py-3 px-2">{bet.username}</td>
-              <td class="py-3 px-2">{showBet(bet.bets.first, bet.username)}</td>
-              <td class="py-3 px-2">{showBet(bet.bets.second, bet.username)}</td
-              >
-              <td class="py-3 px-2">{showBet(bet.bets.third, bet.username)}</td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
-    </div>
+        {/each}
+      </tbody>
+    </table>
   </div>
 </div>
