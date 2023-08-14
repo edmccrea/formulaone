@@ -16,6 +16,47 @@
       : "th";
 
   const date = Date.now();
+
+  function findUpcomingRace() {
+    const upcoming = races.filter((race) => {
+      const raceStartMillis = new Date(race.raceStart).getTime();
+      return raceStartMillis > date;
+    });
+
+    const nextRace = upcoming.find((race) => {});
+  }
+  findUpcomingRace();
+
+  function sortRaces() {
+    const previousRaces = races
+      .filter((race) => {
+        const raceStartMillis = new Date(race.raceStart).getTime();
+        return raceStartMillis < date;
+      })
+      .sort((a, b) => {
+        const aMillis = new Date(a.raceStart).getTime();
+        const bMillis = new Date(b.raceStart).getTime();
+        return bMillis - aMillis;
+      });
+
+    const upcomingRaces = races
+      .filter((race) => {
+        const raceStartMillis = new Date(race.raceStart).getTime();
+        return raceStartMillis > date;
+      })
+      .sort((a, b) => {
+        const aMillis = new Date(a.raceStart).getTime();
+        const bMillis = new Date(b.raceStart).getTime();
+        return aMillis - bMillis;
+      });
+
+    return {
+      previousRaces,
+      upcomingRaces,
+    };
+  }
+
+  const { previousRaces, upcomingRaces } = sortRaces();
 </script>
 
 <div
@@ -32,7 +73,7 @@
   <div class="mt-4">
     <h2 class="font-bold text-2xl mb-4">Upcoming Race</h2>
     <!-- If race is this week, then display a countdown -->
-    <RaceCard race={races[0]} />
+    <RaceCard race={upcomingRaces[0]} />
   </div>
 
   <div class="mt-4">
@@ -42,7 +83,7 @@
   <div class="mt-4">
     <h2 class="font-bold text-2xl mb-4">Future Races</h2>
     <div class="flex gap-4 w-full relative overflow-auto snap-x">
-      {#each races as race}
+      {#each upcomingRaces as race}
         {#if new Date(race.raceStart).getTime() > date}
           <RaceCard {race} />
         {/if}
@@ -53,7 +94,7 @@
   <div class="mt-4">
     <h2 class="font-bold text-2xl mb-4">Previous Races</h2>
     <div class="flex gap-4 w-full relative overflow-auto">
-      {#each races as race}
+      {#each previousRaces as race}
         {#if new Date(race.raceStart).getTime() < date}
           <RaceCard {race} />
         {/if}
