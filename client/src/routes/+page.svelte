@@ -5,7 +5,8 @@
 
   export let data;
   const user: App.User = data.user;
-  const races: App.Race[] = data.races;
+  const previousRaces: App.Race[] = data.previousRaces;
+  const upcomingRaces: App.Race[] = data.upcomingRaces;
   const positionSuffix =
     user.position === 1
       ? "st"
@@ -16,47 +17,6 @@
       : "th";
 
   const date = Date.now();
-
-  function findUpcomingRace() {
-    const upcoming = races.filter((race) => {
-      const raceStartMillis = new Date(race.raceStart).getTime();
-      return raceStartMillis > date;
-    });
-
-    const nextRace = upcoming.find((race) => {});
-  }
-  findUpcomingRace();
-
-  function sortRaces() {
-    const previousRaces = races
-      .filter((race) => {
-        const raceStartMillis = new Date(race.raceStart).getTime();
-        return raceStartMillis < date;
-      })
-      .sort((a, b) => {
-        const aMillis = new Date(a.raceStart).getTime();
-        const bMillis = new Date(b.raceStart).getTime();
-        return bMillis - aMillis;
-      });
-
-    const upcomingRaces = races
-      .filter((race) => {
-        const raceStartMillis = new Date(race.raceStart).getTime();
-        return raceStartMillis > date;
-      })
-      .sort((a, b) => {
-        const aMillis = new Date(a.raceStart).getTime();
-        const bMillis = new Date(b.raceStart).getTime();
-        return aMillis - bMillis;
-      });
-
-    return {
-      previousRaces,
-      upcomingRaces,
-    };
-  }
-
-  const { previousRaces, upcomingRaces } = sortRaces();
 </script>
 
 <div

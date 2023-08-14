@@ -16,9 +16,10 @@ export const load = (async () => {
 
   const races = await prisma.races.findMany();
   const mappedRaces = mapRaces(races, bets);
-
+  const { previousRaces, upcomingRaces } = sortRaces(mappedRaces);
   return {
-    races: mappedRaces,
+    previousRaces,
+    upcomingRaces,
     user,
   };
 }) satisfies LayoutServerLoad;
@@ -40,6 +41,36 @@ function mapRaces(races: App.DatabaseRace[], bets: App.Bet[]): App.Race[] {
       userHasBet: checkIfUserHasBet(race.race_id, bets),
     };
   });
+}
+
+function sortRaces(mappedRaces: App.Race[]) {
+  const date = Date.now();
+  const previousRaces = mappedRaces
+    .filter((race) => {
+      const raceStartMillis = new Date(race.raceStart).getTime();
+      return raceStartMillis < date;
+    })
+    .sort((a, b) => {
+      const aMillis = new Date(a.raceStart).getTime();
+      const bMillis = new Date(b.raceStart).getTime();
+      return bMillis - aMillis;
+    });
+
+  const upcomingRaces = mappedRaces
+    .filter((race) => {
+      const raceStartMillis = new Date(race.raceStart).getTime();
+      return raceStartMillis > date;
+    })
+    .sort((a, b) => {
+      const aMillis = new Date(a.raceStart).getTime();
+      const bMillis = new Date(b.raceStart).getTime();
+      return aMillis - bMillis;
+    });
+
+  return {
+    previousRaces,
+    upcomingRaces,
+  };
 }
 
 function checkIfUserHasBet(raceId: BigInt, bets: App.Bet[]) {
