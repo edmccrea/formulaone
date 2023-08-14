@@ -3,10 +3,13 @@
 
   import { drivers as driversStore } from "../../../stores/drivers";
   import Button from "../Button.svelte";
+  import { createEventDispatcher } from "svelte";
 
   export let race: App.Race;
   export let betTable: App.BetTable;
   export let user: App.User;
+
+  const dispatch = createEventDispatcher();
 
   const raceStart = race.raceStart;
   const date = Date.now();
@@ -52,6 +55,18 @@
         third: selection.third,
       }),
     });
+
+    if (res.ok) {
+      dispatch("betSubmitted", {
+        username: user.username,
+        user_id: user.user_id,
+        bets: {
+          first: selection.first,
+          second: selection.second,
+          third: selection.third,
+        },
+      });
+    }
   }
 
   function handleEditBet() {
