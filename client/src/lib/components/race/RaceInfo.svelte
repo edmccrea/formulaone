@@ -10,5 +10,7 @@
       <p>{race.type}</p>
     </div>
   </div>
-  <img src={race.trackLayout} alt="" class="w-full mt-4" />
+  <div>
+    <img src={race.trackLayout} alt="" class="mt-4 h-40 w-auto" />
+  </div>
 </div>

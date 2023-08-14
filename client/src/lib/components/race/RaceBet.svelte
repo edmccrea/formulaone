@@ -4,8 +4,11 @@
   import { drivers as driversStore } from "../../../stores/drivers";
   import Button from "../Button.svelte";
 
-  export let raceStart: string;
+  export let race: App.Race;
+  export let betTable: App.BetTable;
+  export let user: App.User;
 
+  const raceStart = race.raceStart;
   const date = Date.now();
   const raceStartObject = new Date(raceStart);
   const raceStartMillis = raceStartObject.getTime();
@@ -19,6 +22,15 @@
   };
 
   let betSubmitted = false;
+  const userBets = betTable.find((bet) => bet.username === user.username);
+  if (userBets?.bets.first && userBets?.bets.second && userBets?.bets.third) {
+    betSubmitted = true;
+    selection = {
+      first: userBets.bets.first,
+      second: userBets.bets.second,
+      third: userBets.bets.third,
+    };
+  }
 
   async function handleSubmit(e: Event) {
     e.preventDefault();
@@ -26,7 +38,6 @@
       return;
     }
     betSubmitted = true;
-    console.log(selection);
 
     const res = await fetch("/api/bet", {
       method: "POST",
@@ -34,6 +45,8 @@
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        race_id: Number(race.id),
+        user_id: 1,
         first: selection.first,
         second: selection.second,
         third: selection.third,
@@ -53,7 +66,9 @@
     <p>1. {selection.first}</p>
     <p>2. {selection.second}</p>
     <p>3. {selection.third}</p>
-    <Button type="button" on:click={handleEditBet}>Change bet</Button>
+    {#if raceStartMillis > date}
+      <Button type="button" on:click={handleEditBet}>Change bet</Button>
+    {/if}
   </div>
 {:else}
   <form action="" on:submit={handleSubmit} class="flex flex-col gap-3">
@@ -97,6 +112,6 @@
       {/each}
     </select>
 
-    <Button type="submit" disabled={raceStartMillis < date}>Place bet</Button>
+    <Button type="submit">Place bet</Button>
   </form>
 {/if}
