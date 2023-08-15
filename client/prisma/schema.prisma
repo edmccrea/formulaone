@@ -41,10 +41,11 @@ model results {
 }
 
 model users {
-  user_id  BigInt @id(map: "User_pkey") @default(autoincrement())
+  user_id  BigInt  @id(map: "User_pkey") @default(autoincrement())
   username String
   password String
   avatar   String
-  points   Float  @db.Real
+  points   Float   @db.Real
   position Int
+  session  String?
 }
