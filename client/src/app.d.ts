@@ -1,5 +1,10 @@
 declare global {
   namespace App {
+    interface Locals {
+      user: {
+        name: string;
+      };
+    }
     interface DatabaseRace {
       race_id: BigInt;
       race_name: string;
