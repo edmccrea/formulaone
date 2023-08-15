@@ -5,8 +5,14 @@
 
   const raceDate = new Date(race.raceStart);
   const dateToDisplay = raceDate.toDateString();
+  const twoHours = 1000 * 60 * 60 * 2;
 
-  let isUpcoming = true;
+  function isRaceUpcoming() {
+    const now = new Date();
+    return raceDate.getTime() - now.getTime() > twoHours;
+  }
+
+  let isUpcoming = isRaceUpcoming();
   let betPlaced = race.userHasBet;
 
   function goToRace() {
@@ -41,6 +47,12 @@
           class="w-fit mt-2 py-1 px-2 bg-green-200 text-green-900 rounded-md text-sm"
         >
           Bet placed
+        </p>
+      {:else}
+        <p
+          class="w-fit mt-2 py-1 px-2 bg-green-200 text-green-900 rounded-md text-sm"
+        >
+          Race finished
         </p>
       {/if}
     </div>

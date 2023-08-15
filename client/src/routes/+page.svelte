@@ -43,11 +43,15 @@
   <div class="mt-4">
     <h2 class="font-bold text-2xl mb-4">Future Races</h2>
     <div class="flex gap-4 w-full relative overflow-auto snap-x">
-      {#each upcomingRaces as race}
-        {#if new Date(race.raceStart).getTime() > date}
-          <RaceCard {race} />
-        {/if}
-      {/each}
+      {#if upcomingRaces.length > 0}
+        {#each upcomingRaces as race}
+          {#if new Date(race.raceStart).getTime() > date}
+            <RaceCard {race} />
+          {/if}
+        {/each}
+      {:else}
+        <p>There are no upcoming races.</p>
+      {/if}
     </div>
   </div>
 

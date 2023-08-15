@@ -1,5 +1,6 @@
 <script lang="ts">
   import { get } from "svelte/store";
+  import { fade } from "svelte/transition";
 
   import { drivers as driversStore } from "../../../stores/drivers";
   import Button from "../Button.svelte";
@@ -127,6 +128,10 @@
       {/each}
     </select>
 
-    <Button type="submit">Place bet</Button>
+    {#if selection.first && selection.second && selection.third}
+      <div in:fade={{ duration: 200 }}>
+        <Button type="submit">Place bet</Button>
+      </div>
+    {/if}
   </form>
 {/if}

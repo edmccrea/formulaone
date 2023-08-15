@@ -6,7 +6,7 @@
   import Footer from "$lib/components/Footer.svelte";
 </script>
 
-{#if $page.url.pathname !== "/login"}
+{#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register"}
   <Navbar />
 {/if}
 
@@ -14,6 +14,6 @@
   <slot />
 </main>
 
-{#if $page.url.pathname !== "/login"}
+{#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register"}
   <Footer />
 {/if}

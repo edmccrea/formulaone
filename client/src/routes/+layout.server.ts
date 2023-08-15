@@ -1,16 +1,17 @@
 import type { LayoutServerLoad } from "./$types";
 import prisma from "$lib/prisma";
 
-export const load = (async () => {
-  const user = prisma.users.findFirst({
+export const load = (async ({ locals }) => {
+  const user = await prisma.users.findFirst({
     where: {
-      user_id: 1,
+      username: locals.user.name,
     },
   });
 
+  if (!user) return {};
   const bets = await prisma.bets.findMany({
     where: {
-      user_id: 1,
+      user_id: user?.user_id,
     },
   });
 

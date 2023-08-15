@@ -7,45 +7,25 @@
 
   let username = "";
   let password = "";
+  let confirmPassword = "";
   let loading = false;
-  let loginFailed = false;
-  let failedLoginMessage = "";
-
-  async function handleLogin() {
-    console.log("running login");
-    loading = true;
-    loginFailed = false;
-    failedLoginMessage = "";
-
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
-
-    console.log(res);
-
-    if (res.ok) {
-      // goto("/");
-    } else {
-      loginFailed = true;
-      const data = await res.json();
-      failedLoginMessage = data.message;
-    }
-
-    loading = false;
-  }
+  let signupFailed = false;
+  let failedSignupMessage = "";
 </script>
 
 <div class="flex w-full main">
   <div class="w-full h-full flex-1 lg:w-2/4">
     <div class="w-full h-full flex justify-center items-center">
       <div class="flex flex-col w-3/5 lg:w-2/5">
-        <h2 class="text-4xl">Welcome Back</h2>
-        <p class="mb-8">Please sign in to continue</p>
-        <form action="" class="flex flex-col" on:submit={handleLogin}>
+        <h2 class="text-4xl">Sign Up</h2>
+        <p class="mb-8">Create an account</p>
+        <form
+          action=""
+          class="flex flex-col"
+          on:submit={() => {
+            console.log("click");
+          }}
+        >
           <input
             type="text"
             class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
@@ -59,7 +39,14 @@
             bind:value={password}
             autocomplete="off"
           />
-          {#if loginFailed}
+          <input
+            type="password"
+            class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
+            placeholder="Confirm Password"
+            bind:value={confirmPassword}
+            autocomplete="off"
+          />
+          {#if signupFailed}
             <div
               class="bg-red-200 rounded-t-sm mb-2 flex items-center p-2 border-b-4 border-b-red-700"
               in:fade
@@ -81,7 +68,7 @@
                 />
               </svg>
 
-              <p class="text-red-700">{failedLoginMessage}</p>
+              <p class="text-red-700">{failedSignupMessage}</p>
             </div>
           {/if}
           <Button fullWidth={true} type="submit"
@@ -90,19 +77,23 @@
                 <Circle size="16" color="#FFf" unit="px" duration="1s" />
               </div>
             {:else}
-              Login
+              Sign up
             {/if}</Button
           >
         </form>
-        <p class="mt-4 text-sm">Forgot your password? Ask Ed</p>
+        <a
+          href="/"
+          class="mt-4 text-sm underline text-neutral-400 hover:cursor-pointer"
+          >Back to home page</a
+        >
       </div>
     </div>
   </div>
 
   <div class="w-full hidden lg:w-2/4 lg:block relative">
-    <div class="w-full h-full absolute bg-black/25" />
+    <div class="w-full h-full absolute bg-black/10" />
     <img
-      src="https://media.formula1.com/image/upload/content/dam/fom-website/manual/Misc/2022manual/GettyImages-1437759309.jpg"
+      src="https://www.f1-fansite.com/wp-content/uploads/2022/08/SI202208270556_hires_jpeg_24bit_rgb.jpg"
       alt=""
       class="h-full w-full object-cover"
       in:fade
