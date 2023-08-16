@@ -4,6 +4,7 @@
   import { Circle } from "svelte-loading-spinners";
 
   import Button from "$lib/components/Button.svelte";
+  import { tick } from "svelte";
 
   let username = "";
   let password = "";
@@ -12,7 +13,6 @@
   let failedLoginMessage = "";
 
   async function handleLogin() {
-    console.log("running login");
     loading = true;
     loginFailed = false;
     failedLoginMessage = "";
@@ -25,10 +25,9 @@
       body: JSON.stringify({ username, password }),
     });
 
-    console.log(res);
-
     if (res.ok) {
-      // goto("/");
+      await tick();
+      goto("/");
     } else {
       loginFailed = true;
       const data = await res.json();

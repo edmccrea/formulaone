@@ -5,14 +5,11 @@ import type { RequestHandler } from "./$types";
 
 export const POST: RequestHandler = async ({ request }) => {
   const loginReq = await request.json();
-  console.log("loginReq", loginReq);
-
   const user = await prisma.users.findFirst({
     where: {
       username: loginReq.username,
     },
   });
-  console.log("user on login route", user);
 
   if (!user) {
     return new Response(JSON.stringify({ message: "User not found" }), {

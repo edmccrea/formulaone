@@ -1,11 +1,16 @@
 import prisma from "$lib/prisma";
 import type { PageServerLoad } from "./$types";
 
-export const load = (async ({ params }) => {
+export const load = (async ({ params, locals }) => {
   const raceId = params.id;
 
   async function getPageData() {
-    const responses = await Promise.all([
+    const [user, race, bets, users] = await Promise.all([
+      prisma.users.findFirst({
+        where: {
+          username: locals.user.name,
+        },
+      }),
       prisma.races.findFirst({
         where: {
           race_id: Number(raceId),
@@ -19,22 +24,23 @@ export const load = (async ({ params }) => {
       prisma.users.findMany(),
     ]);
 
-    const race = responses[0] as App.DatabaseRace;
-    const bets = responses[1] as App.Bet[];
-    const users = responses[2] as App.User[];
+    if (!user || !race || !bets || !users)
+      throw new Error("Failed to load page data");
 
     return {
+      user,
       race,
       bets,
       users,
     };
   }
 
-  const { race, bets, users } = await getPageData();
+  const { user, race, bets, users } = await getPageData();
   const mappedRace = mapRace(race);
   const betTable = createBetTable(users, bets);
 
   return {
+    user,
     race: mappedRace,
     betTable,
     users,

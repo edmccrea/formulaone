@@ -29,7 +29,6 @@ declare global {
       raceStart: Date;
       image: string;
       trackLayout: string;
-      userHasBet: boolean;
     }
 
     interface Bet {

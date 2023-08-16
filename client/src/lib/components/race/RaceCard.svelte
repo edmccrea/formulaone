@@ -26,7 +26,11 @@
   class="bg-zinc-900 border border-slate-700 rounded-md w-72 h-80 hover:cursor-pointer hover:bg-zinc-800 transition-all ease-in-out duration-300 shrink-0 snap-start"
 >
   <div class="h-3/5">
-    <img src={race.image} alt="" class="w-full h-full object-cover" />
+    <img
+      src={race.image}
+      alt=""
+      class="w-full h-full object-cover rounded-t-md"
+    />
   </div>
   <div class="p-4">
     <div class="flex items-center gap-2">
