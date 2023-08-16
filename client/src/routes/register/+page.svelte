@@ -1,6 +1,5 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import { goto } from "$app/navigation";
   import { Circle } from "svelte-loading-spinners";
 
   import Button from "$lib/components/Button.svelte";
@@ -8,9 +7,47 @@
   let username = "";
   let password = "";
   let confirmPassword = "";
+  let avatar = "";
   let loading = false;
   let signupFailed = false;
   let failedSignupMessage = "";
+  let signUpSuccess = false;
+
+  async function handleRegister() {
+    if (password !== confirmPassword) {
+      signupFailed = true;
+      failedSignupMessage = "Passwords do not match";
+      return;
+    }
+
+    loading = true;
+    signupFailed = false;
+    failedSignupMessage = "";
+
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+        avatar,
+      }),
+    });
+
+    if (res.ok) {
+      signUpSuccess = true;
+      setTimeout(() => {
+        signUpSuccess = false;
+      }, 6000);
+    } else {
+      signupFailed = true;
+      const data = await res.json();
+      failedSignupMessage = data.message;
+    }
+    loading = false;
+  }
 </script>
 
 <div class="flex w-full main">
@@ -19,13 +56,7 @@
       <div class="flex flex-col w-3/5 lg:w-2/5">
         <h2 class="text-4xl">Sign Up</h2>
         <p class="mb-8">Create an account</p>
-        <form
-          action=""
-          class="flex flex-col"
-          on:submit={() => {
-            console.log("click");
-          }}
-        >
+        <form action="" class="flex flex-col" on:submit={handleRegister}>
           <input
             type="text"
             class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
@@ -45,6 +76,12 @@
             placeholder="Confirm Password"
             bind:value={confirmPassword}
             autocomplete="off"
+          />
+          <input
+            type="text"
+            class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
+            placeholder="Avatar URL"
+            bind:value={avatar}
           />
           {#if signupFailed}
             <div
@@ -69,6 +106,31 @@
               </svg>
 
               <p class="text-red-700">{failedSignupMessage}</p>
+            </div>
+          {/if}
+          {#if signUpSuccess}
+            <div
+              class="bg-green-200 rounded-t-sm mb-2 flex items-center p-2 border-b-4 border-b-green-700"
+              transition:fade
+            >
+              <svg
+                class="mr-2"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 6L9 17L4 12"
+                  stroke="#059669"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+
+              <p class="text-green-700">Sign up successful!</p>
             </div>
           {/if}
           <Button fullWidth={true} type="submit"
