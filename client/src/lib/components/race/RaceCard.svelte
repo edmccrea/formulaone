@@ -2,6 +2,7 @@
   import { goto } from "$app/navigation";
 
   export let race: App.Race;
+  export let bets: App.Bet[];
 
   const raceDate = new Date(race.raceStart);
   const dateToDisplay = raceDate.toDateString();
@@ -13,7 +14,11 @@
   }
 
   let isUpcoming = isRaceUpcoming();
-  let betPlaced = race.userHasBet;
+  let betPlaced = checkUserBet();
+
+  function checkUserBet() {
+    return bets.find((bet) => bet.race_id === race.id);
+  }
 
   function goToRace() {
     goto(`/race/${race.id}`);

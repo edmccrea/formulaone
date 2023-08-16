@@ -5,6 +5,7 @@
 
   export let data;
   const user: App.User = data.user;
+  const bets: App.Bet[] = data.bets;
   const previousRaces: App.Race[] = data.previousRaces;
   const upcomingRaces: App.Race[] = data.upcomingRaces;
   const positionSuffix =
@@ -33,7 +34,7 @@
   <div class="mt-4">
     <h2 class="font-bold text-2xl mb-4">Upcoming Race</h2>
     <!-- If race is this week, then display a countdown -->
-    <RaceCard race={upcomingRaces[0]} />
+    <RaceCard race={upcomingRaces[0]} {bets} />
   </div>
 
   <div class="mt-4">
@@ -46,7 +47,7 @@
       {#if upcomingRaces.length > 0}
         {#each upcomingRaces as race}
           {#if new Date(race.raceStart).getTime() > date}
-            <RaceCard {race} />
+            <RaceCard {race} {bets} />
           {/if}
         {/each}
       {:else}
@@ -60,7 +61,7 @@
     <div class="flex gap-4 w-full relative overflow-auto">
       {#each previousRaces as race}
         {#if new Date(race.raceStart).getTime() < date}
-          <RaceCard {race} />
+          <RaceCard {race} {bets} />
         {/if}
       {/each}
     </div>

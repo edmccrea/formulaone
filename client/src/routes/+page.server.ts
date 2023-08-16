@@ -13,7 +13,14 @@ export const load = (async ({ locals }) => {
     throw redirect(301, "/login");
   }
 
+  const bets = await prisma.bets.findMany({
+    where: {
+      user_id: user.user_id,
+    },
+  });
+
   return {
     user,
+    bets,
   };
 }) satisfies LayoutServerLoad;
