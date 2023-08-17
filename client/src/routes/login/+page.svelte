@@ -60,7 +60,7 @@
           />
           {#if loginFailed}
             <div
-              class="bg-red-200 rounded-t-sm mb-2 flex items-center p-2 border-b-4 border-b-red-700"
+              class="bg-red-200 rounded-t-sm mb-2 flex items-center p-2 border-l-4 border-l-red-700"
               in:fade
             >
               <svg

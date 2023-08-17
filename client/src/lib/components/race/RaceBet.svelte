@@ -50,7 +50,7 @@
       },
       body: JSON.stringify({
         race_id: Number(race.id),
-        user_id: 1,
+        user_id: Number(user.user_id),
         first: selection.first,
         second: selection.second,
         third: selection.third,

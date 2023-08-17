@@ -38,6 +38,11 @@
 
     if (res.ok) {
       signUpSuccess = true;
+      username = "";
+      password = "";
+      confirmPassword = "";
+      avatar = "";
+
       setTimeout(() => {
         signUpSuccess = false;
       }, 6000);
@@ -85,7 +90,7 @@
           />
           {#if signupFailed}
             <div
-              class="bg-red-200 rounded-t-sm mb-2 flex items-center p-2 border-b-4 border-b-red-700"
+              class="bg-red-200 rounded-t-sm mb-2 flex items-center p-2 border-b-4 border-l-red-700"
               in:fade
             >
               <svg
@@ -110,7 +115,7 @@
           {/if}
           {#if signUpSuccess}
             <div
-              class="bg-green-200 rounded-t-sm mb-2 flex items-center p-2 border-b-4 border-b-green-700"
+              class="bg-green-200 rounded-t-sm mb-2 flex items-center p-2 border-b-4 border-l-green-700"
               transition:fade
             >
               <svg
