@@ -38,11 +38,11 @@
     const userBet = betTable.find((bet) => bet.username === user.username);
     if (!userBet) return "";
     if (bet.bets[betPosition] === result[betPosition]) {
-      return "text-green-600";
+      return "text-emerald-500";
     } else if (resultArray.includes(bet.bets[betPosition])) {
-      return "text-blue-600";
+      return "text-sky-500";
     } else if (!resultArray.includes(bet.bets[betPosition])) {
-      return "text-red-600";
+      return "text-red-500";
     } else {
       return "";
     }
@@ -69,7 +69,7 @@ t
         {#key betTable}
           <table in:fade>
             <thead class="border-b border-b-gray-400 bg-zinc-900/50">
-              <tr>
+              <tr class="hover:cursor-default">
                 <th class="text-left py-3 px-2 sticky"
                   ><div class="w-24">User</div></th
                 >
