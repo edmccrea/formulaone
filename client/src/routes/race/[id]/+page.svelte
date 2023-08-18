@@ -7,6 +7,7 @@
   export let data;
   const race = data.race;
   const user = data.user;
+  const result = data.result;
   $: betTable = data.betTable;
 
   const date = Date.now();
@@ -24,11 +25,34 @@
     betTable = betTable.filter((bet) => bet.username !== user.username);
     betTable.push(bet);
   }
+
+  function colorCodeResult(
+    betPosition: "first" | "second" | "third",
+    result: App.Result,
+    bet: App.MappedBet
+  ) {
+    const resultArray = Object.keys(result)
+      .filter((key) => key !== "race_id")
+      .map((key) => result[key]);
+
+    const userBet = betTable.find((bet) => bet.username === user.username);
+    if (!userBet) return "";
+    if (bet.bets[betPosition] === result[betPosition]) {
+      return "text-green-600";
+    } else if (resultArray.includes(bet.bets[betPosition])) {
+      return "text-blue-600";
+    } else if (!resultArray.includes(bet.bets[betPosition])) {
+      return "text-red-600";
+    } else {
+      return "";
+    }
+  }
 </script>
 
+t
 <div
   in:fade
-  class="w-full h-full px-4 md:mx-auto max-w-sm md:max-w-2xl lg:max-w-6xl lg:px-8 mt-28 flex flex-col flex-1"
+  class="w-full h-full px-4 md:mx-auto max-w-sm md:max-w-2xl lg:max-w-6xl lg:px-8 mt-28 mb-16 flex flex-col flex-1"
 >
   <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-8">
     <div class="bg-neutral-900 p-8 rounded-md">
@@ -39,8 +63,8 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 md:cols w-full gap-8">
-    <div class="bg-neutral-900 p-8 rounded-md mt-8 col-span-2">
+  <div class="grid grid-cols-1 md:grid-cols-3 md:cols w-full gap-8 mt-8">
+    <div class="bg-neutral-900 p-8 rounded-md col-span-2">
       <div class="overflow-auto">
         {#key betTable}
           <table in:fade>
@@ -67,13 +91,25 @@
                 >
                   <td class="py-3 px-2 sticky"><span>{bet.username}</span></td>
                   <td class="py-3 px-2"
-                    ><span>{showBet(bet.bets.first, bet.username)}</span></td
+                    ><span
+                      class={result
+                        ? colorCodeResult("first", result, bet)
+                        : ""}>{showBet(bet.bets.first, bet.username)}</span
+                    ></td
                   >
                   <td class="py-3 px-2"
-                    ><span>{showBet(bet.bets.second, bet.username)}</span></td
+                    ><span
+                      class={result
+                        ? colorCodeResult("second", result, bet)
+                        : ""}>{showBet(bet.bets.second, bet.username)}</span
+                    ></td
                   >
                   <td class="py-3 px-2"
-                    ><span>{showBet(bet.bets.third, bet.username)}</span></td
+                    ><span
+                      class={result
+                        ? colorCodeResult("third", result, bet)
+                        : ""}>{showBet(bet.bets.third, bet.username)}</span
+                    ></td
                   >
                 </tr>
               {/each}
@@ -83,7 +119,7 @@
       </div>
     </div>
 
-    <div class="bg-neutral-900 p-8 rounded-md mt-8 col-span-1">
+    <div class="bg-neutral-900 p-8 rounded-md w-full col-span-1">
       <p>Grid</p>
     </div>
   </div>
