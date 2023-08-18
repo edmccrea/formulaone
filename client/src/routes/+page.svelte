@@ -36,7 +36,11 @@
   <div class="mt-8">
     <h2 class="font-bold text-2xl mb-4">Upcoming Race</h2>
     <!-- If race is this week, then display a countdown -->
-    <RaceCard race={upcomingRaces[0]} {bets} />
+    {#if upcomingRaces.length > 0}
+      <RaceCard race={upcomingRaces[0]} {bets} />
+    {:else}
+      <p>The season has ended!</p>
+    {/if}
   </div>
 
   <div class="mt-8">
@@ -62,11 +66,15 @@
   <div class="mt-8">
     <h2 class="font-bold text-2xl mb-4">Previous Races</h2>
     <div class="flex gap-4 w-full relative overflow-auto">
-      {#each previousRaces as race}
-        {#if new Date(race.raceStart).getTime() < date}
-          <RaceCard {race} {bets} />
-        {/if}
-      {/each}
+      {#if previousRaces.length > 0}
+        {#each previousRaces as race}
+          {#if new Date(race.raceStart).getTime() < date}
+            <RaceCard {race} {bets} />
+          {/if}
+        {/each}
+      {:else}
+        <p>There are no previous races.</p>
+      {/if}
     </div>
   </div>
 </div>
