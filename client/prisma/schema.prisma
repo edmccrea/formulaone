@@ -41,11 +41,12 @@ model results {
 }
 
 model users {
-  user_id  BigInt  @id(map: "User_pkey") @default(autoincrement())
-  username String
-  password String
-  avatar   String
-  points   Float   @db.Real
-  position Int
-  session  String?
+  user_id         BigInt  @id(map: "User_pkey") @default(autoincrement())
+  username        String
+  password        String
+  avatar          String
+  points          Float   @db.Real
+  position        Int
+  session         String?
+  constructor_bet String  @default("Red Bull")
 }

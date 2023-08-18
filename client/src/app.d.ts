@@ -45,6 +45,14 @@ declare global {
       avatar: string;
       points: number;
       position: number;
+      constructor_bet: string;
+    }
+
+    interface Result {
+      race_id: BigInt;
+      first: string;
+      second: string;
+      third: string;
     }
 
     type BetTable = MappedBet[];
