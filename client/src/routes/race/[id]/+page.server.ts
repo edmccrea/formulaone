@@ -5,7 +5,7 @@ export const load = (async ({ params, locals }) => {
   const raceId = params.id;
 
   async function getPageData() {
-    const [user, race, bets, users, result] = await Promise.all([
+    const [user, race, bets, users, grid, result] = await Promise.all([
       prisma.users.findFirst({
         where: {
           username: locals.user.name,
@@ -22,6 +22,11 @@ export const load = (async ({ params, locals }) => {
         },
       }),
       prisma.users.findMany(),
+      prisma.grids.findFirst({
+        where: {
+          race_id: Number(raceId),
+        },
+      }),
       prisma.results.findFirst({
         where: {
           race_id: Number(raceId),
@@ -37,11 +42,12 @@ export const load = (async ({ params, locals }) => {
       race,
       bets,
       users,
+      grid,
       result,
     };
   }
 
-  const { user, race, bets, users, result } = await getPageData();
+  const { user, race, bets, users, grid, result } = await getPageData();
   const mappedRace = mapRace(race);
   const betTable = createBetTable(users, bets);
 
@@ -50,6 +56,7 @@ export const load = (async ({ params, locals }) => {
     race: mappedRace,
     betTable,
     users,
+    grid,
     result,
   };
 }) satisfies PageServerLoad;

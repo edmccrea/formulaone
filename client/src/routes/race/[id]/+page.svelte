@@ -7,9 +7,11 @@
   export let data;
   const race = data.race;
   const user = data.user;
+  const grid = data.grid.grid;
   const result = data.result;
   $: betTable = data.betTable;
 
+  console.log(grid);
   const date = Date.now();
   const raceStartObject = new Date(race.raceStart);
   const raceStartMillis = raceStartObject.getTime();

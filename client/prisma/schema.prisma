@@ -29,6 +29,7 @@ model races {
   race_start       DateTime @db.Timestamptz(6)
   race_image       String
   track_layout     String   @default("abc")
+  grids            grids[]
   results          results?
 }
 
@@ -49,4 +50,11 @@ model users {
   position        Int
   session         String?
   constructor_bet String  @default("Red Bull")
+}
+
+model grids {
+  id      BigInt   @id @default(autoincrement())
+  race_id BigInt?
+  grid    String[]
+  races   races?   @relation(fields: [race_id], references: [race_id], onDelete: NoAction, onUpdate: NoAction)
 }

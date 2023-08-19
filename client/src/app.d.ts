@@ -48,6 +48,12 @@ declare global {
       constructor_bet: string;
     }
 
+    interface Grid {
+      id: BigInt;
+      race_id: BigInt;
+      grid: string[];
+    }
+
     interface Result {
       race_id: BigInt;
       first: string;

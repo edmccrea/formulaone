@@ -53,7 +53,7 @@
         </p>
       {:else if isUpcoming && betPlaced}
         <p
-          class="w-fit mt-2 py-1 px-2 bg-green-200 text-green-900 rounded-md text-sm"
+          class="w-fit mt-2 py-1 px-2 bg-sky-200 text-sky-900 rounded-md text-sm"
         >
           Bet placed
         </p>
