@@ -34,7 +34,7 @@
   ) {
     const resultArray = Object.keys(result)
       .filter((key) => key !== "race_id")
-      .map((key) => result[key]);
+      .map((key) => result[key as keyof App.Result]);
 
     const userBet = betTable.find((bet) => bet.username === user.username);
     if (!userBet) return "";
