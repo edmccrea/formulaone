@@ -4,7 +4,7 @@
   export let race: App.Race;
   export let bets: App.Bet[];
 
-  const raceDate = new Date(race.raceStart);
+  const raceDate = new Date(race.raceDate);
   const dateToDisplay = raceDate.toDateString();
   const twoHours = 1000 * 60 * 60 * 2;
 

@@ -53,7 +53,7 @@
     <div class="flex gap-4 w-full relative overflow-auto snap-x">
       {#if upcomingRaces.length > 0}
         {#each upcomingRaces as race}
-          {#if new Date(race.raceStart).getTime() > date}
+          {#if new Date(race.raceDate).getTime() > date}
             <RaceCard {race} {bets} />
           {/if}
         {/each}
@@ -68,7 +68,7 @@
     <div class="flex gap-4 w-full relative overflow-auto">
       {#if previousRaces.length > 0}
         {#each previousRaces as race}
-          {#if new Date(race.raceStart).getTime() < date}
+          {#if new Date(race.raceDate).getTime() < date}
             <RaceCard {race} {bets} />
           {/if}
         {/each}

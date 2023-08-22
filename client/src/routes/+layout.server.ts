@@ -1,10 +1,11 @@
 import type { LayoutServerLoad } from "./$types";
 import prisma from "$lib/prisma";
 
-export const load = (async ({ locals }) => {
+export const load = (async () => {
   const races = await prisma.races.findMany();
   const mappedRaces = mapRaces(races);
   const { previousRaces, upcomingRaces } = sortRaces(mappedRaces);
+
   return {
     previousRaces,
     upcomingRaces,
@@ -19,10 +20,12 @@ function mapRaces(races: App.DatabaseRace[]): App.Race[] {
       name: race.race_name,
       type: race.race_type,
       flag: race.country_flag,
-      qualyStart: race.qualifying_start,
+      qualyTime: race.qualifying_time,
+      qualyDate: race.qualifying_date,
       location: race.location,
       track: race.track_name,
-      raceStart: race.race_start,
+      raceTime: race.race_time,
+      raceDate: race.race_date,
       image: race.race_image,
       trackLayout: race.track_layout,
     };
@@ -33,23 +36,23 @@ function sortRaces(mappedRaces: App.Race[]) {
   const date = Date.now();
   const previousRaces = mappedRaces
     .filter((race) => {
-      const raceStartMillis = new Date(race.raceStart).getTime();
+      const raceStartMillis = new Date(race.raceDate).getTime();
       return raceStartMillis < date;
     })
     .sort((a, b) => {
-      const aMillis = new Date(a.raceStart).getTime();
-      const bMillis = new Date(b.raceStart).getTime();
+      const aMillis = new Date(a.raceDate).getTime();
+      const bMillis = new Date(b.raceDate).getTime();
       return bMillis - aMillis;
     });
 
   const upcomingRaces = mappedRaces
     .filter((race) => {
-      const raceStartMillis = new Date(race.raceStart).getTime();
+      const raceStartMillis = new Date(race.raceDate).getTime();
       return raceStartMillis > date;
     })
     .sort((a, b) => {
-      const aMillis = new Date(a.raceStart).getTime();
-      const bMillis = new Date(b.raceStart).getTime();
+      const aMillis = new Date(a.raceDate).getTime();
+      const bMillis = new Date(b.raceDate).getTime();
       return aMillis - bMillis;
     });
 
