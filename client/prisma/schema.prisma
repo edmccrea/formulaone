@@ -19,18 +19,21 @@ model bets {
 }
 
 model races {
-  race_id          BigInt   @id(map: "Race_pkey") @default(autoincrement())
-  race_name        String
-  race_type        String
-  country_flag     String
-  qualifying_start DateTime @db.Timestamptz(6)
-  location         String
-  track_name       String
-  race_start       DateTime @db.Timestamptz(6)
-  race_image       String
-  track_layout     String   @default("abc")
-  grids            grids[]
-  results          results?
+  race_id         BigInt   @id(map: "Race_pkey") @default(autoincrement())
+  race_name       String
+  race_date       String
+  country_flag    String
+  qualifying_date String
+  location        String
+  track_name      String
+  race_image      String
+  track_layout    String   @default("abc")
+  calendar_round  Int
+  race_time       String
+  qualifying_time String
+  race_type       String
+  grids           grids[]
+  results         results?
 }
 
 model results {
