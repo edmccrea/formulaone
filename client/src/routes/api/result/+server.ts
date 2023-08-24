@@ -21,19 +21,20 @@ export const GET: RequestHandler = async () => {
   if (sprint) {
     const sprintResults =
       sprintJSON.MRData.RaceTable.Race.SprintList.SprintResult;
-    getTopThree(sprintResults, sprint);
+    saveTopThreeToDatabase(sprintResults, sprint);
   }
 
   const race = raceJSON.MRData.RaceTable.Race;
   if (race) {
     const results = raceJSON.MRData.RaceTable.Race.ResultsList.Result;
-    getTopThree(results, race);
+    saveTopThreeToDatabase(results, race);
   }
 
+  updateLeaderboard();
   return new Response("Results fetched", { status: 200 });
 };
 
-async function getTopThree(results: any, race: any) {
+async function saveTopThreeToDatabase(results: any, race: any) {
   console.log(race);
   const topThree = [];
 
@@ -78,4 +79,94 @@ async function getTopThree(results: any, race: any) {
   } else {
     //Error handling
   }
+}
+
+async function updateLeaderboard() {
+  const results = await prisma.results.findMany();
+  const users = await prisma.users.findMany();
+  const races = await prisma.races.findMany();
+  users.sort((a, b) => b.points - a.points);
+  users.forEach(async (user, index) => {
+    await prisma.users.update({
+      where: {
+        user_id: user.user_id,
+      },
+      data: {
+        position: index + 1,
+      },
+    });
+  });
+
+  users.forEach(async (user) => {
+    const bets = await prisma.bets.findMany({
+      where: {
+        user_id: user.user_id,
+      },
+    });
+
+    let points = 0;
+    bets.forEach((bet) => {
+      const race = races.find((race) => race.race_id === bet.race_id);
+      const result = results.find((result) => result.race_id === bet.race_id);
+      if (result) {
+        if (
+          result.first === bet.first &&
+          result.second === bet.second &&
+          result.third === bet.third
+        ) {
+          if (race?.race_type === "Sprint") {
+            points += 2.5;
+          } else {
+            points += 5;
+          }
+          return;
+        } else {
+          if (
+            result.first === bet.first ||
+            result.first === bet.second ||
+            result.first === bet.third
+          ) {
+            if (race?.race_type === "Sprint") {
+              points += 0.5;
+            } else {
+              points++;
+            }
+          }
+
+          if (
+            result.second === bet.first ||
+            result.second === bet.second ||
+            result.second === bet.third
+          ) {
+            if (race?.race_type === "Sprint") {
+              points += 0.5;
+            } else {
+              points++;
+            }
+          }
+
+          if (
+            result.third === bet.first ||
+            result.third === bet.second ||
+            result.third === bet.third
+          ) {
+            if (race?.race_type === "Sprint") {
+              points += 0.5;
+            } else {
+              points++;
+            }
+          }
+        }
+      }
+    });
+
+    await prisma.users.update({
+      where: {
+        user_id: user.user_id,
+      },
+      data: {
+        points: points,
+      },
+    });
+  });
 }
