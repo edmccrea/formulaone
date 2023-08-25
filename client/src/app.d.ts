@@ -10,12 +10,15 @@ declare global {
       race_name: string;
       race_type: string;
       country_flag: string;
-      qualifying_start: Date;
+      qualifying_time: string;
+      qualifying_date: string;
+      race_time: string;
+      race_date: string;
       location: string;
       track_name: string;
-      race_start: Date;
       race_image: string;
       track_layout: string;
+      calendar_round: number;
     }
 
     interface Race {
@@ -23,10 +26,12 @@ declare global {
       name: string;
       type: string;
       flag: string;
-      qualyStart: Date;
+      qualyTime: string;
+      qualyDate: string;
       location: string;
       track: string;
-      raceStart: Date;
+      raceTime: string;
+      raceDate: string;
       image: string;
       trackLayout: string;
     }

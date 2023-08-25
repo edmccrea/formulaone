@@ -1,10 +1,7 @@
 <script lang="ts">
   export let race: App.Race;
-
-  const raceStart = new Date(race.raceStart).toString();
-  const raceStartString = raceStart.slice(0, 21);
-  const qualyStart = new Date(race.qualyStart).toString();
-  const qualyStartString = qualyStart.slice(0, 21);
+  export let qualyStartDateObject: Date;
+  export let raceStartDateObject: Date;
 </script>
 
 <div class="flex flex-col justify-center">
@@ -25,11 +22,11 @@
         </li>
         <li class="mb-1">
           <span class="font-bold">Qualy Start:</span>
-          {qualyStartString}
+          {qualyStartDateObject.toString().substring(0, 21)}
         </li>
         <li class="mb-1">
           <span class="font-bold">Race Start:</span>
-          {raceStartString}
+          {raceStartDateObject.toString().substring(0, 21)}
         </li>
       </ul>
     </div>

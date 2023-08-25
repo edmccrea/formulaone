@@ -9,14 +9,11 @@
   export let race: App.Race;
   export let betTable: App.BetTable;
   export let user: App.User;
+  export let raceStart: number;
 
   const dispatch = createEventDispatcher();
 
-  const raceStart = race.raceStart;
   const date = Date.now();
-  const raceStartObject = new Date(raceStart);
-  const raceStartMillis = raceStartObject.getTime();
-
   const drivers = get(driversStore);
 
   let selection = {
@@ -82,7 +79,7 @@
     <p>1. {selection.first}</p>
     <p>2. {selection.second}</p>
     <p>3. {selection.third}</p>
-    {#if raceStartMillis > date}
+    {#if raceStart > date}
       <Button type="button" on:click={handleEditBet}>Change bet</Button>
     {/if}
   </div>
@@ -129,9 +126,15 @@
     </select>
 
     {#if selection.first && selection.second && selection.third}
-      <div in:fade={{ duration: 200 }}>
-        <Button type="submit">Place bet</Button>
-      </div>
+      {#if raceStart < date}
+        <div in:fade={{ duration: 200 }}>
+          <p>Sorry, this race has already taken place.</p>
+        </div>
+      {:else}
+        <div in:fade={{ duration: 200 }}>
+          <Button type="submit">Place bet</Button>
+        </div>
+      {/if}
     {/if}
   </form>
 {/if}

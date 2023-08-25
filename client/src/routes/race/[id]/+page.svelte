@@ -12,8 +12,24 @@
   $: betTable = data.betTable;
 
   const date = Date.now();
-  const raceStartObject = new Date(race.raceStart);
-  const raceStartMillis = raceStartObject.getTime();
+  const raceStartDateObject = combineDateTime(race.raceDate, race.raceTime);
+  const qualyStartDateObject = combineDateTime(race.qualyDate, race.qualyTime);
+  const raceStartMillis = raceStartDateObject.getTime();
+
+  function combineDateTime(date: string, time: string) {
+    const dateParts = date.split("-");
+    const timeParts = time.split(":");
+    const combinedDate = new Date(
+      parseInt(dateParts[0]), // Year
+      parseInt(dateParts[1]) - 1, // Month (months are zero-based in Date)
+      parseInt(dateParts[2]), // Day
+      parseInt(timeParts[0]), // Hour
+      parseInt(timeParts[1]), // Minute
+      parseInt(timeParts[2]) // Second
+    );
+
+    return combinedDate;
+  }
 
   function showBet(bet: string, username: string) {
     if (!bet) return "";
@@ -57,10 +73,16 @@ t
 >
   <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-8">
     <div class="bg-neutral-900 p-8 rounded-md">
-      <RaceInfo {race} />
+      <RaceInfo {race} {raceStartDateObject} {qualyStartDateObject} />
     </div>
     <div class="bg-neutral-900 p-8 rounded-md">
-      <RaceBet {race} {betTable} {user} on:betSubmitted={updateBetTable} />
+      <RaceBet
+        {race}
+        {betTable}
+        {user}
+        raceStart={raceStartMillis}
+        on:betSubmitted={updateBetTable}
+      />
     </div>
   </div>
 
