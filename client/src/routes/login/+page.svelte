@@ -50,6 +50,7 @@
             class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
             placeholder="Name"
             bind:value={username}
+            autocomplete="off"
           />
           <input
             type="password"

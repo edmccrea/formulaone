@@ -7,7 +7,7 @@ export const POST: RequestHandler = async ({ request }) => {
   const loginReq = await request.json();
   const user = await prisma.users.findFirst({
     where: {
-      username: loginReq.username,
+      username: loginReq.username.trim(),
     },
   });
 
