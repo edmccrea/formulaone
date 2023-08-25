@@ -1,4 +1,4 @@
-import { convertTime } from "./convert-time";
+import { convertTimeWithDate } from "./convert-time";
 import { getTrackLayout } from "./get-track-layout";
 import { getCountryFlag } from "./get-country-flag";
 
@@ -34,7 +34,10 @@ function mapSprintRace(race: Race) {
     qualifying_date: "UPDATE MANUALLY",
     qualifying_time: "UPDATE MANUALLY",
     race_date: race.Sprint!.Date,
-    race_time: convertTime(race.Sprint!.Time),
+    race_time: convertTimeWithDate(
+      race.Sprint!.Time,
+      new Date(race.Sprint!.Date)
+    ),
     location: race.Circuit.Location.Locality,
     track_name: race.Circuit.CircuitName,
     race_image:
@@ -51,9 +54,12 @@ function mapGrandPrix(race: Race) {
     race_type: "Grand Prix",
     country_flag: getCountryFlag(race.Circuit.Location.Country),
     qualifying_date: race.Qualifying.Date,
-    qualifying_time: convertTime(race.Qualifying.Time),
+    qualifying_time: convertTimeWithDate(
+      race.Qualifying.Time,
+      new Date(race.Qualifying.Date)
+    ),
     race_date: race.Date,
-    race_time: convertTime(race.Time),
+    race_time: convertTimeWithDate(race.Time, new Date(race.Date)),
     location: race.Circuit.Location.Locality,
     track_name: race.Circuit.CircuitName,
     race_image:

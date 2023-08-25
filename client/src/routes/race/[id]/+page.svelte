@@ -13,6 +13,7 @@
 
   const date = Date.now();
   const raceStartDateObject = combineDateTime(race.raceDate, race.raceTime);
+  const qualyStartDateObject = combineDateTime(race.qualyDate, race.qualyTime);
   const raceStartMillis = raceStartDateObject.getTime();
 
   function combineDateTime(date: string, time: string) {
@@ -72,7 +73,7 @@ t
 >
   <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-8">
     <div class="bg-neutral-900 p-8 rounded-md">
-      <RaceInfo {race} />
+      <RaceInfo {race} {raceStartDateObject} {qualyStartDateObject} />
     </div>
     <div class="bg-neutral-900 p-8 rounded-md">
       <RaceBet
