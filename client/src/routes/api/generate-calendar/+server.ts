@@ -31,12 +31,18 @@ export const GET: RequestHandler = async () => {
         const comparisonObject = {
           ...alreadyExistingRace,
           calendar_id: alreadyExistingRace.calendar_round,
+          race_image: "",
+          qualifying_date: "",
+          qualifying_time: "",
         };
 
         const sprintComparisonObject = {
           ...race.sprintObj,
           calendar_round: race.sprintObj.calendar_id,
           race_id: alreadyExistingRace.race_id,
+          race_image: "",
+          qualifying_date: "",
+          qualifying_time: "",
         };
 
         const areEqual = deepEqual(comparisonObject, sprintComparisonObject);
@@ -54,11 +60,8 @@ export const GET: RequestHandler = async () => {
               location: sprintObj.location,
               race_type: sprintObj.race_type,
               country_flag: sprintObj.country_flag,
-              qualifying_date: sprintObj.qualifying_date,
-              qualifying_time: sprintObj.qualifying_time,
               race_date: sprintObj.race_date,
               race_time: sprintObj.race_time,
-              race_image: sprintObj.race_image,
               track_name: sprintObj.track_name,
               track_layout: sprintObj.track_layout,
             },
@@ -97,12 +100,14 @@ export const GET: RequestHandler = async () => {
       const comparisonObject = {
         ...alreadyExistingRace,
         calendar_id: alreadyExistingRace.calendar_round,
+        race_image: "",
       };
 
       const grandPrixComparisonObject = {
         ...race.raceObj,
         calendar_round: race.raceObj.calendar_id,
         race_id: alreadyExistingRace.race_id,
+        race_image: "",
       };
 
       const areEqual = deepEqual(comparisonObject, grandPrixComparisonObject);
@@ -125,7 +130,6 @@ export const GET: RequestHandler = async () => {
             qualifying_time: raceObj.qualifying_time,
             race_date: raceObj.race_date,
             race_time: raceObj.race_time,
-            race_image: raceObj.race_image,
             track_name: raceObj.track_name,
             track_layout: raceObj.track_layout,
           },
