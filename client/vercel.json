@@ -1,0 +1,12 @@
+{
+    "crons": [
+      {
+        "path": "/api/result",
+        "schedule": "0 */3 * * 0,5,6"
+      },
+      {
+        "path": "/api/generate-calendar",
+        "schedule": "0 0 1 * *"
+      }
+    ]
+  }
