@@ -3,6 +3,7 @@
 
   import RaceBet from "$lib/components/race/RaceBet.svelte";
   import RaceInfo from "$lib/components/race/RaceInfo.svelte";
+  import { combineDateTime } from "$lib/utils/combine-date-time";
 
   export let data;
   const race = data.race;
@@ -15,21 +16,6 @@
   const raceStartDateObject = combineDateTime(race.raceDate, race.raceTime);
   const qualyStartDateObject = combineDateTime(race.qualyDate, race.qualyTime);
   const raceStartMillis = raceStartDateObject.getTime();
-
-  function combineDateTime(date: string, time: string) {
-    const dateParts = date.split("-");
-    const timeParts = time.split(":");
-    const combinedDate = new Date(
-      parseInt(dateParts[0]), // Year
-      parseInt(dateParts[1]) - 1, // Month (months are zero-based in Date)
-      parseInt(dateParts[2]), // Day
-      parseInt(timeParts[0]), // Hour
-      parseInt(timeParts[1]), // Minute
-      parseInt(timeParts[2]) // Second
-    );
-
-    return combinedDate;
-  }
 
   function showBet(bet: string, username: string) {
     if (!bet) return "";

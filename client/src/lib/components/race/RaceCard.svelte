@@ -1,16 +1,17 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { combineDateTime } from "$lib/utils/combine-date-time";
 
   export let race: App.Race;
   export let bets: App.Bet[];
 
-  const raceDate = new Date(race.raceDate);
-  const dateToDisplay = raceDate.toDateString();
+  const raceStart = combineDateTime(race.raceDate, race.raceTime);
+  const dateToDisplay = raceStart.toDateString();
   const twoHours = 1000 * 60 * 60 * 2;
 
   function isRaceUpcoming() {
     const now = new Date();
-    return raceDate.getTime() - now.getTime() > twoHours;
+    return raceStart.getTime() - now.getTime() > twoHours;
   }
 
   let isUpcoming = isRaceUpcoming();
