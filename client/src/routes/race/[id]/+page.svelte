@@ -8,9 +8,14 @@
   export let data;
   const race = data.race;
   const user = data.user;
-  // const grid = data.grid.grid;
+  const gridJSON = data.grid?.grid;
   const result = data.result;
   $: betTable = data.betTable;
+
+  let grid: { name: string; lapTime: string }[];
+  if (gridJSON) {
+    grid = JSON.parse(gridJSON);
+  }
 
   const date = Date.now();
   const raceStartDateObject = combineDateTime(race.raceDate, race.raceTime);
@@ -73,7 +78,7 @@ t
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-3 md:cols w-full gap-8 mt-8">
-    <div class="bg-neutral-900 p-8 rounded-md col-span-2">
+    <div class="bg-neutral-900 p-8 rounded-md col-span-2 h-fit">
       <div class="overflow-auto">
         {#key betTable}
           <table in:fade>
@@ -129,7 +134,26 @@ t
     </div>
 
     <div class="bg-neutral-900 p-8 rounded-md w-full col-span-1">
-      <p>Grid</p>
+      <h3 class="font-bold mb-4">Grid</h3>
+      {#if grid}
+        <ol>
+          {#each grid as driver, index}
+            <div class="flex mb-1">
+              <div>
+                <span>{index + 1}.</span>
+              </div>
+              <div class="pl-2">
+                <li>{driver.name}</li>
+                <span class="text-sm font-light">{driver.lapTime}</span>
+              </div>
+            </div>
+          {/each}
+        </ol>
+      {:else}
+        <div class="flex w-full h-full justify-center lg:pt-12">
+          <p class="font-light">Grid not available yet</p>
+        </div>
+      {/if}
     </div>
   </div>
 </div>
