@@ -113,7 +113,10 @@ export const GET: RequestHandler = async () => {
       const areEqual = deepEqual(comparisonObject, grandPrixComparisonObject);
 
       if (areEqual) {
-        console.log(`No new updates for ${alreadyExistingRace.race_name} GP`);
+        return new Response(
+          `No new updates for ${alreadyExistingRace.race_name} GP`,
+          { status: 200 }
+        );
       } else {
         const raceObj = race.raceObj;
         await prisma.races.update({
@@ -134,7 +137,9 @@ export const GET: RequestHandler = async () => {
             track_layout: raceObj.track_layout,
           },
         });
-        console.log(`Updating ${race.raceObj.race_name} Sprint`);
+        return new Response(`Updating ${race.raceObj.race_name} Sprint`, {
+          status: 200,
+        });
       }
     } else {
       const raceObj = race.raceObj;
@@ -154,9 +159,11 @@ export const GET: RequestHandler = async () => {
           track_layout: raceObj.track_layout,
         },
       });
-      console.log(`Grand prix created for ${newGrandPrix.race_name}`);
+      return new Response(`Grand prix created for ${newGrandPrix.race_name}`, {
+        status: 200,
+      });
     }
   });
 
-  return new Response("Calendar created", { status: 200 });
+  return new Response("Something went wrong", { status: 500 });
 };

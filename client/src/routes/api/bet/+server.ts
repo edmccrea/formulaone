@@ -38,5 +38,4 @@ export const POST: RequestHandler = async ({ request }) => {
 
     return new Response("Bet created", { status: 201 });
   }
-  return new Response();
 };
