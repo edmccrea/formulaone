@@ -1,0 +1,17 @@
+{
+    "crons": [
+      {
+        "path": "/api/result/+server",
+        "schedule": "0 */3 * * 0,5,6"
+      },
+      {
+        "path": "/api/grid/+server",
+        "schedule": "0 */3 * * 0,5"
+      },
+      {
+        "path": "/api/generate-calendar/+server",
+        "schedule": "0 0 1 * *"
+      }
+    ]
+  }
+  
