@@ -113,10 +113,7 @@ export const GET: RequestHandler = async () => {
       const areEqual = deepEqual(comparisonObject, grandPrixComparisonObject);
 
       if (areEqual) {
-        return new Response(
-          `No new updates for ${alreadyExistingRace.race_name} GP`,
-          { status: 200 }
-        );
+        console.log(`No new updates for ${alreadyExistingRace.race_name} GP`);
       } else {
         const raceObj = race.raceObj;
         await prisma.races.update({
@@ -137,9 +134,7 @@ export const GET: RequestHandler = async () => {
             track_layout: raceObj.track_layout,
           },
         });
-        return new Response(`Updating ${race.raceObj.race_name} Sprint`, {
-          status: 200,
-        });
+        console.log(`Updating ${race.raceObj.race_name} Sprint`);
       }
     } else {
       const raceObj = race.raceObj;
@@ -159,11 +154,9 @@ export const GET: RequestHandler = async () => {
           track_layout: raceObj.track_layout,
         },
       });
-      return new Response(`Grand prix created for ${newGrandPrix.race_name}`, {
-        status: 200,
-      });
+      console.log(`Grand prix created for ${newGrandPrix.race_name}`);
     }
   });
 
-  return new Response("Something went wrong", { status: 500 });
+  return new Response("Success", { status: 200 });
 };
