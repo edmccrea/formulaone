@@ -1,6 +1,11 @@
 import prisma from "$lib/prisma";
 import { redirect } from "@sveltejs/kit";
-const unProtectedRoutes = ["/login"];
+const unProtectedRoutes = [
+  "/login",
+  "/api/generate-calendar",
+  "/api/grid",
+  "/api/result",
+];
 export const handle = async ({ event, resolve }) => {
   if (event.route.id === "/api/login") {
     return resolve(event);
