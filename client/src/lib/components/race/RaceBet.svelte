@@ -76,9 +76,9 @@
 
 {#if betSubmitted}
   <div class="flex flex-col gap-2">
-    <p>1. {selection.first}</p>
-    <p>2. {selection.second}</p>
-    <p>3. {selection.third}</p>
+    <p class="text-xl">1. {selection.first}</p>
+    <p class="text-xl">2. {selection.second}</p>
+    <p class="text-xl">3. {selection.third}</p>
     {#if raceStart > date}
       <Button type="button" on:click={handleEditBet}>Change bet</Button>
     {/if}

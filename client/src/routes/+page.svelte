@@ -26,31 +26,35 @@
   in:fade
   class="w-full h-full mx-4 md:mx-auto max-w-sm md:max-w-2xl lg:max-w-6xl lg:px-8 mt-28 mb-12 flex flex-col flex-1"
 >
-  <h1 class="text-5xl font-bold mb-4">Formula One Bets 2023</h1>
+  <h1 class="text-5xl lg:text-7xl font-bold mb-4 font-gradient">
+    Formula One Bets
+  </h1>
   <p>
     Hello {user.username}, you're currently in {user.position}{positionSuffix} place
     with {user.points}
     points.
   </p>
 
-  <div class="mt-8">
-    <h2 class="font-bold text-2xl mb-4">Upcoming Race</h2>
-    <!-- If race is this week, then display a countdown -->
-    {#if upcomingRaces.length > 0}
-      <RaceCard race={upcomingRaces[0]} {bets} />
-    {:else}
-      <p>The season has ended!</p>
-    {/if}
-  </div>
+  <div class="flex flex-col lg:flex-row lg:gap-16">
+    <div class="mt-8 lg:order-2">
+      <h2 class="font-bold text-2xl mb-4">Upcoming Race</h2>
+      <!-- If race is this week, then display a countdown -->
+      {#if upcomingRaces.length > 0}
+        <RaceCard race={upcomingRaces[0]} {bets} />
+      {:else}
+        <p>The season has ended!</p>
+      {/if}
+    </div>
 
-  <div class="mt-8">
-    <h2 class="font-bold text-2xl mb-4">Leaderboard</h2>
-    <Leaderboard {users} />
+    <div class="mt-8 lg:order-1">
+      <h2 class="font-bold text-2xl mb-4">Leaderboard</h2>
+      <Leaderboard {users} />
+    </div>
   </div>
 
   <div class="mt-8">
     <h2 class="font-bold text-2xl mb-4">Future Races</h2>
-    <div class="flex gap-4 w-full relative overflow-auto snap-x">
+    <div class="flex gap-4 w-full relative overflow-auto snap-x lg:snap-none">
       {#if upcomingRaces.length > 0}
         {#each upcomingRaces as race}
           {#if new Date(race.raceDate).getTime() > date}
@@ -65,7 +69,7 @@
 
   <div class="mt-8">
     <h2 class="font-bold text-2xl mb-4">Previous Races</h2>
-    <div class="flex gap-4 w-full relative overflow-auto">
+    <div class="flex gap-4 w-full relative overflow-auto snap-x lg:snap-none">
       {#if previousRaces.length > 0}
         {#each previousRaces as race}
           {#if new Date(race.raceDate).getTime() < date}
@@ -78,3 +82,15 @@
     </div>
   </div>
 </div>
+
+<style>
+  .font-gradient {
+    background: linear-gradient(
+      40deg,
+      rgba(242, 167, 167, 1) 34%,
+      rgba(250, 250, 250, 1) 89%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+</style>
