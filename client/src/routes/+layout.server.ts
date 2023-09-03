@@ -34,6 +34,7 @@ function mapRaces(races: App.DatabaseRace[]): App.Race[] {
 
 function sortRaces(mappedRaces: App.Race[]) {
   const date = Date.now();
+  const oneDay = 86400000;
   const previousRaces = mappedRaces
     .filter((race) => {
       const raceStartMillis = new Date(race.raceDate).getTime();
@@ -48,7 +49,7 @@ function sortRaces(mappedRaces: App.Race[]) {
   const upcomingRaces = mappedRaces
     .filter((race) => {
       const raceStartMillis = new Date(race.raceDate).getTime();
-      return raceStartMillis > date;
+      return raceStartMillis > date - oneDay;
     })
     .sort((a, b) => {
       const aMillis = new Date(a.raceDate).getTime();
