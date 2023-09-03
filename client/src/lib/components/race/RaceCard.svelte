@@ -11,7 +11,7 @@
 
   function isRaceUpcoming() {
     const now = new Date();
-    return raceStart.getTime() - now.getTime() > twoHours;
+    return raceStart.getTime() - now.getTime() + twoHours > 0;
   }
 
   let isUpcoming = isRaceUpcoming();
