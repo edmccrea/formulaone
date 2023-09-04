@@ -16,7 +16,7 @@ export const drivers = writable([
   },
   {
     number: 11,
-    name: "Sergio Perez",
+    name: "Sergio Pérez",
     team: "Red Bull Racing",
     country: "Mexico",
     image: "",
