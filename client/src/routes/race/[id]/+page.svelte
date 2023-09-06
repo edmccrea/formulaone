@@ -1,5 +1,6 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
+  import { Confetti } from "svelte-confetti";
 
   import RaceBet from "$lib/components/race/RaceBet.svelte";
   import RaceInfo from "$lib/components/race/RaceInfo.svelte";
@@ -55,9 +56,41 @@
       return "";
     }
   }
+
+  function checkRacePoints() {
+    if (!betTable) return false;
+    const userBets = betTable.find((bet) => bet.username === user.username);
+    if (!userBets) return false;
+    if (
+      result &&
+      userBets.bets.first === result.first &&
+      userBets.bets.second === result.second &&
+      userBets.bets.third === result.third
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  $: isMaxPoints = betTable && checkRacePoints();
 </script>
 
-t
+{#if isMaxPoints}
+  <div
+    class="fixed -top-12 left-0 h-screen w-screen flex justify-center overflow-hidden pointer-events-none"
+  >
+    <Confetti
+      x={[-5, 5]}
+      y={[0, 0.1]}
+      delay={[500, 10000]}
+      infinite={false}
+      duration={5000}
+      amount={200}
+      fallDistance="100vh"
+    />
+  </div>
+{/if}
+
 <div
   in:fade
   class="w-full h-full px-4 md:mx-auto max-w-sm md:max-w-2xl lg:max-w-6xl lg:px-8 mt-32 md:mt-28 mb-16 flex flex-col flex-1"
