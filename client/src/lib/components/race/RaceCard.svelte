@@ -40,7 +40,7 @@
   </div>
   <div class="p-4">
     <div class="flex items-center gap-2">
-      <img src={race.flag} alt="" class="h-4" />
+      <img src={race.flag} alt="" class="h-4 rounded-sm" />
       <h3 class="text-lg font-bold">{race.name}</h3>
     </div>
     <p>{race.type}</p>

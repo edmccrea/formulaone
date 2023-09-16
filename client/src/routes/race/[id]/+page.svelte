@@ -111,13 +111,15 @@
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-3 md:cols w-full gap-8 mt-8">
-    <div class="bg-neutral-900 p-8 rounded-md col-span-2 h-fit">
+    <div class="col-span-2 h-fit">
+      <div class="bg-neutral-900 p-8 rounded-md h-fit">
       <div class="overflow-auto">
         {#key betTable}
           <table in:fade>
             <thead class="border-b border-b-gray-400 bg-zinc-900/50">
               <tr class="hover:cursor-default">
-                <th class="text-left py-3 px-2 sticky"
+                  <th class="py-3 px-2"><div class="w-8" /></th>
+                  <th class="text-left py-3 px-2"
                   ><div class="w-24">User</div></th
                 >
                 <th class="text-left py-3 px-2"
@@ -136,7 +138,14 @@
                 <tr
                   class="border-b border-b-gray-600 py-2 hover:bg-zinc-900/30 transition-all ease-in-out duration-300 hover:cursor-default"
                 >
-                  <td class="py-3 px-2 sticky"><span>{bet.username}</span></td>
+                    <td class="py-3 px-2"
+                      ><img
+                        src={bet.avatar}
+                        alt=""
+                        class="h-8 w-8 rounded-full border border-slate-600 object-cover"
+                      /></td
+                    >
+                    <td class="py-3 px-2">{bet.username}</td>
                   <td class="py-3 px-2"
                     ><span
                       class={result
