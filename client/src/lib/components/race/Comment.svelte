@@ -1,9 +1,11 @@
 <script lang="ts">
+  import { fade } from "svelte/transition";
+
   export let comment: App.Comment;
   const stringifiedDate = new Date(comment.created_at).toLocaleString();
 </script>
 
-<div class="flex gap-4 mt-4">
+<div class="flex gap-4 mt-4" in:fade>
   <img
     src={comment.avatar}
     alt=""

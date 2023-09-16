@@ -7,6 +7,10 @@
   export let user: App.User;
   export let raceId: BigInt;
   export let comments: App.Comment[];
+  comments = comments.sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
 
   let isActive = false;
 
@@ -36,6 +40,22 @@
     });
 
     if (res.ok) {
+      comments = [
+        ...comments,
+        {
+          id: BigInt(9999999999),
+          race_id: raceId,
+          user_id: user.user_id,
+          created_at: new Date(),
+          comment: newComment,
+          username: user.username,
+          avatar: user.avatar,
+        },
+      ];
+      comments = comments.sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
       newComment = "";
     }
   }
@@ -70,7 +90,9 @@
       {/if}
     </div>
   </form>
-  {#each comments as comment}
-    <Comment {comment} />
-  {/each}
+  {#key comments}
+    {#each comments as comment}
+      <Comment {comment} />
+    {/each}
+  {/key}
 </div>
