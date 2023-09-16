@@ -19,7 +19,7 @@ model bets {
 }
 
 model races {
-  race_id         BigInt   @id(map: "Race_pkey") @default(autoincrement())
+  race_id         BigInt     @id(map: "Race_pkey") @default(autoincrement())
   race_name       String
   race_date       String
   country_flag    String
@@ -27,11 +27,12 @@ model races {
   location        String
   track_name      String
   race_image      String
-  track_layout    String   @default("abc")
+  track_layout    String     @default("abc")
   calendar_round  Int
   race_time       String
   qualifying_time String
   race_type       String
+  comments        comments[]
   grids           grids[]
   results         results?
 }
@@ -45,14 +46,15 @@ model results {
 }
 
 model users {
-  user_id         BigInt  @id(map: "User_pkey") @default(autoincrement())
+  user_id         BigInt     @id(map: "User_pkey") @default(autoincrement())
   username        String
   password        String
   avatar          String
-  points          Float   @db.Real
+  points          Float      @db.Real
   position        Int
   session         String?
-  constructor_bet String  @default("Red Bull")
+  constructor_bet String     @default("Red Bull")
+  comments        comments[]
 }
 
 model grids {
@@ -60,4 +62,16 @@ model grids {
   race_id BigInt
   grid    String
   races   races  @relation(fields: [race_id], references: [race_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model comments {
+  id         Int      @id @default(autoincrement())
+  race_id    BigInt?
+  user_id    BigInt?
+  created_at DateTime @db.Timestamptz(6)
+  comment    String
+  username   String
+  avatar     String
+  races      races?   @relation(fields: [race_id], references: [race_id], onDelete: NoAction, onUpdate: NoAction)
+  users      users?   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
 }

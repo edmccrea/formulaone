@@ -4,6 +4,7 @@
 
   import RaceBet from "$lib/components/race/RaceBet.svelte";
   import RaceInfo from "$lib/components/race/RaceInfo.svelte";
+  import CommentSection from "$lib/components/race/CommentSection.svelte";
   import { combineDateTime } from "$lib/utils/combine-date-time";
 
   export let data;
@@ -11,6 +12,7 @@
   const user = data.user;
   const gridJSON = data.grid?.grid;
   const result = data.result;
+  const comments = data.comments;
   $: betTable = data.betTable;
 
   let grid: { name: string; lapTime: string }[];
@@ -113,31 +115,31 @@
   <div class="grid grid-cols-1 md:grid-cols-3 md:cols w-full gap-8 mt-8">
     <div class="col-span-2 h-fit">
       <div class="bg-neutral-900 p-8 rounded-md h-fit">
-      <div class="overflow-auto">
-        {#key betTable}
-          <table in:fade>
-            <thead class="border-b border-b-gray-400 bg-zinc-900/50">
-              <tr class="hover:cursor-default">
+        <div class="overflow-auto">
+          {#key betTable}
+            <table in:fade>
+              <thead class="border-b border-b-gray-400 bg-zinc-900/50">
+                <tr class="hover:cursor-default">
                   <th class="py-3 px-2"><div class="w-8" /></th>
                   <th class="text-left py-3 px-2"
-                  ><div class="w-24">User</div></th
-                >
-                <th class="text-left py-3 px-2"
-                  ><div class="w-40">First</div></th
-                >
-                <th class="text-left py-3 px-2"
-                  ><div class="w-40">Second</div></th
-                >
-                <th class="text-left py-3 px-2"
-                  ><div class="w-40">Third</div></th
-                >
-              </tr>
-            </thead>
-            <tbody>
-              {#each betTable as bet}
-                <tr
-                  class="border-b border-b-gray-600 py-2 hover:bg-zinc-900/30 transition-all ease-in-out duration-300 hover:cursor-default"
-                >
+                    ><div class="w-24">User</div></th
+                  >
+                  <th class="text-left py-3 px-2"
+                    ><div class="w-40">First</div></th
+                  >
+                  <th class="text-left py-3 px-2"
+                    ><div class="w-40">Second</div></th
+                  >
+                  <th class="text-left py-3 px-2"
+                    ><div class="w-40">Third</div></th
+                  >
+                </tr>
+              </thead>
+              <tbody>
+                {#each betTable as bet}
+                  <tr
+                    class="border-b border-b-gray-600 py-2 hover:bg-zinc-900/30 transition-all ease-in-out duration-300 hover:cursor-default"
+                  >
                     <td class="py-3 px-2"
                       ><img
                         src={bet.avatar}
@@ -146,33 +148,36 @@
                       /></td
                     >
                     <td class="py-3 px-2">{bet.username}</td>
-                  <td class="py-3 px-2"
-                    ><span
-                      class={result
-                        ? colorCodeResult("first", result, bet)
-                        : ""}>{showBet(bet.bets.first, bet.username)}</span
-                    ></td
-                  >
-                  <td class="py-3 px-2"
-                    ><span
-                      class={result
-                        ? colorCodeResult("second", result, bet)
-                        : ""}>{showBet(bet.bets.second, bet.username)}</span
-                    ></td
-                  >
-                  <td class="py-3 px-2"
-                    ><span
-                      class={result
-                        ? colorCodeResult("third", result, bet)
-                        : ""}>{showBet(bet.bets.third, bet.username)}</span
-                    ></td
-                  >
-                </tr>
-              {/each}
-            </tbody>
-          </table>
-        {/key}
+                    <td class="py-3 px-2"
+                      ><span
+                        class={result
+                          ? colorCodeResult("first", result, bet)
+                          : ""}>{showBet(bet.bets.first, bet.username)}</span
+                      ></td
+                    >
+                    <td class="py-3 px-2"
+                      ><span
+                        class={result
+                          ? colorCodeResult("second", result, bet)
+                          : ""}>{showBet(bet.bets.second, bet.username)}</span
+                      ></td
+                    >
+                    <td class="py-3 px-2"
+                      ><span
+                        class={result
+                          ? colorCodeResult("third", result, bet)
+                          : ""}>{showBet(bet.bets.third, bet.username)}</span
+                      ></td
+                    >
+                  </tr>
+                {/each}
+              </tbody>
+            </table>
+          {/key}
+        </div>
       </div>
+
+      <CommentSection {user} raceId={race.id} {comments} />
     </div>
 
     <div class="bg-neutral-900 p-8 rounded-md w-full col-span-1">

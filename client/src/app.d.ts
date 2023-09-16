@@ -71,11 +71,22 @@ declare global {
     interface MappedBet {
       username: string;
       user_id: BigInt;
+      avatar: string;
       bets: {
         first: string;
         second: string;
         third: string;
       };
+    }
+
+    interface Comment {
+      id: BigInt;
+      race_id: BigInt;
+      user_id: BigInt;
+      created_at: Date;
+      comment: string;
+      username: string;
+      avatar: string;
     }
   }
 }

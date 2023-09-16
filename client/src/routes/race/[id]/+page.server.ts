@@ -5,34 +5,41 @@ export const load = (async ({ params, locals }) => {
   const raceId = params.id;
 
   async function getPageData() {
-    const [user, race, bets, users, grid, result] = await Promise.all([
-      prisma.users.findFirst({
-        where: {
-          username: locals.user.name,
-        },
-      }),
-      prisma.races.findFirst({
-        where: {
-          race_id: Number(raceId),
-        },
-      }),
-      prisma.bets.findMany({
-        where: {
-          race_id: Number(raceId),
-        },
-      }),
-      prisma.users.findMany(),
-      prisma.grids.findFirst({
-        where: {
-          race_id: Number(raceId),
-        },
-      }),
-      prisma.results.findFirst({
-        where: {
-          race_id: Number(raceId),
-        },
-      }),
-    ]);
+    const [user, race, bets, users, grid, result, comments] = await Promise.all(
+      [
+        prisma.users.findFirst({
+          where: {
+            username: locals.user.name,
+          },
+        }),
+        prisma.races.findFirst({
+          where: {
+            race_id: Number(raceId),
+          },
+        }),
+        prisma.bets.findMany({
+          where: {
+            race_id: Number(raceId),
+          },
+        }),
+        prisma.users.findMany(),
+        prisma.grids.findFirst({
+          where: {
+            race_id: Number(raceId),
+          },
+        }),
+        prisma.results.findFirst({
+          where: {
+            race_id: Number(raceId),
+          },
+        }),
+        prisma.comments.findMany({
+          where: {
+            race_id: Number(raceId),
+          },
+        }),
+      ]
+    );
 
     if (!user || !race || !bets || !users)
       throw new Error("Failed to load page data");
@@ -44,10 +51,12 @@ export const load = (async ({ params, locals }) => {
       users,
       grid,
       result,
+      comments,
     };
   }
 
-  const { user, race, bets, users, grid, result } = await getPageData();
+  const { user, race, bets, users, grid, result, comments } =
+    await getPageData();
   const mappedRace = mapRace(race);
   const betTable = createBetTable(users, bets);
 
@@ -58,6 +67,7 @@ export const load = (async ({ params, locals }) => {
     users,
     grid,
     result,
+    comments,
   };
 }) satisfies PageServerLoad;
 
@@ -85,6 +95,7 @@ function createBetTable(users: App.User[], bets: App.Bet[]): App.BetTable {
     betTable.push({
       username: user.username,
       user_id: user.user_id,
+      avatar: user.avatar,
       bets: {
         first: "",
         second: "",
@@ -102,6 +113,5 @@ function createBetTable(users: App.User[], bets: App.Bet[]): App.BetTable {
         third: bet.third,
       };
   });
-
   return betTable;
 }
