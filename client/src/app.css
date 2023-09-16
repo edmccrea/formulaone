@@ -13,3 +13,17 @@ body {
 input:focus {
   outline: none;
 }
+
+.animate-on-visible {
+  opacity: 0;
+  transform: translateY(20vh);
+  visibility: hidden;
+  transition: opacity 0.5s ease-in, transform 0.6s ease-out;
+  will-change: opacity, visibility;
+}
+
+.animate-on-visible.animate {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+}

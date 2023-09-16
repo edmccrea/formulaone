@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 
   import RaceCard from "$lib/components/race/RaceCard.svelte";
   import Leaderboard from "$lib/components/Leaderboard.svelte";
+  import { handleIntersection } from "$lib/utils/handle-intersection";
 
   export let data;
   const user: App.User = data.user;
@@ -20,6 +22,21 @@
       : "th";
 
   const date = Date.now();
+
+  let animationElements: HTMLElement[] = [];
+
+  function elRef(node: HTMLElement) {
+    if (node) {
+      animationElements = [...animationElements, node];
+    }
+  }
+
+  onMount(() => {
+    animationElements.forEach((element) => {
+      const observer = new IntersectionObserver(handleIntersection);
+      observer.observe(element);
+    });
+  });
 </script>
 
 <div
@@ -52,7 +69,7 @@
     </div>
   </div>
 
-  <div class="mt-8">
+  <div class="mt-8 animate-on-visible" use:elRef>
     <h2 class="font-bold text-2xl mb-4">Future Races</h2>
     <div class="flex gap-4 w-full relative overflow-auto snap-x lg:snap-none">
       {#if upcomingRaces.length > 0}
@@ -67,7 +84,7 @@
     </div>
   </div>
 
-  <div class="mt-8">
+  <div class="mt-8 animate-on-visible" use:elRef>
     <h2 class="font-bold text-2xl mb-4">Previous Races</h2>
     <div class="flex gap-4 w-full relative overflow-auto snap-x lg:snap-none">
       {#if previousRaces.length > 0}
@@ -90,6 +107,7 @@
       rgba(242, 167, 167, 1) 34%,
       rgba(250, 250, 250, 1) 89%
     );
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
