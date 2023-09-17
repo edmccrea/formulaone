@@ -58,6 +58,7 @@
       dispatch("betSubmitted", {
         username: user.username,
         user_id: user.user_id,
+        avatar: user.avatar,
         bets: {
           first: selection.first,
           second: selection.second,
