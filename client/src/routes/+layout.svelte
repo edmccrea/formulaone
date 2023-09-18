@@ -16,7 +16,7 @@
   <meta property="og:type" content="website" />
 </svelte:head>
 
-{#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register"}
+{#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register" && $page.url.pathname !== "/admin"}
   <Navbar />
 {/if}
 
@@ -24,6 +24,6 @@
   <slot />
 </main>
 
-{#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register"}
+{#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register" && $page.url.pathname !== "/admin"}
   <Footer />
 {/if}

@@ -21,13 +21,13 @@ export const GET: RequestHandler = async () => {
   if (sprint) {
     const sprintResults =
       sprintJSON.MRData.RaceTable.Race.SprintList.SprintResult;
-    saveTopThreeToDatabase(sprintResults, sprint);
+    await saveTopThreeToDatabase(sprintResults, sprint);
   }
 
   const race = raceJSON.MRData.RaceTable.Race;
   if (race) {
     const results = raceJSON.MRData.RaceTable.Race.ResultsList.Result;
-    saveTopThreeToDatabase(results, race);
+    await saveTopThreeToDatabase(results, race);
   }
 
   updateLeaderboard();

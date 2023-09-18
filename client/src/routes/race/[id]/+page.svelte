@@ -117,7 +117,7 @@
       <div class="bg-neutral-900 p-8 rounded-md h-fit">
         <div class="overflow-auto">
           {#key betTable}
-            <table in:fade>
+            <table>
               <thead class="border-b border-b-gray-400 bg-zinc-900/50">
                 <tr class="hover:cursor-default">
                   <th class="py-3 px-2"><div class="w-8" /></th>
