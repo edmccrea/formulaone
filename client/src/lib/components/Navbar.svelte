@@ -17,7 +17,9 @@
   class="w-full py-6 border-b border-b-gray-400 fixed backdrop-blur-md bg-[#121212]/60 z-50"
 >
   <ul class="flex justify-between px-8">
-    <li class="flex justify-start items-center"><a href="/">Home</a></li>
+    <a href="/" class="flex items-center">
+      <img src="/f1.png" alt="" class="h-6" /></a
+    >
     <li><Button on:click={handleLogout}>Logout</Button></li>
   </ul>
 </nav>
