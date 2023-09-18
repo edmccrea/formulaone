@@ -1,7 +1,7 @@
 <script>
   import { page } from "$app/stores";
 
-  import "../app.css";
+  import "../../app.css";
   import Navbar from "$lib/components/Navbar.svelte";
   import Footer from "$lib/components/Footer.svelte";
 </script>
@@ -16,7 +16,7 @@
   <meta property="og:type" content="website" />
 </svelte:head>
 
-{#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register" && $page.url.pathname !== "/admin"}
+{#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register"}
   <Navbar />
 {/if}
 
@@ -24,6 +24,6 @@
   <slot />
 </main>
 
-{#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register" && $page.url.pathname !== "/admin"}
+{#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register"}
   <Footer />
 {/if}

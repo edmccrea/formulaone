@@ -1,4 +1,5 @@
 <script lang="ts">
+  import "../../app.css";
   import SideNavigation from "$lib/components/admin/SideNavigation.svelte";
 </script>
 
