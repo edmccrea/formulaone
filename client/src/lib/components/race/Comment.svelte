@@ -13,7 +13,6 @@
   }
 
   const formattedDate = formatDate(comment.created_at);
-  console.log(formattedDate);
 </script>
 
 <div class="flex gap-4 mt-4" in:fade>

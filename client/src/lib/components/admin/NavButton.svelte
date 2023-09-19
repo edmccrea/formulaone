@@ -1,6 +1,5 @@
 <script lang="ts">
   export let active = false;
-  console.log(active);
 </script>
 
 <button

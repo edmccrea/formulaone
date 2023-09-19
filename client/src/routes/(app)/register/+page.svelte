@@ -115,7 +115,7 @@
           {/if}
           {#if signUpSuccess}
             <div
-              class="bg-green-200 rounded-t-sm mb-2 flex items-center p-2 border-b-4 border-l-green-700"
+              class="bg-green-200 rounded-t-sm mb-2 flex items-center p-2 border-l-4 border-l-green-700"
               transition:fade
             >
               <svg
