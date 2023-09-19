@@ -102,7 +102,7 @@
   <div class="w-full hidden lg:w-2/4 lg:block relative">
     <div class="w-full h-full absolute bg-black/25" />
     <img
-      src="https://media.formula1.com/image/upload/content/dam/fom-website/manual/Misc/2022manual/GettyImages-1437759309.jpg"
+      src="https://images.pexels.com/photos/12359137/pexels-photo-12359137.jpeg"
       alt=""
       class="h-full w-full object-cover"
       in:fade
