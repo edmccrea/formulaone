@@ -160,7 +160,7 @@
   <div class="w-full hidden lg:w-2/4 lg:block relative">
     <div class="w-full h-full absolute bg-black/10" />
     <img
-      src="https://www.f1-fansite.com/wp-content/uploads/2022/08/SI202208270556_hires_jpeg_24bit_rgb.jpg"
+      src="https://images.pexels.com/photos/18373116/pexels-photo-18373116/free-photo-of-mclaren-special-livery.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
       alt=""
       class="h-full w-full object-cover"
       in:fade
