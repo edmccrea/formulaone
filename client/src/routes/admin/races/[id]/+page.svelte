@@ -13,6 +13,7 @@
   $: raceName = race.race_name;
   $: raceType = race.race_type;
   $: trackName = race.track_name;
+  $: trackLayout = race.track_layout;
   $: imageUrl = race.race_image;
   $: qualifyingDate = race.qualifying_date;
   $: qualifyingTime = race.qualifying_time;
@@ -34,6 +35,7 @@
         race_type: raceType,
         track_name: trackName,
         race_image: imageUrl,
+        track_layout: trackLayout,
         qualifying_date: qualifyingDate,
         qualifying_time: qualifyingTime,
         race_date: raceDate,
@@ -60,22 +62,42 @@
     <TextInput label="Circuit name" bind:value={trackName} />
   </div>
 
-  <div class="flex flex-col gap-4">
-    {#key imageUrl}
-      <img src={imageUrl} alt="" class="w-96 rounded-md" />
-    {/key}
-    <div class="flex flex-col w-96 relative">
-      <label
-        for="race-image"
-        class="text-sm text-neutral-400 absolute bg-[#121212] -top-2.5 left-2 px-2"
-        >Race image</label
-      >
-      <input
-        id="race-image"
-        type="text"
-        bind:value={imageUrl}
-        class="bg-transparent border border-neutral-500 rounded-md py-2 px-4 w-full focus:border-neutral-300 transition-all duration-300 ease"
-      />
+  <div class="flex gap-4 items-end">
+    <div class="flex flex-col gap-4">
+      {#key imageUrl}
+        <img src={imageUrl} alt="" class="w-96 h-56 object-cover rounded-md" />
+      {/key}
+      <div class="flex flex-col w-96 relative">
+        <label
+          for="race-image"
+          class="text-sm text-neutral-400 absolute bg-[#121212] -top-2.5 left-2 px-2"
+          >Race image</label
+        >
+        <input
+          id="race-image"
+          type="text"
+          bind:value={imageUrl}
+          class="bg-transparent border border-neutral-500 rounded-md py-2 px-4 w-full focus:border-neutral-300 transition-all duration-300 ease"
+        />
+      </div>
+    </div>
+    <div class="flex flex-col gap-4">
+      {#key trackLayout}
+        <img src={trackLayout} alt="" class="w-52 h-40 object-fit rounded-md" />
+      {/key}
+      <div class="flex flex-col w-52 relative">
+        <label
+          for="track-layout"
+          class="text-sm text-neutral-400 absolute bg-[#121212] -top-2.5 left-2 px-2"
+          >Track layout</label
+        >
+        <input
+          id="track-layoutk"
+          type="text"
+          bind:value={trackLayout}
+          class="bg-transparent border border-neutral-500 rounded-md py-2 px-4 w-full focus:border-neutral-300 transition-all duration-300 ease"
+        />
+      </div>
     </div>
   </div>
 
@@ -110,6 +132,31 @@
       </svg>
 
       <p class="text-green-700">Successful update</p>
+    </div>
+  {/if}
+  {#if errorMessage}
+    <div
+      class="bg-red-200 rounded-t-sm mb-2 flex items-center pl-2 pr-4 py-2 border-l-4 border-l-red-700 w-fit"
+      in:fade
+    >
+      <svg
+        class="mr-2"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+          stroke="#b91c1c"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+
+      <p class="text-red-700">{errorMessage}</p>
     </div>
   {/if}
   <Button type="submit">Update</Button>
