@@ -2,46 +2,31 @@
   import { fade } from "svelte/transition";
 
   import Button from "$lib/components/Button.svelte";
-  import DateInput from "$lib/components/admin/DateInput.svelte";
   import TextInput from "$lib/components/admin/TextInput.svelte";
 
   export let data;
-  const race = data.race!;
+  const user = data.user!;
   let successfulUpdate = false;
   let errorMessage = "";
 
-  let raceName = race.race_name;
-  let raceType = race.race_type;
-  let trackName = race.track_name;
-  let trackLayout = race.track_layout;
-  let imageUrl = race.race_image;
-  let qualifyingDate = race.qualifying_date;
-  let qualifyingTime = race.qualifying_time;
-  let raceDate = race.race_date;
-  let raceTime = race.race_time;
+  let username = user.username;
+  let avatar = user.avatar;
 
   async function handleSubmit(e: Event) {
     e.preventDefault();
     errorMessage = "";
     successfulUpdate = false;
 
-    const res = await fetch("/api/race/update", {
+    const res = await fetch("/api/user/update", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        ...race,
-        race_id: Number(race.race_id),
-        race_name: raceName,
-        race_type: raceType,
-        track_name: trackName,
-        race_image: imageUrl,
-        track_layout: trackLayout,
-        qualifying_date: qualifyingDate,
-        qualifying_time: qualifyingTime,
-        race_date: raceDate,
-        race_time: raceTime,
+        ...user,
+        user_id: Number(user.user_id),
+        username,
+        avatar,
       }),
     });
     const data = await res.json();
@@ -54,63 +39,39 @@
   }
 </script>
 
-<h2 class="text-2xl">{race.race_name}</h2>
-<a href="/admin/races" class="underline">Go back</a>
-<h3 class="mt-8 mb-4 text-xl">Update race details</h3>
+<h2 class="text-2xl">{user.username}</h2>
+<a href="/admin/users" class="underline">Go back</a>
+<h3 class="mt-8 mb-4 text-xl">Update user details</h3>
 <form action="" class="flex flex-col gap-4 mr-16" on:submit={handleSubmit}>
   <div class="flex gap-4">
-    <TextInput label="Race name" bind:value={raceName} />
-    <TextInput label="Race type" bind:value={raceType} />
-    <TextInput label="Circuit name" bind:value={trackName} />
+    <TextInput label="Username" bind:value={username} />
   </div>
 
   <div class="flex gap-4 items-end">
     <div class="flex flex-col gap-4">
-      {#key imageUrl}
-        <img src={imageUrl} alt="" class="w-96 h-56 object-cover rounded-md" />
+      {#key avatar}
+        <img
+          src={avatar}
+          alt=""
+          class="object-cover rounded-full w-52 h-52 border border-neutral-600"
+        />
       {/key}
       <div class="flex flex-col w-96 relative">
         <label
-          for="race-image"
+          for="avatar"
           class="text-sm text-neutral-400 absolute bg-[#121212] -top-2.5 left-2 px-2"
-          >Race image</label
+          >Avatar</label
         >
         <input
-          id="race-image"
+          id="avatar"
           type="text"
-          bind:value={imageUrl}
-          class="bg-transparent border border-neutral-500 rounded-md py-2 px-4 w-full focus:border-neutral-300 transition-all duration-300 ease"
-        />
-      </div>
-    </div>
-    <div class="flex flex-col gap-4">
-      {#key trackLayout}
-        <img src={trackLayout} alt="" class="w-52 h-40 object-fit rounded-md" />
-      {/key}
-      <div class="flex flex-col w-52 relative">
-        <label
-          for="track-layout"
-          class="text-sm text-neutral-400 absolute bg-[#121212] -top-2.5 left-2 px-2"
-          >Track layout</label
-        >
-        <input
-          id="track-layoutk"
-          type="text"
-          bind:value={trackLayout}
+          bind:value={avatar}
           class="bg-transparent border border-neutral-500 rounded-md py-2 px-4 w-full focus:border-neutral-300 transition-all duration-300 ease"
         />
       </div>
     </div>
   </div>
 
-  <div class="flex gap-4 flex-wrap">
-    <DateInput label="Qualifying date" bind:value={qualifyingDate} />
-    <TextInput label="Qualifying Time" bind:value={qualifyingTime} />
-  </div>
-  <div class="flex gap-4 flex-wrap">
-    <DateInput label="Race date" bind:value={raceDate} />
-    <TextInput label="Race Time" bind:value={raceTime} />
-  </div>
   {#if successfulUpdate}
     <div
       class="bg-green-200 rounded-t-sm mb-2 flex items-center pl-2 pr-4 py-2 border-l-4 border-l-green-700 w-fit"
