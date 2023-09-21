@@ -17,7 +17,7 @@
   <input
     id={slugifiedLabel}
     type="text"
-    {value}
+    bind:value
     class="bg-transparent border border-neutral-500 rounded-md py-3 px-4 w-fit focus:border-neutral-300 transition-all duration-300 ease"
   />
 </div>
