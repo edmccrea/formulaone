@@ -38,11 +38,19 @@
   }
 </script>
 
-<div class="flex w-full main">
+<div class="flex w-full main relative">
+  <div class="md:hidden absolute top-0 left-0 w-screen h-screen -z-10">
+    <div class="w-full h-full absolute bg-black/80" />
+    <img
+      src="https://images.pexels.com/photos/12359137/pexels-photo-12359137.jpeg"
+      alt=""
+      class="w-full h-full object-cover"
+    />
+  </div>
   <div class="w-full h-full flex-1 lg:w-2/4">
     <div class="w-full h-full flex justify-center items-center">
       <div class="flex flex-col w-3/5 lg:w-2/5">
-        <h2 class="text-4xl">Welcome Back</h2>
+        <h2 class="text-3xl md:text-4xl">Welcome Back</h2>
         <p class="mb-8">Please sign in to continue</p>
         <form action="" class="flex flex-col" on:submit={handleLogin}>
           <input
