@@ -5,9 +5,12 @@ import type { RequestHandler } from "./$types";
 
 export const POST: RequestHandler = async ({ request }) => {
   const loginReq = await request.json();
+  const username = loginReq.username.trim();
+  const formattedUsername =
+    username.charAt(0).toUpperCase() + username.slice(1);
   const user = await prisma.users.findFirst({
     where: {
-      username: loginReq.username.trim(),
+      username: formattedUsername,
     },
   });
 
