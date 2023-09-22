@@ -47,9 +47,9 @@
   <h1 class="text-5xl lg:text-7xl font-bold mb-4 font-gradient">
     Formula One Bets
   </h1>
-  <p>
-    Hello {user.username}, you're currently in {user.position}{positionSuffix} place
-    with {user.points}
+  <p class="text-xl">
+    Hello {user.username} 👋, you're currently in {user.position}{positionSuffix}
+    place with <span class="font-bold">{user.points}</span>
     points.
   </p>
 

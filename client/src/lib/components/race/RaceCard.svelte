@@ -29,7 +29,7 @@
 <div
   on:click={goToRace}
   on:keyup={goToRace}
-  class="bg-zinc-900 border border-slate-700 rounded-md w-72 h-80 hover:cursor-pointer hover:bg-zinc-800 transition-all ease-in-out duration-300 shrink-0 snap-start"
+  class="bg-zinc-900 border border-neutral-700 rounded-md w-72 h-80 hover:cursor-pointer hover:bg-zinc-800 transition-all ease-in-out duration-300 shrink-0 snap-start"
 >
   <div class="h-3/5">
     <img
