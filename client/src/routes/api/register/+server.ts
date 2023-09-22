@@ -25,6 +25,7 @@ export const POST: RequestHandler = async ({ request }) => {
       points: 0,
       position: 0,
       session: null,
+      admin: false,
     },
   });
 

@@ -3,6 +3,7 @@ declare global {
     interface Locals {
       user: {
         name: string;
+        admin: boolean;
       };
     }
     interface DatabaseRace {
@@ -51,6 +52,7 @@ declare global {
       points: number;
       position: number;
       constructor_bet: string;
+      admin: boolean;
     }
 
     interface Grid {

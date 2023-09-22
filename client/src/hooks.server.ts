@@ -23,10 +23,12 @@ export const handle = async ({ event, resolve }) => {
   if (session !== undefined && user) {
     event.locals.user = {
       name: user.username,
+      admin: user.admin,
     };
   } else {
     event.locals.user = {
       name: "",
+      admin: false,
     };
   }
 

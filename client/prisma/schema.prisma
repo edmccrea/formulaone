@@ -54,6 +54,7 @@ model users {
   position        Int
   session         String?
   constructor_bet String     @default("Red Bull")
+  admin           Boolean    @default(false)
   comments        comments[]
 }
 

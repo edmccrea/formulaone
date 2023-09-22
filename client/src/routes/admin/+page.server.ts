@@ -4,7 +4,7 @@ import type { PageServerLoad } from "./$types";
 export const load = (async (event) => {
   console.log(event.locals.user);
 
-  if (event.locals.user.name !== "Ed") {
+  if (!event.locals.user.admin) {
     throw redirect(303, "/");
   }
 
