@@ -35,7 +35,7 @@
           <span class="text-lg">
             {raceStartDateObject.toString().substring(0, 10) +
               ", " +
-              race.qualyTime.substring(0, 5)}</span
+              race.raceTime.substring(0, 5)}</span
           >
         </li>
 
