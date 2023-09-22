@@ -76,14 +76,14 @@
 <h3 class="mb-4">{betSubmitted ? "Your bet" : "Place your bet"}</h3>
 
 {#if betSubmitted}
-  <div class="flex flex-col gap-2">
-    <p class="text-xl">1. {selection.first}</p>
-    <p class="text-xl">2. {selection.second}</p>
-    <p class="text-xl">3. {selection.third}</p>
-    {#if raceStart > date}
-      <Button type="button" on:click={handleEditBet}>Change bet</Button>
-    {/if}
-  </div>
+  <ol class="flex flex-col gap-2 mb-6">
+    <li class="text-xl">1. {selection.first}</li>
+    <li class="text-xl">2. {selection.second}</li>
+    <li class="text-xl">3. {selection.third}</li>
+  </ol>
+  {#if raceStart > date}
+    <Button type="button" on:click={handleEditBet}>Change bet</Button>
+  {/if}
 {:else}
   <form action="" on:submit={handleSubmit} class="flex flex-col gap-3">
     <select

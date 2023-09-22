@@ -5,6 +5,7 @@
   import RaceCard from "$lib/components/race/RaceCard.svelte";
   import Leaderboard from "$lib/components/Leaderboard.svelte";
   import { handleIntersection } from "$lib/utils/handle-intersection";
+  import Button from "$lib/components/Button.svelte";
 
   export let data;
   const user: App.User = data.user;
@@ -51,6 +52,12 @@
     with {user.points}
     points.
   </p>
+
+  {#if user.admin}
+    <a href="/admin" class="mt-4">
+      <Button>Admin Panel</Button>
+    </a>
+  {/if}
 
   <div class="flex flex-col lg:flex-row lg:gap-16">
     <div class="mt-8 lg:order-2">

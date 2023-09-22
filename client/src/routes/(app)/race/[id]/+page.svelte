@@ -95,7 +95,7 @@
 
 <div
   in:fade
-  class="w-full h-full px-4 md:mx-auto max-w-sm md:max-w-2xl lg:max-w-6xl lg:px-8 mt-32 md:mt-28 mb-16 flex flex-col flex-1"
+  class="w-full h-full mx-auto max-w-sm md:max-w-2xl lg:max-w-7xl lg:px-8 mt-32 md:mt-28 mb-16 flex flex-col flex-1"
 >
   <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-8">
     <div class="bg-neutral-900 p-8 rounded-md">
@@ -180,7 +180,7 @@
       <CommentSection {user} raceId={race.id} {comments} />
     </div>
 
-    <div class="bg-neutral-900 p-8 rounded-md w-full col-span-1">
+    <div class="bg-neutral-900 p-8 rounded-md w-full col-span-2 md:col-span-1">
       <h3 class="font-bold mb-4">Grid</h3>
       {#if grid}
         <ol>
