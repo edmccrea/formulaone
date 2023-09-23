@@ -5,7 +5,7 @@
 </script>
 
 <div class="flex flex-col justify-center">
-  <div class="flex">
+  <div class="flex items-center">
     <img src={race.flag} alt="" class="h-14 mr-4 rounded-sm" />
     <div>
       <h1 class="font-bold text-3xl">{race.name}</h1>

@@ -95,7 +95,7 @@
 
 <div
   in:fade
-  class="w-full h-full mx-auto max-w-xs md:max-w-2xl lg:max-w-7xl lg:px-8 mt-32 md:mt-28 mb-16 flex flex-col flex-1"
+  class="w-full h-full mx-auto max-w-[22rem] md:max-w-2xl lg:max-w-7xl lg:px-8 mt-32 md:mt-28 mb-16 flex flex-col flex-1"
 >
   <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-8">
     <div class="bg-neutral-900 p-8 rounded-md">
@@ -114,7 +114,7 @@
 
   <div class="grid grid-cols-1 md:grid-cols-3 md:cols w-full gap-8 mt-8">
     <div class="col-span-2 h-fit">
-      <div class="bg-neutral-900 p-8 rounded-md h-fit">
+      <div class="bg-neutral-900 px-4 py-8 md:p-8 rounded-md h-fit">
         <div class="overflow-auto">
           {#key betTable}
             <table>
