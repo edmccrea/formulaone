@@ -25,6 +25,7 @@ export const GET: RequestHandler = async () => {
         where: {
           race_name: race.sprintObj.race_name,
           race_type: "Sprint",
+          race_date: race.sprintObj.race_date,
         },
       });
       if (alreadyExistingRace) {
@@ -94,6 +95,7 @@ export const GET: RequestHandler = async () => {
       where: {
         race_name: race.raceObj.race_name,
         race_type: "Grand Prix",
+        race_date: race.raceObj.race_date,
       },
     });
     if (alreadyExistingRace) {

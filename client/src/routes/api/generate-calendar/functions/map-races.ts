@@ -30,7 +30,7 @@ function mapSprintRace(race: Race) {
   return {
     race_name: race.RaceName,
     race_type: "Sprint",
-    country_flag: getCountryFlag(race.Circuit.Location.Country),
+    country_flag: "WAITING FOR CLOUDINARY CONNECTION",
     qualifying_date: "UPDATE MANUALLY",
     qualifying_time: "UPDATE MANUALLY",
     race_date: race.Sprint!.Date,
@@ -41,8 +41,8 @@ function mapSprintRace(race: Race) {
     location: race.Circuit.Location.Locality,
     track_name: race.Circuit.CircuitName,
     race_image:
-      "https://images.unsplash.com/photo-1554579306-94e345617dbc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2231&q=80",
-    track_layout: getTrackLayout(race.Circuit.CircuitName),
+      "https://images.pexels.com/photos/12359137/pexels-photo-12359137.jpeg",
+    track_layout: "WAITING FOR CLOUDINARY CONNECTION",
     calendar_id: Number(race["@_round"]),
   };
 }
@@ -52,7 +52,7 @@ function mapGrandPrix(race: Race) {
   return {
     race_name: race.RaceName,
     race_type: "Grand Prix",
-    country_flag: getCountryFlag(race.Circuit.Location.Country),
+    country_flag: "WAITING FOR CLOUDINARY CONNECTION",
     qualifying_date: race.Qualifying.Date,
     qualifying_time: convertTimeWithDate(
       race.Qualifying.Time,
@@ -63,8 +63,8 @@ function mapGrandPrix(race: Race) {
     location: race.Circuit.Location.Locality,
     track_name: race.Circuit.CircuitName,
     race_image:
-      "https://images.unsplash.com/photo-1554579306-94e345617dbc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2231&q=80",
-    track_layout: getTrackLayout(race.Circuit.CircuitName),
+      "https://images.pexels.com/photos/12359137/pexels-photo-12359137.jpeg",
+    track_layout: "WAITING FOR CLOUDINARY CONNECTION",
     calendar_id: Number(race["@_round"]),
   };
 }
