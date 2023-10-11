@@ -85,17 +85,17 @@ async function updateLeaderboard() {
   const results = await prisma.results.findMany();
   const users = await prisma.users.findMany();
   const races = await prisma.races.findMany();
-  users.sort((a, b) => b.points - a.points);
-  users.forEach(async (user, index) => {
-    await prisma.users.update({
-      where: {
-        user_id: user.user_id,
-      },
-      data: {
-        position: index + 1,
-      },
-    });
-  });
+  // users.sort((a, b) => b.points - a.points);
+  // users.forEach(async (user, index) => {
+  //   await prisma.users.update({
+  //     where: {
+  //       user_id: user.user_id,
+  //     },
+  //     data: {
+  //       position: index + 1,
+  //     },
+  //   });
+  // });
 
   users.forEach(async (user) => {
     const bets = await prisma.bets.findMany({
@@ -166,6 +166,31 @@ async function updateLeaderboard() {
       },
       data: {
         points: points,
+      },
+    });
+    rankUsers();
+  });
+}
+
+async function rankUsers() {
+  const users = await prisma.users.findMany();
+  users.sort((a, b) => b.points - a.points);
+
+  let currentPosition = 1;
+  for (let i = 0; i < users.length; i++) {
+    if (i > 0 && users[i].points < users[i - 1].points) {
+      currentPosition = i + 1;
+    }
+    users[i].position = currentPosition;
+  }
+
+  users.forEach(async (user) => {
+    await prisma.users.update({
+      where: {
+        user_id: user.user_id,
+      },
+      data: {
+        position: user.position,
       },
     });
   });
