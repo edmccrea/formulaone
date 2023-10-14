@@ -5,7 +5,8 @@ import type { RequestHandler } from "./$types";
 import { deepEqual } from "$lib/utils/deep-equal";
 import { mapRaces } from "./functions/map-races";
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ locals }) => {
+  if (!locals.user.admin) return new Response("Unauthorized", { status: 401 });
   const options = {
     ignoreAttributes: false,
     attributeNamePrefix: "@_",
