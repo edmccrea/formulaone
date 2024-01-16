@@ -1,3 +1,4 @@
+import { ENV } from "$env/static/private";
 import prisma from "$lib/prisma";
 import { redirect } from "@sveltejs/kit";
 const unProtectedRoutes = [
@@ -7,6 +8,10 @@ const unProtectedRoutes = [
   "/api/result",
 ];
 export const handle = async ({ event, resolve }) => {
+  if (ENV !== "dev" && event.url.pathname !== "/under-construction") {
+    throw redirect(303, "/under-construction");
+  }
+
   if (event.route.id === "/api/login") {
     return resolve(event);
   }
