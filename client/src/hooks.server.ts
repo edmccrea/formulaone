@@ -12,6 +12,10 @@ export const handle = async ({ event, resolve }) => {
     throw redirect(303, "/under-construction");
   }
 
+  if (event.url.pathname === "/under-construction") {
+    return resolve(event);
+  }
+
   if (event.route.id === "/api/login") {
     return resolve(event);
   }
