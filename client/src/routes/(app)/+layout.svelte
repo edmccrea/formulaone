@@ -4,6 +4,8 @@
   import "../../app.css";
   import Navbar from "$lib/components/Navbar.svelte";
   import Footer from "$lib/components/Footer.svelte";
+
+  const hiddenNavRoutes = ["/login", "/register", "/under-construction"];
 </script>
 
 <svelte:head>
@@ -16,7 +18,7 @@
   <meta property="og:type" content="website" />
 </svelte:head>
 
-{#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register"}
+{#if !hiddenNavRoutes.includes($page.url.pathname)}
   <Navbar />
 {/if}
 

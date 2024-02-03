@@ -1,10 +1,18 @@
+import { SupabaseClient, Session } from "@supabase/supabase-js";
+
 declare global {
   namespace App {
+    interface PageData {
+      session: Session | null;
+    }
+
     interface Locals {
       user: {
         name: string;
         admin: boolean;
       };
+      supabase: SupabaseClient;
+      getSession(): Promise<Session | null>;
     }
     interface DatabaseRace {
       race_id: BigInt;
