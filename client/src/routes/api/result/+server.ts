@@ -3,7 +3,8 @@ import { XMLParser } from "fast-xml-parser";
 import prisma from "$lib/prisma";
 import type { RequestHandler } from "./$types";
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ locals }) => {
+  if (!locals.user.admin) return new Response("Unauthorized", { status: 401 });
   const parser = new XMLParser();
 
   const url = `http://ergast.com/api/f1/current/last/results`;

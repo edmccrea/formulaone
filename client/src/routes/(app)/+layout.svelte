@@ -1,9 +1,25 @@
 <script>
   import { page } from "$app/stores";
-
   import "../../app.css";
   import Navbar from "$lib/components/Navbar.svelte";
   import Footer from "$lib/components/Footer.svelte";
+  import { onMount } from "svelte";
+  import { invalidate } from "$app/navigation";
+
+  export let data;
+
+  let { supabase, session } = data;
+  $: ({ supabase, session } = data);
+
+  onMount(() => {
+    const { data } = supabase.auth.onAuthStateChange((event, _session) => {
+      if (_session?.expires_at !== session?.expires_at) {
+        invalidate("supabase:auth");
+      }
+    });
+
+    return () => data.subscription.unsubscribe();
+  });
 
   const hiddenNavRoutes = ["/login", "/register", "/under-construction"];
 </script>
@@ -19,7 +35,7 @@
 </svelte:head>
 
 {#if !hiddenNavRoutes.includes($page.url.pathname)}
-  <Navbar />
+  <Navbar supabaseClient={data.supabase} />
 {/if}
 
 <main class="flex min-h-screen">

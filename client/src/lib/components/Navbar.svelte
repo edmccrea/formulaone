@@ -1,16 +1,20 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import type { SubmitFunction } from "@sveltejs/kit";
   import Button from "./Button.svelte";
+  import { enhance } from "$app/forms";
+  import type { SupabaseClient } from "@supabase/supabase-js";
 
-  async function handleLogout() {
-    const res = await fetch("/api/logout", {
-      method: "POST",
-    });
+  export let supabaseClient: SupabaseClient;
 
-    if (res.ok) {
-      goto("/login");
+  const submitLogout: SubmitFunction = async () => {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) {
+      console.error(error);
     }
-  }
+    console.log("logged out");
+    goto("/login");
+  };
 </script>
 
 <nav
@@ -19,7 +23,12 @@
   <a href="/" class="flex items-center">
     <img src="/f1.png" alt="" class="h-6" /></a
   >
-  <ul class="flex gap-4 items-center">
-    <li><Button on:click={handleLogout}>Logout</Button></li>
-  </ul>
+  <form
+    action="/logout"
+    method="POST"
+    class="flex gap-4 items-center"
+    use:enhance={submitLogout}
+  >
+    <Button type="submit">Logout</Button>
+  </form>
 </nav>

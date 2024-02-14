@@ -2,13 +2,13 @@ import type { LayoutServerLoad } from "./$types";
 import prisma from "$lib/prisma";
 
 export const load = (async ({ locals: { getSession } }) => {
-  const races = await prisma.races.findMany();
-  const mappedRaces = mapRaces(races);
-  const { previousRaces, upcomingRaces } = sortRaces(mappedRaces);
+  // const races = await prisma.races.findMany();
+  // const mappedRaces = mapRaces(races);
+  // const { previousRaces, upcomingRaces } = sortRaces(mappedRaces);
 
   return {
-    previousRaces,
-    upcomingRaces,
+    // previousRaces,
+    // upcomingRaces,
     session: await getSession(),
   };
 }) satisfies LayoutServerLoad;

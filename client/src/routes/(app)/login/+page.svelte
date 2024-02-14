@@ -4,38 +4,30 @@
   import { Circle } from "svelte-loading-spinners";
 
   import Button from "$lib/components/Button.svelte";
-  import { tick } from "svelte";
+  import type { PageData } from "./$types";
+  import type { SubmitFunction } from "@sveltejs/kit";
+  import { enhance } from "$app/forms";
 
-  let username = "";
-  let password = "";
+  export let data: PageData;
+
   let loading = false;
   let loginFailed = false;
   let failedLoginMessage = "";
 
-  async function handleLogin() {
+  const submitLogin: SubmitFunction = async ({ formData }) => {
     loading = true;
-    loginFailed = false;
-    failedLoginMessage = "";
-
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
+    const { error } = await data.supabase.auth.signInWithPassword({
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
     });
-
-    if (res.ok) {
-      await tick();
-      goto("/");
-    } else {
+    if (error) {
+      console.error(error);
+      loading = false;
       loginFailed = true;
-      const data = await res.json();
-      failedLoginMessage = data.message;
+      failedLoginMessage = "Something went wrong";
     }
-
-    loading = false;
-  }
+    goto("/");
+  };
 </script>
 
 <div class="flex w-full main relative">
@@ -52,20 +44,20 @@
       <div class="flex flex-col w-3/5 lg:w-2/5">
         <h2 class="text-3xl md:text-4xl">Welcome Back</h2>
         <p class="mb-8">Please sign in to continue</p>
-        <form action="" class="flex flex-col" on:submit={handleLogin}>
+        <form method="POST" class="flex flex-col" use:enhance={submitLogin}>
           <input
             type="text"
             class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
-            placeholder="Name"
-            bind:value={username}
+            placeholder="Email"
             autocomplete="off"
+            name="email"
           />
           <input
             type="password"
             class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
             placeholder="Password"
-            bind:value={password}
             autocomplete="off"
+            name="password"
           />
           {#if loginFailed}
             <div
