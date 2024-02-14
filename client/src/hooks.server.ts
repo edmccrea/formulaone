@@ -16,7 +16,7 @@ const unProtectedRoutes = [
 
 export const handle: Handle = async ({ event, resolve }) => {
   if (ENV !== "dev" && event.url.pathname !== "/under-construction") {
-    throw redirect(303, "/under-construction");
+    redirect(303, "/under-construction");
   }
   event.locals.supabase = createSupabaseServerClient({
     supabaseUrl: PUBLIC_SUPABASE_URL,
@@ -33,7 +33,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   const isLoggedIn = await checkIfUserIsLoggedIn();
   if (!isLoggedIn && !unProtectedRoutes.includes(event.url.pathname)) {
-    throw redirect(303, "/login");
+    redirect(303, "/login");
   }
 
   /**

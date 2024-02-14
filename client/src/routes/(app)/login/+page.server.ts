@@ -6,7 +6,7 @@ import type { Actions } from "./$types";
 export const load: PageServerLoad = (async ({ url, locals }) => {
   const session = await locals.getSession();
   if (session) {
-    throw redirect(303, "/");
+    redirect(303, "/");
   }
 
   return { url: url.origin };
@@ -27,6 +27,6 @@ export const actions: Actions = {
       return fail(500, { error: "An unexpected error occurred" });
     }
 
-    throw redirect(303, "/");
+    redirect(303, "/");
   },
 };
