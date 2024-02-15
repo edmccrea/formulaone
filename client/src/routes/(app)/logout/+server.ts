@@ -6,5 +6,5 @@ export const POST: RequestHandler = async ({ locals }) => {
     error(500, "An unexpected error occurred");
   }
 
-  redirect(303, "/login");
+  redirect(303, "/register");
 };

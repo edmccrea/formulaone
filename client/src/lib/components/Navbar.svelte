@@ -13,7 +13,8 @@
       console.error(error);
     }
     console.log("logged out");
-    goto("/login");
+    // goto("/login");
+    goto("/regsiter");
   };
 </script>
 

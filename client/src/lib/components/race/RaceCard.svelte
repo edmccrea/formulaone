@@ -3,7 +3,7 @@
   import { combineDateTime } from "$lib/utils/combine-date-time";
 
   export let race: App.Race;
-  export let bets: App.Bet[];
+  // export let bets: App.Bet[];
 
   const raceStart = combineDateTime(race.raceDate, race.raceTime);
   const dateToDisplay = raceStart.toDateString();
@@ -15,11 +15,11 @@
   }
 
   let isUpcoming = isRaceUpcoming();
-  let betPlaced = checkUserBet();
+  // let betPlaced = checkUserBet();
 
-  function checkUserBet() {
-    return bets.find((bet) => bet.race_id === race.id);
-  }
+  // function checkUserBet() {
+  //   return bets.find((bet) => bet.race_id === race.id);
+  // }
 
   function goToRace() {
     goto(`/race/${race.id}`);
@@ -46,7 +46,7 @@
     <p>{race.type}</p>
     <div class="flex justify-between items-center">
       <p class="text-sm mt-4">{dateToDisplay}</p>
-      {#if isUpcoming && !betPlaced}
+      <!-- {#if isUpcoming && !betPlaced}
         <p
           class="w-fit mt-2 py-1 px-2 bg-yellow-200 text-yellow-900 rounded-md text-sm"
         >
@@ -58,13 +58,13 @@
         >
           Bet placed
         </p>
-      {:else}
-        <p
-          class="w-fit mt-2 py-1 px-2 bg-green-200 text-green-900 rounded-md text-sm"
-        >
-          Race finished
-        </p>
-      {/if}
+      {:else} -->
+      <p
+        class="w-fit mt-2 py-1 px-2 bg-green-200 text-green-900 rounded-md text-sm"
+      >
+        Race finished
+      </p>
+      <!-- {/if} -->
     </div>
   </div>
 </div>

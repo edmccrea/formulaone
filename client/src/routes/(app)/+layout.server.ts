@@ -1,14 +1,25 @@
 import type { LayoutServerLoad } from "./$types";
-import prisma from "$lib/prisma";
+import { db } from "$lib/drizzle/db";
+import { races, seasons } from "$lib/drizzle/schema";
+import { eq } from "drizzle-orm";
 
 export const load = (async ({ locals: { getSession } }) => {
-  // const races = await prisma.races.findMany();
-  // const mappedRaces = mapRaces(races);
-  // const { previousRaces, upcomingRaces } = sortRaces(mappedRaces);
+  const currentSeason = await db
+    .select()
+    .from(seasons)
+    .where(eq(seasons.currentSeason, true))
+    .limit(1);
+  const currentSeasonRaces = await db
+    .select()
+    .from(races)
+    .where(eq(races.seasonId, currentSeason[0].seasonId));
+
+  const mappedRaces = mapRaces(currentSeasonRaces);
+  const { previousRaces, upcomingRaces } = sortRaces(mappedRaces);
 
   return {
-    // previousRaces,
-    // upcomingRaces,
+    previousRaces,
+    upcomingRaces,
     session: await getSession(),
   };
 }) satisfies LayoutServerLoad;
@@ -17,18 +28,18 @@ function mapRaces(races: App.DatabaseRace[]): App.Race[] {
   if (!races) return [];
   return races.map((race) => {
     return {
-      id: race.race_id,
-      name: race.race_name,
-      type: race.race_type,
-      flag: race.country_flag,
-      qualyTime: race.qualifying_time,
-      qualyDate: race.qualifying_date,
+      id: race.raceId,
+      name: race.raceName,
+      type: race.raceType,
+      flag: race.countryFlag,
+      qualyTime: race.qualifyingTime,
+      qualyDate: race.qualifyingDate,
       location: race.location,
-      track: race.track_name,
-      raceTime: race.race_time,
-      raceDate: race.race_date,
-      image: race.race_image,
-      trackLayout: race.track_layout,
+      track: race.trackName,
+      raceTime: race.raceTime,
+      raceDate: race.raceDate,
+      image: race.raceImage,
+      trackLayout: race.trackLayout,
     };
   });
 }

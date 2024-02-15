@@ -8,30 +8,32 @@ declare global {
 
     interface Locals {
       user: {
-        name: string;
-        admin: boolean;
+        userId: number;
+        email: string | null;
+        username: string | null;
+        avatar: string | null;
       };
       supabase: SupabaseClient;
       getSession(): Promise<Session | null>;
     }
     interface DatabaseRace {
-      race_id: BigInt;
-      race_name: string;
-      race_type: string;
-      country_flag: string;
-      qualifying_time: string;
-      qualifying_date: string;
-      race_time: string;
-      race_date: string;
+      raceId: number;
+      raceName: string;
+      raceType: string;
+      countryFlag: string;
+      qualifyingTime: string;
+      qualifyingDate: string;
+      raceTime: string;
+      raceDate: string;
       location: string;
-      track_name: string;
-      race_image: string;
-      track_layout: string;
-      calendar_round: number;
+      trackName: string;
+      raceImage: string;
+      trackLayout: string;
+      calendarRound: number;
     }
 
     interface Race {
-      id: BigInt;
+      id: number;
       name: string;
       type: string;
       flag: string;
@@ -46,7 +48,7 @@ declare global {
     }
 
     interface Bet {
-      user_id: BigInt;
+      user_id: number;
       first: string;
       second: string;
       third: string;
@@ -54,7 +56,7 @@ declare global {
     }
 
     interface User {
-      user_id: BigInt;
+      user_id: number;
       username: string;
       avatar: string;
       points: number;
@@ -64,13 +66,13 @@ declare global {
     }
 
     interface Grid {
-      id: BigInt;
-      race_id: BigInt;
+      id: number;
+      race_id: number;
       grid: string[];
     }
 
     interface Result {
-      race_id: BigInt;
+      race_id: number;
       first: string;
       second: string;
       third: string;
@@ -80,7 +82,7 @@ declare global {
 
     interface MappedBet {
       username: string;
-      user_id: BigInt;
+      user_id: number;
       avatar: string;
       bets: {
         first: string;
@@ -90,9 +92,9 @@ declare global {
     }
 
     interface Comment {
-      id: BigInt;
-      race_id: BigInt;
-      user_id: BigInt;
+      id: number;
+      race_id: number;
+      user_id: number;
       created_at: Date;
       comment: string;
       username: string;

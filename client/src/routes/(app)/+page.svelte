@@ -1,18 +1,18 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
-
   import RaceCard from "$lib/components/race/RaceCard.svelte";
   import Leaderboard from "$lib/components/Leaderboard.svelte";
   import { handleIntersection } from "$lib/utils/handle-intersection";
   import Button from "$lib/components/Button.svelte";
+  import type { PageData } from "./$types";
 
-  export let data;
+  export let data: PageData;
   // const user: App.User = data.user;
   // const users: App.User[] = data.users;
   // const bets: App.Bet[] = data.bets;
   // const previousRaces: App.Race[] = data.previousRaces;
-  // const upcomingRaces: App.Race[] = data.upcomingRaces;
+  const upcomingRaces: App.Race[] = data.upcomingRaces;
   // const positionSuffix =
   //   user.position === 1
   //     ? "st"
@@ -80,15 +80,15 @@
   <div class="mt-8 animate-on-visible" use:elRef>
     <h2 class="font-bold text-2xl mb-4">Future Races</h2>
     <div class="flex gap-4 w-full relative overflow-auto snap-x lg:snap-none">
-      <!-- {#if upcomingRaces.length > 0}
+      {#if upcomingRaces.length > 0}
         {#each upcomingRaces as race}
           {#if new Date(race.raceDate).getTime() > date}
-            <RaceCard {race} {bets} />
+            <RaceCard {race} />
           {/if}
         {/each}
-      {:else} -->
-      <p>There are no upcoming races.</p>
-      <!-- {/if} -->
+      {:else}
+        <p>There are no upcoming races.</p>
+      {/if}
     </div>
   </div>
 

@@ -8,7 +8,6 @@ export const load: PageServerLoad = (async ({ url, locals }) => {
   if (session) {
     redirect(303, "/");
   }
-
   return { url: url.origin };
 }) satisfies PageServerLoad;
 
