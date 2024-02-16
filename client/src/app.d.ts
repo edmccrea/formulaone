@@ -56,12 +56,12 @@ declare global {
     }
 
     interface User {
-      user_id: number;
+      userId: number;
       username: string;
       avatar: string;
       points: number;
       position: number;
-      constructor_bet: string;
+      constructorBet: string;
       admin: boolean;
     }
 

@@ -12,7 +12,6 @@
     if (error) {
       console.error(error);
     }
-    console.log("logged out");
     // goto("/login");
     goto("/regsiter");
   };

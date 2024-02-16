@@ -1,22 +1,51 @@
-<script>
+<script lang="ts">
   import { page } from "$app/stores";
   import "../../app.css";
   import Navbar from "$lib/components/Navbar.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import { onMount } from "svelte";
   import { invalidate } from "$app/navigation";
+  import { user } from "../../stores/user";
 
   export let data;
 
   let { supabase, session } = data;
   $: ({ supabase, session } = data);
 
+  $: console.log($user);
   onMount(() => {
-    const { data } = supabase.auth.onAuthStateChange((event, _session) => {
-      if (_session?.expires_at !== session?.expires_at) {
-        invalidate("supabase:auth");
+    const { data } = supabase.auth.onAuthStateChange(
+      async (event, _session) => {
+        if (_session?.expires_at !== session?.expires_at) {
+          invalidate("supabase:auth");
+        }
+
+        if (event === "SIGNED_IN" || _session) {
+          const res = await fetch("/api/user", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: _session?.user.email }),
+          });
+
+          if (res.ok) {
+            let data = (await res.json()) as { user: App.User };
+            $user = {
+              userId: data.user.userId,
+              username: data.user.username,
+              avatar: data.user.avatar,
+              points: data.user.points,
+              position: data.user.position,
+              constructorBet: data.user.constructorBet,
+              admin: data.user.admin,
+            };
+          } else {
+            const data = await res.json();
+          }
+        }
       }
-    });
+    );
 
     return () => data.subscription.unsubscribe();
   });

@@ -8,10 +8,11 @@ import {
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
-  userId: serial("id").primaryKey(),
+  userId: serial("user_id").primaryKey(),
   username: text("username"),
   email: text("email"),
   avatar: text("avatar"),
+  admin: boolean("admin").notNull(),
 });
 
 export const bets = pgTable("bets", {
