@@ -9,27 +9,30 @@ import {
 
 export const users = pgTable("users", {
   userId: serial("user_id").primaryKey(),
-  username: text("username"),
-  email: text("email"),
-  avatar: text("avatar"),
+  username: text("username").notNull(),
+  email: text("email").notNull(),
+  avatar: text("avatar").notNull(),
   admin: boolean("admin").notNull(),
 });
 
 export const bets = pgTable("bets", {
   betId: serial("bet_id").primaryKey(),
-  userId: integer("user_id").references(() => users.userId),
+  userId: integer("user_id")
+    .references(() => users.userId)
+    .notNull(),
   raceId: serial("race_id").references(() => races.raceId),
-  first: text("first"),
-  second: text("second"),
-  third: text("third"),
+  seasonId: serial("season_id").references(() => seasons.seasonId),
+  first: text("first").notNull(),
+  second: text("second").notNull(),
+  third: text("third").notNull(),
 });
 
 export const comments = pgTable("comments", {
   commentId: serial("comment_id").primaryKey(),
   userId: serial("user_id").references(() => users.userId),
   raceId: serial("race_id").references(() => races.raceId),
-  commentText: text("comment_text"),
-  timestamp: timestamp("timestamp"),
+  commentText: text("comment_text").notNull(),
+  timestamp: timestamp("timestamp").notNull(),
 });
 
 export const constructorsBets = pgTable("constructors_bets", {
@@ -42,7 +45,7 @@ export const constructorsBets = pgTable("constructors_bets", {
 export const grids = pgTable("grids", {
   gridId: serial("grid_id").primaryKey(),
   raceId: serial("race_id").references(() => races.raceId),
-  gridData: text("grid_data"),
+  gridData: text("grid_data").notNull(),
 });
 
 export const races = pgTable("races", {
@@ -67,7 +70,7 @@ export const races = pgTable("races", {
 export const results = pgTable("results", {
   resultId: serial("result_id").primaryKey(),
   raceId: integer("race_id").references(() => races.raceId),
-  resultData: text("result_data"),
+  resultData: text("result_data").notNull(),
 });
 
 export const scores = pgTable("scores", {
@@ -75,6 +78,7 @@ export const scores = pgTable("scores", {
   userId: integer("user_id").references(() => users.userId),
   seasonId: integer("season_id"),
   score: integer("score"),
+  position: integer("position").notNull(),
 });
 
 export const seasons = pgTable("seasons", {

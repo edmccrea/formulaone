@@ -1,10 +1,17 @@
 import type { LayoutServerLoad } from "./$types";
 import { db } from "$lib/drizzle/db";
-import { races, seasons } from "$lib/drizzle/schema";
-import { eq } from "drizzle-orm";
+import {
+  bets,
+  constructorsBets,
+  races,
+  scores,
+  seasons,
+  users,
+} from "$lib/drizzle/schema";
+import { and, eq } from "drizzle-orm";
 
 export const load = (async ({ locals: { getSession } }) => {
-  const currentSeason = await db
+  const [currentSeason] = await db
     .select()
     .from(seasons)
     .where(eq(seasons.currentSeason, true))
@@ -12,23 +19,54 @@ export const load = (async ({ locals: { getSession } }) => {
   const currentSeasonRaces = await db
     .select()
     .from(races)
-    .where(eq(races.seasonId, currentSeason[0].seasonId));
+    .where(eq(races.seasonId, currentSeason.seasonId));
 
-  const mappedRaces = mapRaces(currentSeasonRaces);
+  const allBets = await db
+    .select()
+    .from(bets)
+    .where(eq(bets.seasonId, currentSeason.seasonId));
+
+  const mappedRaces = mapRaces(currentSeasonRaces, currentSeason.seasonId);
   const { previousRaces, upcomingRaces } = sortRaces(mappedRaces);
+
+  const allUsers = await db.select().from(users);
+  const mappedUsers = await Promise.all(
+    allUsers.map(async (user) => {
+      const userScore = await getUserScore(user.userId);
+      const userConstructorBet = await getUserConstructorBet(user.userId);
+
+      return {
+        userId: user.userId,
+        username: user.username,
+        avatar: user.avatar,
+        points: userScore?.score ?? 0,
+        position: userScore?.position ?? 0,
+        constructorBet: userConstructorBet?.constructorName ?? "",
+        admin: user.admin,
+      };
+    })
+  );
 
   return {
     previousRaces,
     upcomingRaces,
+    allRaces: mappedRaces,
+    users: mappedUsers,
+    bets: allBets,
+    currentSeason,
     session: await getSession(),
   };
 }) satisfies LayoutServerLoad;
 
-function mapRaces(races: App.DatabaseRace[]): App.Race[] {
+function mapRaces(
+  races: App.DatabaseRace[],
+  currentSeasonId: number
+): App.Race[] {
   if (!races) return [];
   return races.map((race) => {
     return {
-      id: race.raceId,
+      raceId: Number(race.raceId), //TODO: Investigate why this is a string
+      seasonId: currentSeasonId,
       name: race.raceName,
       type: race.raceType,
       flag: race.countryFlag,
@@ -73,4 +111,22 @@ function sortRaces(mappedRaces: App.Race[]) {
     previousRaces,
     upcomingRaces,
   };
+}
+
+async function getUserScore(userId: number) {
+  const userScore = await db
+    .select({ score: scores.score, position: scores.position })
+    .from(scores)
+    .where(and(eq(scores.userId, userId), eq(scores.seasonId, 1)))
+    .limit(1);
+  return userScore[0];
+}
+
+async function getUserConstructorBet(userId: number) {
+  const bet = await db
+    .select({ constructorName: constructorsBets.constructorName })
+    .from(constructorsBets)
+    .where(eq(constructorsBets.userId, userId))
+    .limit(1);
+  return bet[0];
 }

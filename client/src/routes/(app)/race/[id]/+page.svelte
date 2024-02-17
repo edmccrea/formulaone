@@ -6,18 +6,28 @@
   import RaceInfo from "$lib/components/race/RaceInfo.svelte";
   import CommentSection from "$lib/components/race/CommentSection.svelte";
   import { combineDateTime } from "$lib/utils/combine-date-time";
+  import { user as userStore } from "../../../../stores/user";
 
   export let data;
-  const race = data.race;
-  const user = data.user;
-  const gridJSON = data.grid?.grid;
-  const result = data.result;
+  const race = data.allRaces.find((race) => race.raceId === data.raceId);
+  if (!race) {
+    throw new Error("Race not found");
+  }
+  $: user = $userStore;
+  const users = data.users;
+  const gridJSON = data.grid;
+  const resultJSON = data.result;
   const comments = data.comments;
-  $: betTable = data.betTable;
+  $: betTable = createBetTable(data.users, data.bets);
 
   let grid: { name: string; lapTime: string }[];
   if (gridJSON) {
     grid = JSON.parse(gridJSON);
+  }
+
+  let result: { name: string }[];
+  if (resultJSON) {
+    result = JSON.parse(resultJSON);
   }
 
   const date = Date.now();
@@ -27,13 +37,41 @@
 
   function showBet(bet: string, username: string) {
     if (!bet) return "";
-    if (raceStartMillis < date || username === user.username) return bet;
+    if (raceStartMillis < date || username === user?.username) return bet;
     return "****";
+  }
+
+  function createBetTable(users: App.User[], bets: App.Bet[]): App.BetTable {
+    const betTable: App.BetTable = [];
+
+    users.forEach((user) => {
+      betTable.push({
+        username: user.username,
+        userId: user.userId,
+        avatar: user.avatar,
+        bets: {
+          first: "",
+          second: "",
+          third: "",
+        },
+      });
+    });
+
+    bets.forEach((bet) => {
+      const user = betTable.find((user) => user.userId === bet.userId);
+      if (user)
+        user.bets = {
+          first: bet.first,
+          second: bet.second,
+          third: bet.third,
+        };
+    });
+    return betTable;
   }
 
   function updateBetTable(e: CustomEvent) {
     const bet = e.detail;
-    betTable = betTable.filter((bet) => bet.username !== user.username);
+    betTable = betTable.filter((bet) => bet.username !== user?.username);
     betTable.push(bet);
   }
 
@@ -46,7 +84,7 @@
       .filter((key) => key !== "race_id")
       .map((key) => result[key as keyof App.Result]);
 
-    const userBet = betTable.find((bet) => bet.username === user.username);
+    const userBet = betTable.find((bet) => bet.username === user?.username);
     if (!userBet) return "";
     if (bet.bets[betPosition] === result[betPosition]) {
       return "text-emerald-500";
@@ -59,25 +97,25 @@
     }
   }
 
-  function checkRacePoints() {
-    if (!betTable) return false;
-    const userBets = betTable.find((bet) => bet.username === user.username);
-    if (!userBets) return false;
-    if (
-      result &&
-      userBets.bets.first === result.first &&
-      userBets.bets.second === result.second &&
-      userBets.bets.third === result.third
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  $: isMaxPoints = betTable && checkRacePoints();
+  // function checkRacePoints() {
+  //   if (!betTable) return false;
+  //   const userBets = betTable.find((bet) => bet.username === user.username);
+  //   if (!userBets) return false;
+  //   if (
+  //     result &&
+  //     userBets.bets.first === result.first &&
+  //     userBets.bets.second === result.second &&
+  //     userBets.bets.third === result.third
+  //   ) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+  // $: isMaxPoints = betTable && checkRacePoints();
 </script>
 
-{#if isMaxPoints}
+<!-- {#if isMaxPoints}
   <div
     class="fixed -top-12 left-0 h-screen w-screen flex justify-center overflow-hidden pointer-events-none"
   >
@@ -91,7 +129,7 @@
       fallDistance="100vh"
     />
   </div>
-{/if}
+{/if} -->
 
 <div
   in:fade
@@ -106,6 +144,7 @@
         {race}
         {betTable}
         {user}
+        seasonId={data.currentSeason.seasonId}
         raceStart={raceStartMillis}
         on:betSubmitted={updateBetTable}
       />
@@ -116,7 +155,7 @@
     <div class="col-span-2 h-fit">
       <div class="bg-neutral-900 px-4 py-8 md:p-8 rounded-md h-fit">
         <div class="overflow-auto">
-          {#key betTable}
+          <!-- {#key betTable}
             <table>
               <thead class="border-b border-b-gray-400 bg-zinc-900/50">
                 <tr class="hover:cursor-default">
@@ -173,16 +212,16 @@
                 {/each}
               </tbody>
             </table>
-          {/key}
+          {/key} -->
         </div>
       </div>
 
-      <CommentSection {user} raceId={race.id} {comments} />
+      <CommentSection {user} raceId={race.raceId} {comments} {users} />
     </div>
 
     <div class="bg-neutral-900 p-8 rounded-md w-full col-span-2 md:col-span-1">
       <h3 class="font-bold mb-4">Grid</h3>
-      {#if grid}
+      <!-- {#if grid}
         <ol>
           {#each grid as driver, index}
             <div class="flex mb-1">
@@ -200,7 +239,7 @@
         <div class="flex w-full h-full justify-center lg:pt-12">
           <p class="font-light">Grid not available yet</p>
         </div>
-      {/if}
+      {/if} -->
     </div>
   </div>
 </div>

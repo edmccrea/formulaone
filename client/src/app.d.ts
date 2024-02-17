@@ -33,7 +33,8 @@ declare global {
     }
 
     interface Race {
-      id: number;
+      raceId: number;
+      seasonId: number;
       name: string;
       type: string;
       flag: string;
@@ -48,11 +49,13 @@ declare global {
     }
 
     interface Bet {
-      user_id: number;
+      betId: number;
+      userId: number;
+      raceId: number;
+      seasonId: number;
       first: string;
       second: string;
       third: string;
-      race_id: BigInt;
     }
 
     interface User {
@@ -67,12 +70,12 @@ declare global {
 
     interface Grid {
       id: number;
-      race_id: number;
+      raceId: number;
       grid: string[];
     }
 
     interface Result {
-      race_id: number;
+      raceId: number;
       first: string;
       second: string;
       third: string;
@@ -82,7 +85,7 @@ declare global {
 
     interface MappedBet {
       username: string;
-      user_id: number;
+      userId: number;
       avatar: string;
       bets: {
         first: string;
@@ -92,13 +95,11 @@ declare global {
     }
 
     interface Comment {
-      id: number;
-      race_id: number;
-      user_id: number;
-      created_at: Date;
-      comment: string;
-      username: string;
-      avatar: string;
+      commentId: number;
+      raceId: number;
+      userId: number;
+      timestamp: Date;
+      commentText: string;
     }
   }
 }

@@ -27,7 +27,7 @@
           >
           <td class="py-2 px-2">{user.username}</td>
           <td class="py-2 px-4">{user.points}</td>
-          <td class="py-2 px-4">{user.constructor_bet}</td>
+          <td class="py-2 px-4">{user.constructorBet}</td>
         </tr>
       {/each}
     </tbody>

@@ -1,36 +1,52 @@
 import type { RequestHandler } from "./$types";
 import { db } from "$lib/drizzle/db";
-import { users, scores, constructorsBets } from "$lib/drizzle/schema";
-import { eq } from "drizzle-orm";
+import { users, scores, constructorsBets, seasons } from "$lib/drizzle/schema";
+import { eq, and } from "drizzle-orm";
 
 export const POST: RequestHandler = async ({ request }) => {
   try {
+    const [currentSeason] = await db
+      .select()
+      .from(seasons)
+      .where(eq(seasons.currentSeason, true))
+      .limit(1);
     const userReq = await request.json();
-    const user = await db
+    const [user] = await db
       .select()
       .from(users)
       .where(eq(users.email, userReq.email))
       .limit(1);
 
-    const userScore = await db
-      .select({ score: scores.score })
+    const [userScore] = await db
+      .select({ score: scores.score, position: scores.position })
       .from(scores)
-      .where(eq(scores.userId, user[0].userId))
+      .where(
+        and(
+          eq(scores.userId, user.userId),
+          eq(scores.seasonId, currentSeason.seasonId)
+        )
+      )
       .limit(1);
 
-    const constructorBet = await db
+    const [constructorBet] = await db
       .select({ constructorName: constructorsBets.constructorName })
       .from(constructorsBets)
-      .where(eq(constructorsBets.userId, user[0].userId))
+      .where(
+        and(
+          eq(constructorsBets.userId, user.userId),
+          eq(constructorsBets.seasonId, currentSeason.seasonId)
+        )
+      )
       .limit(1);
 
     const mappedUser = {
-      ...user[0],
-      points: userScore[0]?.score ?? 0,
-      constructorBet: constructorBet[0]?.constructorName ?? 0,
+      ...user,
+      points: userScore?.score ?? 0,
+      position: userScore?.position ?? 0,
+      constructorBet: constructorBet?.constructorName ?? 0,
     };
 
-    if (user.length) {
+    if (user) {
       return new Response(JSON.stringify({ user: mappedUser }), {
         status: 200,
       });

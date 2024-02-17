@@ -12,7 +12,8 @@
   let { supabase, session } = data;
   $: ({ supabase, session } = data);
 
-  $: console.log($user);
+  let loading = true;
+  //TODO: fix user being null on first load
   onMount(() => {
     const { data } = supabase.auth.onAuthStateChange(
       async (event, _session) => {
@@ -41,12 +42,14 @@
               admin: data.user.admin,
             };
           } else {
+            //TODO: handle what to do here. Need the user to create a profile
             const data = await res.json();
           }
         }
       }
     );
 
+    loading = false;
     return () => data.subscription.unsubscribe();
   });
 
@@ -68,7 +71,11 @@
 {/if}
 
 <main class="flex min-h-screen">
-  <slot />
+  {#if loading}
+    <p>loading...</p>
+  {:else}
+    <slot />
+  {/if}
 </main>
 
 {#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register"}

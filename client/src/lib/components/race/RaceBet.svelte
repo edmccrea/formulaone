@@ -8,8 +8,9 @@
 
   export let race: App.Race;
   export let betTable: App.BetTable;
-  export let user: App.User;
+  export let user: App.User | null;
   export let raceStart: number;
+  export let seasonId: number;
 
   const dispatch = createEventDispatcher();
 
@@ -23,7 +24,7 @@
   };
 
   let betSubmitted = false;
-  const userBets = betTable.find((bet) => bet.username === user.username);
+  const userBets = betTable.find((bet) => bet.username === user?.username);
   if (userBets?.bets.first && userBets?.bets.second && userBets?.bets.third) {
     betSubmitted = true;
     selection = {
@@ -46,8 +47,9 @@
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        race_id: Number(race.id),
-        user_id: Number(user.user_id),
+        raceId: Number(race.raceId),
+        userId: Number(user?.userId),
+        seasonId: Number(seasonId),
         first: selection.first,
         second: selection.second,
         third: selection.third,
@@ -56,9 +58,9 @@
 
     if (res.ok) {
       dispatch("betSubmitted", {
-        username: user.username,
-        user_id: user.user_id,
-        avatar: user.avatar,
+        username: user?.username,
+        userId: user?.userId,
+        avatar: user?.avatar,
         bets: {
           first: selection.first,
           second: selection.second,

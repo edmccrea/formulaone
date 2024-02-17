@@ -6,22 +6,14 @@
   import { handleIntersection } from "$lib/utils/handle-intersection";
   import Button from "$lib/components/Button.svelte";
   import type { PageData } from "./$types";
+  import { user } from "../../stores/user";
+  import WelcomeMessage from "$lib/components/WelcomeMessage.svelte";
 
   export let data: PageData;
-  // const user: App.User = data.user;
-  // const users: App.User[] = data.users;
-  // const bets: App.Bet[] = data.bets;
-  // const previousRaces: App.Race[] = data.previousRaces;
+  const users: App.User[] = data.users;
+  const bets: App.Bet[] = data.bets;
+  const previousRaces: App.Race[] = data.previousRaces;
   const upcomingRaces: App.Race[] = data.upcomingRaces;
-  // const positionSuffix =
-  //   user.position === 1
-  //     ? "st"
-  //     : user.position === 2
-  //     ? "nd"
-  //     : user.position === 3
-  //     ? "rd"
-  //     : "th";
-
   const date = Date.now();
 
   let animationElements: HTMLElement[] = [];
@@ -47,33 +39,28 @@
   <h1 class="text-5xl lg:text-7xl font-bold mb-4 font-gradient">
     Formula One Bets
   </h1>
-  <p class="text-xl">
-    Hello {data.session?.user.email} 👋,
-    <!-- you're currently in {user.position}{positionSuffix}
-    place with <span class="font-bold">{user.points}</span>
-    points. -->
-  </p>
+  <WelcomeMessage session={data.session} />
 
-  <!-- {#if user.admin}
+  {#if $user?.admin}
     <a href="/admin" class="mt-4">
       <Button>Admin Panel</Button>
     </a>
-  {/if} -->
+  {/if}
 
   <div class="flex flex-col lg:flex-row lg:gap-16">
     <div class="mt-8 lg:order-2">
       <h2 class="font-bold text-2xl mb-4">Upcoming Race</h2>
       <!-- If race is this week, then display a countdown -->
-      <!-- {#if upcomingRaces.length > 0}
+      {#if upcomingRaces.length > 0}
         <RaceCard race={upcomingRaces[0]} {bets} />
-      {:else} -->
-      <p>The season has ended!</p>
-      <!-- {/if} -->
+      {:else}
+        <p>The season has ended!</p>
+      {/if}
     </div>
 
     <div class="mt-8 lg:order-1">
       <h2 class="font-bold text-2xl mb-4">Leaderboard</h2>
-      <!-- <Leaderboard {users} /> -->
+      <Leaderboard {users} />
     </div>
   </div>
 
@@ -83,7 +70,7 @@
       {#if upcomingRaces.length > 0}
         {#each upcomingRaces as race}
           {#if new Date(race.raceDate).getTime() > date}
-            <RaceCard {race} />
+            <RaceCard {race} {bets} />
           {/if}
         {/each}
       {:else}
@@ -95,15 +82,15 @@
   <div class="mt-8 animate-on-visible" use:elRef>
     <h2 class="font-bold text-2xl mb-4">Previous Races</h2>
     <div class="flex gap-4 w-full relative overflow-auto snap-x lg:snap-none">
-      <!-- {#if previousRaces.length > 0}
+      {#if previousRaces.length > 0}
         {#each previousRaces as race}
           {#if new Date(race.raceDate).getTime() < date}
             <RaceCard {race} {bets} />
           {/if}
         {/each}
-      {:else} -->
-      <p>There are no previous races.</p>
-      <!-- {/if} -->
+      {:else}
+        <p>There are no previous races.</p>
+      {/if}
     </div>
   </div>
 </div>
