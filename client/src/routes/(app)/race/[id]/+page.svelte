@@ -15,20 +15,10 @@
   }
   $: user = $userStore;
   const users = data.users;
-  const gridJSON = data.grid;
-  const resultJSON = data.result;
+  const grid = data.grid;
+  const result = data.result;
   const comments = data.comments;
   $: betTable = createBetTable(data.users, data.bets);
-
-  let grid: { name: string; lapTime: string }[];
-  if (gridJSON) {
-    grid = JSON.parse(gridJSON);
-  }
-
-  let result: { name: string }[];
-  if (resultJSON) {
-    result = JSON.parse(resultJSON);
-  }
 
   const date = Date.now();
   const raceStartDateObject = combineDateTime(race.raceDate, race.raceTime);
@@ -47,7 +37,7 @@
     users.forEach((user) => {
       betTable.push({
         username: user.username,
-        userId: user.userId,
+        userId: Number(user.userId),
         avatar: user.avatar,
         bets: {
           first: "",
@@ -58,7 +48,9 @@
     });
 
     bets.forEach((bet) => {
-      const user = betTable.find((user) => user.userId === bet.userId);
+      const user = betTable.find(
+        (user) => Number(user.userId) === Number(bet.userId)
+      );
       if (user)
         user.bets = {
           first: bet.first,
@@ -81,7 +73,7 @@
     bet: App.MappedBet
   ) {
     const resultArray = Object.keys(result)
-      .filter((key) => key !== "race_id")
+      .filter((key) => key !== "raceId")
       .map((key) => result[key as keyof App.Result]);
 
     const userBet = betTable.find((bet) => bet.username === user?.username);
@@ -97,25 +89,25 @@
     }
   }
 
-  // function checkRacePoints() {
-  //   if (!betTable) return false;
-  //   const userBets = betTable.find((bet) => bet.username === user.username);
-  //   if (!userBets) return false;
-  //   if (
-  //     result &&
-  //     userBets.bets.first === result.first &&
-  //     userBets.bets.second === result.second &&
-  //     userBets.bets.third === result.third
-  //   ) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-  // $: isMaxPoints = betTable && checkRacePoints();
+  function checkRacePoints() {
+    if (!betTable) return false;
+    const userBets = betTable.find((bet) => bet.username === user?.username);
+    if (!userBets) return false;
+    if (
+      result &&
+      userBets.bets.first === result.first &&
+      userBets.bets.second === result.second &&
+      userBets.bets.third === result.third
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  $: isMaxPoints = betTable && checkRacePoints();
 </script>
 
-<!-- {#if isMaxPoints}
+{#if isMaxPoints}
   <div
     class="fixed -top-12 left-0 h-screen w-screen flex justify-center overflow-hidden pointer-events-none"
   >
@@ -129,7 +121,7 @@
       fallDistance="100vh"
     />
   </div>
-{/if} -->
+{/if}
 
 <div
   in:fade
@@ -140,14 +132,16 @@
       <RaceInfo {race} {raceStartDateObject} {qualyStartDateObject} />
     </div>
     <div class="bg-neutral-900 p-8 rounded-md">
-      <RaceBet
-        {race}
-        {betTable}
-        {user}
-        seasonId={data.currentSeason.seasonId}
-        raceStart={raceStartMillis}
-        on:betSubmitted={updateBetTable}
-      />
+      {#key user}
+        <RaceBet
+          {race}
+          {betTable}
+          {user}
+          seasonId={data.currentSeason.seasonId}
+          raceStart={raceStartMillis}
+          on:betSubmitted={updateBetTable}
+        />
+      {/key}
     </div>
   </div>
 
@@ -155,7 +149,7 @@
     <div class="col-span-2 h-fit">
       <div class="bg-neutral-900 px-4 py-8 md:p-8 rounded-md h-fit">
         <div class="overflow-auto">
-          <!-- {#key betTable}
+          {#key betTable || user}
             <table>
               <thead class="border-b border-b-gray-400 bg-zinc-900/50">
                 <tr class="hover:cursor-default">
@@ -212,7 +206,7 @@
                 {/each}
               </tbody>
             </table>
-          {/key} -->
+          {/key}
         </div>
       </div>
 
@@ -221,7 +215,7 @@
 
     <div class="bg-neutral-900 p-8 rounded-md w-full col-span-2 md:col-span-1">
       <h3 class="font-bold mb-4">Grid</h3>
-      <!-- {#if grid}
+      {#if grid}
         <ol>
           {#each grid as driver, index}
             <div class="flex mb-1">
@@ -239,7 +233,7 @@
         <div class="flex w-full h-full justify-center lg:pt-12">
           <p class="font-light">Grid not available yet</p>
         </div>
-      {/if} -->
+      {/if}
     </div>
   </div>
 </div>

@@ -9,11 +9,13 @@
 
   export let data;
 
+  if (data.user) {
+    $user = data.user;
+  }
+
   let { supabase, session } = data;
   $: ({ supabase, session } = data);
 
-  let loading = true;
-  //TODO: fix user being null on first load
   onMount(() => {
     const { data } = supabase.auth.onAuthStateChange(
       async (event, _session) => {
@@ -32,15 +34,17 @@
 
           if (res.ok) {
             let data = (await res.json()) as { user: App.User };
-            $user = {
-              userId: data.user.userId,
-              username: data.user.username,
-              avatar: data.user.avatar,
-              points: data.user.points,
-              position: data.user.position,
-              constructorBet: data.user.constructorBet,
-              admin: data.user.admin,
-            };
+            if ($user === null) {
+              $user = {
+                userId: data.user.userId,
+                username: data.user.username,
+                avatar: data.user.avatar,
+                points: data.user.points,
+                position: data.user.position,
+                constructorBet: data.user.constructorBet,
+                admin: data.user.admin,
+              };
+            }
           } else {
             //TODO: handle what to do here. Need the user to create a profile
             const data = await res.json();
@@ -48,8 +52,6 @@
         }
       }
     );
-
-    loading = false;
     return () => data.subscription.unsubscribe();
   });
 
@@ -71,11 +73,7 @@
 {/if}
 
 <main class="flex min-h-screen">
-  {#if loading}
-    <p>loading...</p>
-  {:else}
-    <slot />
-  {/if}
+  <slot />
 </main>
 
 {#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register"}

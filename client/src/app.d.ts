@@ -75,7 +75,6 @@ declare global {
     }
 
     interface Result {
-      raceId: number;
       first: string;
       second: string;
       third: string;

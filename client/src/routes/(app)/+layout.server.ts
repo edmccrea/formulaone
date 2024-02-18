@@ -10,12 +10,12 @@ import {
 } from "$lib/drizzle/schema";
 import { and, eq } from "drizzle-orm";
 
-export const load = (async ({ locals: { getSession } }) => {
-  const [currentSeason] = await db
-    .select()
-    .from(seasons)
-    .where(eq(seasons.currentSeason, true))
-    .limit(1);
+export const load = (async ({ locals: { getSession }, fetch }) => {
+  const [currentSeasonPromise, allUsersPromise] = await Promise.all([
+    db.select().from(seasons).where(eq(seasons.currentSeason, true)).limit(1),
+    db.select().from(users),
+  ]);
+  const [currentSeason] = currentSeasonPromise;
   const currentSeasonRaces = await db
     .select()
     .from(races)
@@ -29,7 +29,7 @@ export const load = (async ({ locals: { getSession } }) => {
   const mappedRaces = mapRaces(currentSeasonRaces, currentSeason.seasonId);
   const { previousRaces, upcomingRaces } = sortRaces(mappedRaces);
 
-  const allUsers = await db.select().from(users);
+  const allUsers = allUsersPromise;
   const mappedUsers = await Promise.all(
     allUsers.map(async (user) => {
       const userScore = await getUserScore(user.userId);
@@ -47,6 +47,29 @@ export const load = (async ({ locals: { getSession } }) => {
     })
   );
 
+  const session = await getSession();
+
+  let user = null;
+  if (session) {
+    const res = await fetch("/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: session.user.email }),
+    });
+    let data = (await res.json()) as { user: App.User };
+    user = {
+      userId: data.user.userId,
+      username: data.user.username,
+      avatar: data.user.avatar,
+      points: data.user.points,
+      position: data.user.position,
+      constructorBet: data.user.constructorBet,
+      admin: data.user.admin,
+    };
+  }
+
   return {
     previousRaces,
     upcomingRaces,
@@ -55,6 +78,7 @@ export const load = (async ({ locals: { getSession } }) => {
     bets: allBets,
     currentSeason,
     session: await getSession(),
+    user,
   };
 }) satisfies LayoutServerLoad;
 
