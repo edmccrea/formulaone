@@ -5,17 +5,12 @@
   import { drivers as driversStore } from "../../../stores/drivers";
   import Button from "../Button.svelte";
   import { createEventDispatcher } from "svelte";
-  import { goto } from "$app/navigation";
 
   export let race: App.Race;
   export let betTable: App.BetTable;
   export let user: App.User | null;
   export let raceStart: number;
   export let seasonId: number;
-
-  if (!user) {
-    goto("/profile/create");
-  }
 
   const dispatch = createEventDispatcher();
 

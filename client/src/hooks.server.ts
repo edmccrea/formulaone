@@ -6,12 +6,10 @@ import { createSupabaseServerClient } from "@supabase/auth-helpers-sveltekit";
 import type { Handle } from "@sveltejs/kit";
 import { ENV } from "$env/static/private";
 import { redirect } from "@sveltejs/kit";
-import { db } from "$lib/drizzle/db";
-import { eq } from "drizzle-orm";
-import { users } from "$lib/drizzle/schema";
 
 const unProtectedRoutes = [
   "/login",
+  "/register",
   "/api/generate-calendar",
   "/api/grid",
   "/api/result",

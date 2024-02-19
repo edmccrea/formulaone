@@ -59,15 +59,17 @@ export const load = (async ({ locals: { getSession }, fetch }) => {
       body: JSON.stringify({ email: session.user.email }),
     });
     let data = (await res.json()) as { user: App.User };
-    user = {
-      userId: data.user.userId,
-      username: data.user.username,
-      avatar: data.user.avatar,
-      points: data.user.points,
-      position: data.user.position,
-      constructorBet: data.user.constructorBet,
-      admin: data.user.admin,
-    };
+    if (res.ok) {
+      user = {
+        userId: data.user.userId,
+        username: data.user.username,
+        avatar: data.user.avatar,
+        points: data.user.points,
+        position: data.user.position,
+        constructorBet: data.user.constructorBet,
+        admin: data.user.admin,
+      };
+    }
   }
 
   return {
