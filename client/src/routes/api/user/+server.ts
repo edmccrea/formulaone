@@ -17,6 +17,11 @@ export const POST: RequestHandler = async ({ request }) => {
       .where(eq(users.email, userReq.email))
       .limit(1);
 
+    if (!user) {
+      return new Response(JSON.stringify({ message: "User not found" }), {
+        status: 404,
+      });
+    }
     const [userScore] = await db
       .select({ score: scores.score, position: scores.position })
       .from(scores)
@@ -46,15 +51,9 @@ export const POST: RequestHandler = async ({ request }) => {
       constructorBet: constructorBet?.constructorName ?? 0,
     };
 
-    if (user) {
-      return new Response(JSON.stringify({ user: mappedUser }), {
-        status: 200,
-      });
-    } else {
-      return new Response(JSON.stringify({ message: "User not found" }), {
-        status: 404,
-      });
-    }
+    return new Response(JSON.stringify({ user: mappedUser }), {
+      status: 200,
+    });
   } catch (error) {
     console.error(error);
     return new Response("Error", { status: 500 });
