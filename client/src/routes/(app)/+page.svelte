@@ -65,8 +65,10 @@
   </div>
 
   <div class="mt-8 animate-on-visible" use:elRef>
-    <h2 class="font-bold text-2xl mb-4">Future Races</h2>
-    <div class="flex gap-4 w-full relative overflow-auto snap-x lg:snap-none">
+    <h2 class="font-bold text-2xl">Future Races</h2>
+    <div
+      class="flex py-4 gap-4 w-full relative overflow-auto snap-x lg:snap-none"
+    >
       {#if upcomingRaces.length > 0}
         {#each upcomingRaces as race}
           {#if new Date(race.raceDate).getTime() > date}
@@ -80,8 +82,10 @@
   </div>
 
   <div class="mt-8 animate-on-visible" use:elRef>
-    <h2 class="font-bold text-2xl mb-4">Previous Races</h2>
-    <div class="flex gap-4 w-full relative overflow-auto snap-x lg:snap-none">
+    <h2 class="font-bold text-2xl">Previous Races</h2>
+    <div
+      class="flex py-4 gap-4 w-full relative overflow-auto snap-x lg:snap-none"
+    >
       {#if previousRaces.length > 0}
         {#each previousRaces as race}
           {#if new Date(race.raceDate).getTime() < date}
@@ -99,8 +103,8 @@
   .font-gradient {
     background: linear-gradient(
       40deg,
-      rgba(242, 167, 167, 1) 34%,
-      rgba(250, 250, 250, 1) 89%
+      rgb(240, 81, 81) 34%,
+      rgb(126, 82, 82) 89%
     );
     background-clip: text;
     -webkit-background-clip: text;

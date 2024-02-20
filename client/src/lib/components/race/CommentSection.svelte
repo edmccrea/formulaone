@@ -58,7 +58,7 @@
 </script>
 
 <div
-  class="bg-neutral-900 p-8 rounded-md h-fit mt-4 transition-all ease-in-out duration-300"
+  class="bg-neutral-50 border border-neutral-200 shadow-sm p-8 rounded-md h-fit mt-4 transition-all ease-in-out duration-300"
 >
   <form on:submit={handleSubmit}>
     <div class="flex flex-col">
@@ -74,7 +74,7 @@
           bind:value={newComment}
           type="text"
           placeholder="Add a comment..."
-          class="border-b border-b-slate-300/50 bg-transparent flex-1 py-2 px-2 text-slate-100 focus:border-b-slate-200 active:border-b-slate-200 focus:py-2 active:py-2 focus:px-2 active:px-2 transition-all ease-in-out duration-300"
+          class="border-b border-b-slate-300/50 bg-transparent flex-1 py-2 px-2 focus:border-b-slate-200 active:border-b-slate-200 focus:py-2 active:py-2 focus:px-2 active:px-2 transition-all ease-in-out duration-300"
         />
       </div>
       {#if isActive || newComment}

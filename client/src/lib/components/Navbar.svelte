@@ -18,7 +18,7 @@
 </script>
 
 <nav
-  class="w-full py-6 border-b border-b-gray-400 fixed backdrop-blur-md bg-[#121212]/60 z-50 flex justify-between px-8"
+  class="w-full py-6 border-b border-b-gray-200 fixed backdrop-blur-md bg-neutral-50/60 z-50 flex justify-between px-8"
 >
   <a href="/" class="flex items-center">
     <img src="/f1.png" alt="" class="h-6" /></a

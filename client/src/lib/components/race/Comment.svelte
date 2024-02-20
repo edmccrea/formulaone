@@ -36,6 +36,6 @@
       <span class="font-bold">{commentUser.username}</span>
       <span class="text-sm text-neutral-400">{formattedDate}</span>
     </div>
-    <p class="text-slate-100">{comment.commentText}</p>
+    <p>{comment.commentText}</p>
   </div>
 </div>

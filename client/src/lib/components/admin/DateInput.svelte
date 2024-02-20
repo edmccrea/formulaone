@@ -11,7 +11,7 @@
 <div class="flex flex-col relative">
   <label
     for={slugifiedLabel}
-    class="text-sm text-neutral-400 absolute bg-[#121212] -top-2.5 left-2 px-2"
+    class="text-sm text-neutral-400 absolute bg-neutral-50 -top-2.5 left-2 px-2"
     >{label}</label
   >
   <input
