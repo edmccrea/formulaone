@@ -47,8 +47,10 @@
     </a>
   {/if}
 
-  <div class="flex flex-col lg:flex-row lg:gap-16">
-    <div class="mt-8 lg:order-2">
+  <div class="flex flex-col lg:flex-row lg:gap-8">
+    <div
+      class="mt-8 lg:order-2 bg-neutral-50 p-8 border border-neutral-200 shadow-sm px-4 py-8 md:p-8 rounded-md h-fit w-full"
+    >
       <h2 class="font-bold text-2xl mb-4">Upcoming Race</h2>
       <!-- If race is this week, then display a countdown -->
       {#if upcomingRaces.length > 0}
@@ -58,13 +60,19 @@
       {/if}
     </div>
 
-    <div class="mt-8 lg:order-1">
+    <div
+      class="mt-8 lg:order-1 bg-neutral-50 p-8 border border-neutral-200 shadow-sm px-4 py-8 md:p-8 rounded-md h-fit w-full"
+    >
       <h2 class="font-bold text-2xl mb-4">Leaderboard</h2>
       <Leaderboard {users} />
     </div>
   </div>
 
-  <div class="mt-8 animate-on-visible" use:elRef>
+  <div
+    class="animate-on-visible mt-8 bg-neutral-50 p-8 border border-neutral-200 shadow-sm px-4 py-8 md:p-8 rounded-md h-fit"
+    use:elRef
+  >
+    <!-- <div class="mt-8 animate-on-visible" use:elRef> -->
     <h2 class="font-bold text-2xl">Future Races</h2>
     <div
       class="flex py-4 gap-4 w-full relative overflow-auto snap-x lg:snap-none"
@@ -81,7 +89,10 @@
     </div>
   </div>
 
-  <div class="mt-8 animate-on-visible" use:elRef>
+  <div
+    class="animate-on-visible mt-8 bg-neutral-50 p-8 border border-neutral-200 shadow-sm px-4 py-8 md:p-8 rounded-md h-fit"
+    use:elRef
+  >
     <h2 class="font-bold text-2xl">Previous Races</h2>
     <div
       class="flex py-4 gap-4 w-full relative overflow-auto snap-x lg:snap-none"

@@ -75,69 +75,92 @@
   }
 </script>
 
-<h3 class="mb-4">{betSubmitted ? "Your bet" : "Place your bet"}</h3>
-
-{#if betSubmitted}
-  <ol class="flex flex-col gap-2 mb-6">
-    <li class="text-xl">1. {selection.first}</li>
-    <li class="text-xl">2. {selection.second}</li>
-    <li class="text-xl">3. {selection.third}</li>
-  </ol>
-  {#if raceStart > date}
-    <Button type="button" on:click={handleEditBet}>Change bet</Button>
-  {/if}
+{#if !user}
+  <div class="flex flex-col gap-2">
+    <p class="text-lg">
+      You need to create a profile in order to be able to place a bet
+    </p>
+    <a href="/profile/create" class="text-base">
+      <Button>Create a profile</Button>
+    </a>
+  </div>
 {:else}
-  <form action="" on:submit={handleSubmit} class="flex flex-col gap-3">
-    <select
-      name=""
-      id="driver-one"
-      bind:value={selection.first}
-      class="bg-inherit border border-zinc-500 rounded-md py-2 px-4 hover:cursor-pointer hover:border-zinc-400 transition-all ease-in-out duration-300 focus:outline-none"
-    >
-      <option value="">First</option>
-      {#each drivers as driver}
-        {#if driver.name !== selection.second && driver.name !== selection.third}
-          <option value={driver.name}>{driver.name}</option>
-        {/if}
-      {/each}
-    </select>
-    <select
-      name=""
-      id="driver-one"
-      bind:value={selection.second}
-      class="bg-inherit border border-zinc-500 rounded-md py-2 px-4 hover:cursor-pointer hover:border-zinc-400 transition-all ease-in-out duration-300 focus:outline-none"
-    >
-      <option value="">Second</option>
-      {#each drivers as driver}
-        {#if driver.name !== selection.first && driver.name !== selection.third}
-          <option value={driver.name}>{driver.name}</option>
-        {/if}
-      {/each}
-    </select>
-    <select
-      name=""
-      id="driver-one"
-      bind:value={selection.third}
-      class="bg-inherit border border-zinc-500 rounded-md py-2 px-4 hover:cursor-pointer hover:border-zinc-400 transition-all ease-in-out duration-300 focus:outline-none"
-    >
-      <option value="">Third</option>
-      {#each drivers as driver}
-        {#if driver.name !== selection.first && driver.name !== selection.second}
-          <option value={driver.name}>{driver.name}</option>
-        {/if}
-      {/each}
-    </select>
+  <h3 class="mb-4">{betSubmitted ? "Your bet" : "Place your bet"}</h3>
 
-    {#if selection.first && selection.second && selection.third}
-      {#if raceStart < date}
-        <div in:fade={{ duration: 200 }}>
-          <p>Sorry, this race has already taken place.</p>
-        </div>
-      {:else}
-        <div in:fade={{ duration: 200 }}>
-          <Button type="submit">Place bet</Button>
-        </div>
-      {/if}
+  {#if betSubmitted}
+    <ol class="flex flex-col gap-2 mb-6">
+      <li class="text-xl">1. {selection.first}</li>
+      <li class="text-xl">2. {selection.second}</li>
+      <li class="text-xl">3. {selection.third}</li>
+    </ol>
+    {#if raceStart > date}
+      <Button type="button" on:click={handleEditBet}>Change bet</Button>
     {/if}
-  </form>
+  {:else}
+    <form action="" on:submit={handleSubmit} class="flex flex-col gap-3">
+      <select
+        name=""
+        id="driver-one"
+        bind:value={selection.first}
+        class="bg-inherit border border-zinc-500 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-zinc-400 transition-all ease-in-out duration-300 focus:outline-none"
+      >
+        <option value="">First</option>
+        {#each drivers as driver}
+          {#if driver.name !== selection.second && driver.name !== selection.third}
+            <option value={driver.name}>{driver.name}</option>
+          {/if}
+        {/each}
+      </select>
+      <select
+        name=""
+        id="driver-one"
+        bind:value={selection.second}
+        class="bg-inherit border border-zinc-500 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-zinc-400 transition-all ease-in-out duration-300 focus:outline-none"
+      >
+        <option value="">Second</option>
+        {#each drivers as driver}
+          {#if driver.name !== selection.first && driver.name !== selection.third}
+            <option value={driver.name}>{driver.name}</option>
+          {/if}
+        {/each}
+      </select>
+      <select
+        name=""
+        id="driver-one"
+        bind:value={selection.third}
+        class="bg-inherit border border-zinc-500 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-zinc-400 transition-all ease-in-out duration-300 focus:outline-none"
+      >
+        <option value="">Third</option>
+        {#each drivers as driver}
+          {#if driver.name !== selection.first && driver.name !== selection.second}
+            <option value={driver.name}>{driver.name}</option>
+          {/if}
+        {/each}
+      </select>
+
+      {#if selection.first && selection.second && selection.third}
+        {#if raceStart < date}
+          <div in:fade={{ duration: 200 }}>
+            <p>Sorry, this race has already taken place.</p>
+          </div>
+        {:else}
+          <div in:fade={{ duration: 200 }}>
+            <Button type="submit">Place bet</Button>
+          </div>
+        {/if}
+      {/if}
+    </form>
+  {/if}
 {/if}
+
+<style>
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("/chevron-down.svg");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 1rem) center;
+    background-size: 1em;
+  }
+</style>

@@ -6,6 +6,8 @@
   import type { SubmitFunction } from "@sveltejs/kit";
   import type { PageData } from "./$types";
   import { enhance } from "$app/forms";
+  import Input from "$lib/components/Input.svelte";
+  import PasswordInput from "$lib/components/PasswordInput.svelte";
 
   export let data: PageData;
 
@@ -58,17 +60,22 @@
     <div class="w-full h-full flex justify-center items-center">
       <div class="flex flex-col w-2/4">
         <h2 class="text-4xl">Sign Up</h2>
-        <p class="mb-8">Create an account</p>
+        <p class="mb-8 text-neutral-500">Create an account</p>
         <form method="POST" class="flex flex-col" use:enhance={submitRegister}>
-          <input
-            type="text"
-            class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
-            placeholder="Email"
-            name="email"
+          <Input name="email" placeholder="Email" />
+          <PasswordInput
+            name="password"
+            placeholder="Password"
+            bind:value={password}
+          />
+          <PasswordInput
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            bind:value={confirmPassword}
           />
           <input
             type="password"
-            class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
+            class="bg-inherit border border-gray-400 focus:border-gray-200 shadow-inner rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
             placeholder="Password"
             bind:value={password}
             name="password"
@@ -76,7 +83,7 @@
           />
           <input
             type="password"
-            class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
+            class="bg-inherit border border-gray-400 focus:border-gray-200 shadow-inner rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
             placeholder="Confirm Password"
             bind:value={confirmPassword}
             autocomplete="off"
@@ -144,7 +151,7 @@
         <a
           href="/"
           class="mt-4 text-sm underline text-neutral-400 hover:cursor-pointer"
-          >Back to home page</a
+          >Already have an account? Log in</a
         >
       </div>
     </div>

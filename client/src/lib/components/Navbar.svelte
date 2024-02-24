@@ -12,7 +12,6 @@
     if (error) {
       console.error(error);
     }
-    // goto("/login");
     goto("/regsiter");
   };
 </script>
@@ -21,7 +20,7 @@
   class="w-full py-6 border-b border-b-gray-200 fixed backdrop-blur-md bg-neutral-50/60 z-50 flex justify-between px-8"
 >
   <a href="/" class="flex items-center">
-    <img src="/f1.png" alt="" class="h-6" /></a
+    <img src="/logo.png" alt="" class="h-6" /></a
   >
   <form
     action="/logout"

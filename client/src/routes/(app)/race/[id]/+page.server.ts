@@ -16,6 +16,16 @@ export const load = (async ({ params }) => {
   const userComments = userCommentsPromise;
   const [result] = resultPromise;
 
+  const userCommentsUTC = userCommentsPromise.map((comment) => {
+    const utcDate = new Date(comment.timestamp);
+    const newComment = {
+      ...comment,
+      timestamp: utcDate.toISOString(),
+    };
+    return newComment;
+  });
+  console.log("user comments", userComments);
+
   let grid = null;
   if (raceGrid) {
     grid = JSON.parse(raceGrid.gridData);
@@ -33,9 +43,7 @@ export const load = (async ({ params }) => {
   return {
     raceId,
     grid,
-    comments: userComments,
+    comments: userCommentsUTC,
     result: topThree,
   };
 }) satisfies PageServerLoad;
-
-//TODO: Move this to the client

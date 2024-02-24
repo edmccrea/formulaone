@@ -22,15 +22,20 @@
 </script>
 
 <p class="text-xl">
-  Hello {$user?.username ?? session?.user.email} 👋,
+  Hello {$user?.username ?? session?.user.email} 👋
   {#if $user}
-    you're currently in {$user.position}{positionSuffix}
+    , you're currently in {$user.position}{positionSuffix}
     place with <span class="font-bold">{$user.points}</span>
     points.
   {:else}
-    You need to create a profile!
-    <a href="/profile/create">
-      <Button>Create a profile</Button>
-    </a>
+    <div
+      class="mt-2 flex flex-col gap-2 bg-neutral-50 p-8 border border-neutral-200 shadow-sm px-4 py-8 md:p-8 rounded-md"
+    >
+      <p>This year you need to create a profile before we get started</p>
+
+      <a href="/profile/create" class="text-base">
+        <Button>Create a profile</Button>
+      </a>
+    </div>
   {/if}
 </p>

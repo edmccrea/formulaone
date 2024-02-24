@@ -31,7 +31,7 @@
   tabindex="0"
   on:click={goToRace}
   on:keyup={goToRace}
-  class="bg-neutral-50 border border-neutral-200 shadow-md rounded-md w-72 h-80 hover:cursor-pointer hover:bg-neutral-200/50 hover:-translate-y-0.5 transition-all ease-in-out duration-300 shrink-0 snap-start"
+  class="bg-neutral-50 border border-neutral-200 shadow-md rounded-md w-72 h-80 hover:cursor-pointer hover:bg-neutral-200/20 hover:-translate-y-0.5 transition-all ease-in-out duration-300 shrink-0 snap-start"
 >
   <div class="h-3/5">
     <img

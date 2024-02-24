@@ -11,6 +11,7 @@
   if (!commentUser) {
     throw new Error("User not found");
   }
+  console.log("date", comment.timestamp);
 
   function formatDate(date: Date) {
     const day = String(date.getDate()).padStart(2, "0");
@@ -22,7 +23,8 @@
     return `${day}/${month}/${year} ${hours}:${minutes}`;
   }
 
-  const formattedDate = formatDate(comment.timestamp);
+  const formattedDate = formatDate(new Date(comment.timestamp));
+  // const formattedDate = comment.timestamp.toLocaleString();
 </script>
 
 <div class="flex gap-4 mt-4" in:fade>
