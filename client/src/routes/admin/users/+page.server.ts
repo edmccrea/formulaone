@@ -1,10 +1,10 @@
-import prisma from "$lib/prisma";
-import type { PageServerLoad } from "./$types";
+// import prisma from "$lib/prisma";
+// import type { PageServerLoad } from "./$types";
 
-export const load = (async () => {
-  const users = await prisma.users.findMany();
+// export const load = (async () => {
+//   const users = await prisma.users.findMany();
 
-  return {
-    users,
-  };
-}) satisfies PageServerLoad;
+//   return {
+//     users,
+//   };
+// }) satisfies PageServerLoad;
