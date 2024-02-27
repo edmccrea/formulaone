@@ -6,19 +6,19 @@
   import RaceInfo from "$lib/components/race/RaceInfo.svelte";
   import CommentSection from "$lib/components/race/CommentSection.svelte";
   import { combineDateTime } from "$lib/utils/combine-date-time";
+  import { user as userStore } from "../../../../stores/user";
 
   export let data;
-  const race = data.race;
-  const user = data.user;
-  const gridJSON = data.grid?.grid;
+  const race = data.allRaces.find((race) => race.raceId === data.raceId);
+  if (!race) {
+    throw new Error("Race not found");
+  }
+  $: user = $userStore;
+  const users = data.users;
+  const grid = data.grid;
   const result = data.result;
   const comments = data.comments;
-  $: betTable = data.betTable;
-
-  let grid: { name: string; lapTime: string }[];
-  if (gridJSON) {
-    grid = JSON.parse(gridJSON);
-  }
+  $: betTable = createBetTable(data.users, data.bets);
 
   const date = Date.now();
   const raceStartDateObject = combineDateTime(race.raceDate, race.raceTime);
@@ -27,13 +27,43 @@
 
   function showBet(bet: string, username: string) {
     if (!bet) return "";
-    if (raceStartMillis < date || username === user.username) return bet;
+    if (raceStartMillis < date || username === user?.username) return bet;
     return "****";
+  }
+
+  function createBetTable(users: App.User[], bets: App.Bet[]): App.BetTable {
+    const betTable: App.BetTable = [];
+
+    users.forEach((user) => {
+      betTable.push({
+        username: user.username,
+        userId: Number(user.userId),
+        avatar: user.avatar,
+        bets: {
+          first: "",
+          second: "",
+          third: "",
+        },
+      });
+    });
+
+    bets.forEach((bet) => {
+      const user = betTable.find(
+        (user) => Number(user.userId) === Number(bet.userId)
+      );
+      if (user)
+        user.bets = {
+          first: bet.first,
+          second: bet.second,
+          third: bet.third,
+        };
+    });
+    return betTable;
   }
 
   function updateBetTable(e: CustomEvent) {
     const bet = e.detail;
-    betTable = betTable.filter((bet) => bet.username !== user.username);
+    betTable = betTable.filter((bet) => bet.username !== user?.username);
     betTable.push(bet);
   }
 
@@ -43,10 +73,10 @@
     bet: App.MappedBet
   ) {
     const resultArray = Object.keys(result)
-      .filter((key) => key !== "race_id")
+      .filter((key) => key !== "raceId")
       .map((key) => result[key as keyof App.Result]);
 
-    const userBet = betTable.find((bet) => bet.username === user.username);
+    const userBet = betTable.find((bet) => bet.username === user?.username);
     if (!userBet) return "";
     if (bet.bets[betPosition] === result[betPosition]) {
       return "text-emerald-500";
@@ -61,7 +91,7 @@
 
   function checkRacePoints() {
     if (!betTable) return false;
-    const userBets = betTable.find((bet) => bet.username === user.username);
+    const userBets = betTable.find((bet) => bet.username === user?.username);
     if (!userBets) return false;
     if (
       result &&
@@ -98,27 +128,36 @@
   class="w-full h-full mx-auto max-w-[22rem] md:max-w-2xl lg:max-w-7xl lg:px-8 mt-32 md:mt-28 mb-16 flex flex-col flex-1"
 >
   <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-8">
-    <div class="bg-neutral-900 p-8 rounded-md">
+    <div
+      class="bg-neutral-50 p-8 rounded-md border border-neutral-200 shadow-sm"
+    >
       <RaceInfo {race} {raceStartDateObject} {qualyStartDateObject} />
     </div>
-    <div class="bg-neutral-900 p-8 rounded-md">
-      <RaceBet
-        {race}
-        {betTable}
-        {user}
-        raceStart={raceStartMillis}
-        on:betSubmitted={updateBetTable}
-      />
+    <div
+      class="bg-neutral-50 p-8 rounded-md border border-neutral-200 shadow-sm"
+    >
+      {#key user}
+        <RaceBet
+          {race}
+          {betTable}
+          {user}
+          seasonId={data.currentSeason.seasonId}
+          raceStart={raceStartMillis}
+          on:betSubmitted={updateBetTable}
+        />
+      {/key}
     </div>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-3 md:cols w-full gap-8 mt-8">
     <div class="col-span-2 h-fit">
-      <div class="bg-neutral-900 px-4 py-8 md:p-8 rounded-md h-fit">
+      <div
+        class="bg-neutral-50 p-8 border border-neutral-200 shadow-sm px-4 py-8 md:p-8 rounded-md h-fit"
+      >
         <div class="overflow-auto">
-          {#key betTable}
+          {#key betTable || user}
             <table>
-              <thead class="border-b border-b-gray-400 bg-zinc-900/50">
+              <thead class="border-b border-b-gray-400 bg-neutral-200/10">
                 <tr class="hover:cursor-default">
                   <th class="py-3 px-2"><div class="w-8" /></th>
                   <th class="text-left py-3 px-2"
@@ -138,7 +177,7 @@
               <tbody>
                 {#each betTable as bet}
                   <tr
-                    class="border-b border-b-gray-600 py-2 hover:bg-zinc-900/30 transition-all ease-in-out duration-300 hover:cursor-default"
+                    class="border-b border-b-neutral-200 py-2 hover:bg-neutral-200/30 transition-all ease-in-out duration-300 hover:cursor-default"
                   >
                     <td class="py-3 px-2"
                       ><img
@@ -177,10 +216,12 @@
         </div>
       </div>
 
-      <CommentSection {user} raceId={race.id} {comments} />
+      <CommentSection {user} raceId={race.raceId} {comments} {users} />
     </div>
 
-    <div class="bg-neutral-900 p-8 rounded-md w-full col-span-2 md:col-span-1">
+    <div
+      class="bg-neutral-50 border border-neutral-200 shadow-sm p-8 rounded-md w-full col-span-2 md:col-span-1"
+    >
       <h3 class="font-bold mb-4">Grid</h3>
       {#if grid}
         <ol>

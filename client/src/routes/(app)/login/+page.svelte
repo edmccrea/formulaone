@@ -2,40 +2,31 @@
   import { fade } from "svelte/transition";
   import { goto } from "$app/navigation";
   import { Circle } from "svelte-loading-spinners";
-
   import Button from "$lib/components/Button.svelte";
-  import { tick } from "svelte";
+  import type { PageData } from "./$types";
+  import type { SubmitFunction } from "@sveltejs/kit";
+  import { enhance } from "$app/forms";
+  import Input from "$lib/components/Input.svelte";
+  import PasswordInput from "$lib/components/PasswordInput.svelte";
+  import { toast } from "svelte-sonner";
 
-  let username = "";
-  let password = "";
+  export let data: PageData;
+
   let loading = false;
-  let loginFailed = false;
-  let failedLoginMessage = "";
 
-  async function handleLogin() {
+  const submitLogin: SubmitFunction = async ({ formData }) => {
     loading = true;
-    loginFailed = false;
-    failedLoginMessage = "";
-
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
+    const { error } = await data.supabase.auth.signInWithPassword({
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
     });
-
-    if (res.ok) {
-      await tick();
-      goto("/");
-    } else {
-      loginFailed = true;
-      const data = await res.json();
-      failedLoginMessage = data.message;
+    if (error) {
+      console.error(error);
+      toast.error(error.message);
+      loading = false;
     }
-
-    loading = false;
-  }
+    goto("/");
+  };
 </script>
 
 <div class="flex w-full main relative">
@@ -51,47 +42,10 @@
     <div class="w-full h-full flex justify-center items-center">
       <div class="flex flex-col w-3/5 lg:w-2/5">
         <h2 class="text-3xl md:text-4xl">Welcome Back</h2>
-        <p class="mb-8">Please sign in to continue</p>
-        <form action="" class="flex flex-col" on:submit={handleLogin}>
-          <input
-            type="text"
-            class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
-            placeholder="Name"
-            bind:value={username}
-            autocomplete="off"
-          />
-          <input
-            type="password"
-            class="bg-inherit border border-gray-400 focus:border-gray-200 rounded-md py-1 px-3 mb-4 ease-in-out transition-all duration-300"
-            placeholder="Password"
-            bind:value={password}
-            autocomplete="off"
-          />
-          {#if loginFailed}
-            <div
-              class="bg-red-200 rounded-t-sm mb-2 flex items-center p-2 border-l-4 border-l-red-700"
-              in:fade
-            >
-              <svg
-                class="mr-2"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                  stroke="#b91c1c"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-
-              <p class="text-red-700">{failedLoginMessage}</p>
-            </div>
-          {/if}
+        <p class="mb-8 text-neutral-500">Please sign in to continue</p>
+        <form method="POST" class="flex flex-col" use:enhance={submitLogin}>
+          <Input name="email" placeholder="Email" />
+          <PasswordInput name="password" placeholder="Password" />
           <Button fullWidth={true} type="submit"
             >{#if loading}
               <div class="h-6 flex justify-center items-center">

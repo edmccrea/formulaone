@@ -1,41 +1,46 @@
-import prisma from "$lib/prisma";
 import type { RequestHandler } from "./$types";
+import { db } from "$lib/drizzle/db";
+import { bets } from "$lib/drizzle/schema";
+import { and, eq } from "drizzle-orm";
 
 export const POST: RequestHandler = async ({ request }) => {
   const betReq = await request.json();
-  const existingBet = await prisma.bets.findFirst({
-    where: {
-      AND: [{ user_id: betReq.user_id }, { race_id: betReq.race_id }],
-    },
-  });
+
+  const [existingBet] = await db
+    .select()
+    .from(bets)
+    .where(and(eq(bets.userId, betReq.userId), eq(bets.raceId, betReq.raceId)));
   if (existingBet) {
-    await prisma.bets.update({
-      where: {
-        race_id_user_id_bet_id: {
-          race_id: existingBet.race_id,
-          user_id: existingBet.user_id,
-          bet_id: existingBet.bet_id,
-        },
-      },
-      data: {
-        first: betReq.first,
-        second: betReq.second,
-        third: betReq.third,
-      },
-    });
+    await db
+      .update(bets)
+      .set({ first: betReq.first, second: betReq.second, third: betReq.third })
+      .where(
+        and(eq(bets.userId, betReq.userId), eq(bets.raceId, betReq.raceId))
+      );
 
     return new Response("Bet updated", { status: 200 });
   } else {
-    await prisma.bets.create({
-      data: {
-        user_id: betReq.user_id,
-        race_id: betReq.race_id,
-        first: betReq.first,
-        second: betReq.second,
-        third: betReq.third,
-      },
+    type NewBet = typeof bets.$inferInsert;
+    const insertBet = async (bet: NewBet) => {
+      return await db.insert(bets).values(bet).returning({
+        betId: bets.betId,
+        userId: bets.userId,
+        raceId: bets.raceId,
+        seasonId: bets.seasonId,
+        first: bets.first,
+        second: bets.second,
+        third: bets.third,
+      });
+    };
+    const insertedBet = insertBet({
+      userId: betReq.userId,
+      raceId: betReq.raceId,
+      seasonId: betReq.seasonId,
+      first: betReq.first,
+      second: betReq.second,
+      third: betReq.third,
     });
 
-    return new Response("Bet created", { status: 201 });
+    return new Response(JSON.stringify({ insertedBet }), { status: 201 });
   }
 };

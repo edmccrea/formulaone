@@ -3,7 +3,7 @@
   import { combineDateTime } from "$lib/utils/combine-date-time";
 
   export let race: App.Race;
-  export let bets: App.Bet[];
+  export let bets: App.Bet[] | undefined;
 
   const raceStart = combineDateTime(race.raceDate, race.raceTime);
   const dateToDisplay = raceStart.toDateString();
@@ -18,18 +18,21 @@
   let betPlaced = checkUserBet();
 
   function checkUserBet() {
-    return bets.find((bet) => bet.race_id === race.id);
+    if (!bets) return false;
+    return bets.find((bet) => bet.raceId === race.raceId);
   }
 
   function goToRace() {
-    goto(`/race/${race.id}`);
+    goto(`/race/${race.raceId}`);
   }
 </script>
 
 <div
+  role="button"
+  tabindex="0"
   on:click={goToRace}
   on:keyup={goToRace}
-  class="bg-zinc-900 border border-neutral-700 rounded-md w-72 h-80 hover:cursor-pointer hover:bg-zinc-800 transition-all ease-in-out duration-300 shrink-0 snap-start"
+  class="bg-neutral-50 border border-neutral-200 shadow-md rounded-md w-72 h-80 hover:cursor-pointer hover:bg-neutral-200/20 hover:-translate-y-0.5 transition-all ease-in-out duration-300 shrink-0 snap-start"
 >
   <div class="h-3/5">
     <img

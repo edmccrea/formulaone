@@ -1,117 +1,48 @@
-import prisma from "$lib/prisma";
+import { db } from "$lib/drizzle/db";
+import { comments, grids, results } from "$lib/drizzle/schema";
+import { eq } from "drizzle-orm";
 import type { PageServerLoad } from "./$types";
 
-export const load = (async ({ params, locals }) => {
-  const raceId = params.id;
+export const load = (async ({ params }) => {
+  const raceId = Number(params.id);
+  const [raceGridPromise, userCommentsPromise, resultPromise] =
+    await Promise.all([
+      db.select().from(grids).where(eq(grids.raceId, raceId)),
+      db.select().from(comments).where(eq(comments.raceId, raceId)),
+      db.select().from(results).where(eq(results.raceId, raceId)),
+    ]);
 
-  async function getPageData() {
-    const [user, race, bets, users, grid, result, comments] = await Promise.all(
-      [
-        prisma.users.findFirst({
-          where: {
-            username: locals.user.name,
-          },
-        }),
-        prisma.races.findFirst({
-          where: {
-            race_id: Number(raceId),
-          },
-        }),
-        prisma.bets.findMany({
-          where: {
-            race_id: Number(raceId),
-          },
-        }),
-        prisma.users.findMany(),
-        prisma.grids.findFirst({
-          where: {
-            race_id: Number(raceId),
-          },
-        }),
-        prisma.results.findFirst({
-          where: {
-            race_id: Number(raceId),
-          },
-        }),
-        prisma.comments.findMany({
-          where: {
-            race_id: Number(raceId),
-          },
-        }),
-      ]
-    );
+  const [raceGrid] = raceGridPromise;
+  const userComments = userCommentsPromise;
+  const [result] = resultPromise;
 
-    if (!user || !race || !bets || !users)
-      throw new Error("Failed to load page data");
+  const userCommentsUTC = userCommentsPromise.map((comment) => {
+    const utcDate = new Date(comment.timestamp);
+    const newComment = {
+      ...comment,
+      timestamp: utcDate.toISOString(),
+    };
+    return newComment;
+  });
 
-    return {
-      user,
-      race,
-      bets,
-      users,
-      grid,
-      result,
-      comments,
+  let grid = null;
+  if (raceGrid) {
+    grid = JSON.parse(raceGrid.gridData);
+  }
+  let topThree = null;
+  if (result) {
+    const parsedResult = JSON.parse(result.resultData);
+    topThree = {
+      first: parsedResult[0].first,
+      second: parsedResult[0].second,
+      third: parsedResult[0].third,
     };
   }
 
-  const { user, race, bets, users, grid, result, comments } =
-    await getPageData();
-  const mappedRace = mapRace(race);
-  const betTable = createBetTable(users, bets);
-
   return {
-    user,
-    race: mappedRace,
-    betTable,
-    users,
+    raceId,
     grid,
-    result,
-    comments,
+    comments: userCommentsUTC,
+    result: topThree,
   };
 }) satisfies PageServerLoad;
-
-function mapRace(race: App.DatabaseRace): App.Race {
-  return {
-    id: race.race_id,
-    name: race.race_name,
-    type: race.race_type,
-    flag: race.country_flag,
-    qualyTime: race.qualifying_time,
-    qualyDate: race.qualifying_date,
-    location: race.location,
-    track: race.track_name,
-    raceTime: race.race_time,
-    raceDate: race.race_date,
-    image: race.race_image,
-    trackLayout: race.track_layout,
-  };
-}
-
-function createBetTable(users: App.User[], bets: App.Bet[]): App.BetTable {
-  const betTable: App.BetTable = [];
-
-  users.forEach((user) => {
-    betTable.push({
-      username: user.username,
-      user_id: user.user_id,
-      avatar: user.avatar,
-      bets: {
-        first: "",
-        second: "",
-        third: "",
-      },
-    });
-  });
-
-  bets.forEach((bet) => {
-    const user = betTable.find((user) => user.user_id === bet.user_id);
-    if (user)
-      user.bets = {
-        first: bet.first,
-        second: bet.second,
-        third: bet.third,
-      };
-  });
-  return betTable;
-}

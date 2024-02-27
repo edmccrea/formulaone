@@ -72,7 +72,7 @@
       <div class="flex flex-col w-96 relative">
         <label
           for="race-image"
-          class="text-sm text-neutral-400 absolute bg-[#121212] -top-2.5 left-2 px-2"
+          class="text-sm text-neutral-400 absolute bg-neutral-50 -top-2.5 left-2 px-2"
           >Race image</label
         >
         <input
@@ -90,7 +90,7 @@
       <div class="flex flex-col w-52 relative">
         <label
           for="track-layout"
-          class="text-sm text-neutral-400 absolute bg-[#121212] -top-2.5 left-2 px-2"
+          class="text-sm text-neutral-400 absolute bg-neutral-50 -top-2.5 left-2 px-2"
           >Track layout</label
         >
         <input

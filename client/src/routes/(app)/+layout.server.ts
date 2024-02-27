@@ -1,34 +1,112 @@
 import type { LayoutServerLoad } from "./$types";
-import prisma from "$lib/prisma";
+import { db } from "$lib/drizzle/db";
+import {
+  bets,
+  constructorsBets,
+  races,
+  scores,
+  seasons,
+  users,
+} from "$lib/drizzle/schema";
+import { and, eq } from "drizzle-orm";
 
-export const load = (async ({ locals: { getSession } }) => {
-  const races = await prisma.races.findMany();
-  const mappedRaces = mapRaces(races);
+export const load = (async ({ locals: { getSession }, fetch }) => {
+  const [currentSeasonPromise, allUsersPromise] = await Promise.all([
+    db.select().from(seasons).where(eq(seasons.currentSeason, true)).limit(1),
+    db.select().from(users),
+  ]);
+  const [currentSeason] = currentSeasonPromise;
+  const currentSeasonRaces = await db
+    .select()
+    .from(races)
+    .where(eq(races.seasonId, currentSeason.seasonId));
+
+  const allBets = await db
+    .select()
+    .from(bets)
+    .where(eq(bets.seasonId, currentSeason.seasonId));
+
+  const mappedRaces = mapRaces(currentSeasonRaces, currentSeason.seasonId);
   const { previousRaces, upcomingRaces } = sortRaces(mappedRaces);
+
+  const allUsers = allUsersPromise;
+  const mappedUsers = await Promise.all(
+    allUsers.map(async (user) => {
+      const userScore = await getUserScore(user.userId);
+      const userConstructorBet = await getUserConstructorBet(user.userId);
+      const userBets = await getUserBets(user.userId);
+
+      return {
+        userId: user.userId,
+        username: user.username,
+        avatar: user.avatar,
+        points: userScore?.score ?? 0,
+        position: userScore?.position ?? 0,
+        constructorBet: userConstructorBet?.constructorName ?? "",
+        admin: user.admin,
+        userBets,
+      };
+    })
+  );
+
+  const session = await getSession();
+
+  let user = null;
+  if (session) {
+    const res = await fetch("/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: session.user.email }),
+    });
+    let data = (await res.json()) as { user: App.User };
+    if (res.ok) {
+      user = {
+        userId: data.user.userId,
+        username: data.user.username,
+        avatar: data.user.avatar,
+        points: data.user.points,
+        position: data.user.position,
+        constructorBet: data.user.constructorBet,
+        admin: data.user.admin,
+        userBets: data.user.userBets,
+      };
+    }
+  }
 
   return {
     previousRaces,
     upcomingRaces,
+    allRaces: mappedRaces,
+    users: mappedUsers,
+    bets: allBets,
+    currentSeason,
     session: await getSession(),
+    user,
   };
 }) satisfies LayoutServerLoad;
 
-function mapRaces(races: App.DatabaseRace[]): App.Race[] {
+function mapRaces(
+  races: App.DatabaseRace[],
+  currentSeasonId: number
+): App.Race[] {
   if (!races) return [];
   return races.map((race) => {
     return {
-      id: race.race_id,
-      name: race.race_name,
-      type: race.race_type,
-      flag: race.country_flag,
-      qualyTime: race.qualifying_time,
-      qualyDate: race.qualifying_date,
+      raceId: Number(race.raceId), //TODO: Investigate why this is a string
+      seasonId: currentSeasonId,
+      name: race.raceName,
+      type: race.raceType,
+      flag: race.countryFlag,
+      qualyTime: race.qualifyingTime,
+      qualyDate: race.qualifyingDate,
       location: race.location,
-      track: race.track_name,
-      raceTime: race.race_time,
-      raceDate: race.race_date,
-      image: race.race_image,
-      trackLayout: race.track_layout,
+      track: race.trackName,
+      raceTime: race.raceTime,
+      raceDate: race.raceDate,
+      image: race.raceImage,
+      trackLayout: race.trackLayout,
     };
   });
 }
@@ -62,4 +140,27 @@ function sortRaces(mappedRaces: App.Race[]) {
     previousRaces,
     upcomingRaces,
   };
+}
+
+async function getUserScore(userId: number) {
+  const userScore = await db
+    .select({ score: scores.score, position: scores.position })
+    .from(scores)
+    .where(and(eq(scores.userId, userId), eq(scores.seasonId, 1)))
+    .limit(1);
+  return userScore[0];
+}
+
+async function getUserConstructorBet(userId: number) {
+  const bet = await db
+    .select({ constructorName: constructorsBets.constructorName })
+    .from(constructorsBets)
+    .where(eq(constructorsBets.userId, userId))
+    .limit(1);
+  return bet[0];
+}
+
+async function getUserBets(userId: number) {
+  const userBets = await db.select().from(bets).where(eq(bets.userId, userId));
+  return userBets;
 }

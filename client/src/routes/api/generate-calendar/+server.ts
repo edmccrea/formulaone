@@ -1,38 +1,55 @@
 import { XMLParser } from "fast-xml-parser";
 
-import prisma from "$lib/prisma";
+import { db } from "$lib/drizzle/db";
+import { races, seasons } from "$lib/drizzle/schema";
 import type { RequestHandler } from "./$types";
 import { deepEqual } from "$lib/utils/deep-equal";
 import { mapRaces } from "./functions/map-races";
+import { and, eq } from "drizzle-orm";
+
+type NewRace = typeof races.$inferInsert;
+const insertRaces = async (race: NewRace) => {
+  const res = await db.insert(races).values(race);
+};
 
 export const GET: RequestHandler = async ({ locals }) => {
-  if (!locals.user.admin) return new Response("Unauthorized", { status: 401 });
+  // if (!locals.user.admin) return new Response("Unauthorized", { status: 401 });
   const options = {
     ignoreAttributes: false,
     attributeNamePrefix: "@_",
   };
   const parser = new XMLParser(options);
 
-  const url = `http://ergast.com/api/f1/current`;
+  const url = `http://ergast.com/api/f1/2024`;
   const ergastRes = await fetch(url);
   const xmlText = await ergastRes.text();
   const json = parser.parse(xmlText);
+
+  const [currentSeason] = await db
+    .select()
+    .from(seasons)
+    .where(eq(seasons.currentSeason, true));
 
   const mappedRaces = mapRaces(json.MRData.RaceTable.Race);
 
   mappedRaces.forEach(async (race) => {
     if (race.sprintObj) {
-      const alreadyExistingRace = await prisma.races.findFirst({
-        where: {
-          race_name: race.sprintObj.race_name,
-          race_type: "Sprint",
-          race_date: race.sprintObj.race_date,
-        },
-      });
+      const [alreadyExistingRace] = await db
+        .select()
+        .from(races)
+        .where(
+          and(
+            eq(races.raceName, race.sprintObj.race_name),
+            eq(races.raceType, "Sprint"),
+            eq(races.raceDate, race.sprintObj.race_date)
+          )
+        )
+        .limit(1);
+
       if (alreadyExistingRace) {
         const comparisonObject = {
           ...alreadyExistingRace,
-          calendar_id: alreadyExistingRace.calendar_round,
+          calendar_id: alreadyExistingRace.calendarRound,
           race_image: "",
           qualifying_date: "",
           qualifying_time: "",
@@ -41,7 +58,7 @@ export const GET: RequestHandler = async ({ locals }) => {
         const sprintComparisonObject = {
           ...race.sprintObj,
           calendar_round: race.sprintObj.calendar_id,
-          race_id: alreadyExistingRace.race_id,
+          race_id: alreadyExistingRace.raceId,
           race_image: "",
           qualifying_date: "",
           qualifying_time: "",
@@ -52,112 +69,118 @@ export const GET: RequestHandler = async ({ locals }) => {
           console.log(`No new updates for ${race.sprintObj.race_name} Sprint`);
         } else {
           const sprintObj = race.sprintObj;
-          await prisma.races.update({
-            where: {
-              race_id: alreadyExistingRace.race_id,
-            },
-            data: {
-              calendar_round: sprintObj.calendar_id,
-              race_name: sprintObj.race_name,
+          await db
+            .update(races)
+            .set({
+              calendarRound: sprintObj.calendar_id,
+              raceName: sprintObj.race_name,
               location: sprintObj.location,
-              race_type: sprintObj.race_type,
-              country_flag: sprintObj.country_flag,
-              race_date: sprintObj.race_date,
-              race_time: sprintObj.race_time,
-              track_name: sprintObj.track_name,
-              track_layout: sprintObj.track_layout,
-            },
-          });
+              raceType: sprintObj.race_type,
+              countryFlag: sprintObj.country_flag,
+              raceDate: sprintObj.race_date,
+              raceTime: sprintObj.race_time,
+              trackName: sprintObj.track_name,
+              trackLayout: sprintObj.track_layout,
+            })
+            .where(eq(races.raceId, alreadyExistingRace.raceId));
           console.log(`Updating ${race.sprintObj.race_name} Sprint`);
         }
       } else {
         const sprintObj = race.sprintObj;
-        const newSprint = await prisma.races.create({
-          data: {
-            calendar_round: sprintObj.calendar_id,
-            race_name: sprintObj.race_name,
-            location: sprintObj.location,
-            race_type: sprintObj.race_type,
-            country_flag: sprintObj.country_flag,
-            qualifying_date: sprintObj.qualifying_date,
-            qualifying_time: sprintObj.qualifying_time,
-            race_date: sprintObj.race_date,
-            race_time: sprintObj.race_time,
-            race_image: sprintObj.race_image,
-            track_name: sprintObj.track_name,
-            track_layout: sprintObj.track_layout,
-          },
-        });
-        console.log(`Sprint race created for ${newSprint.race_name}`);
+        const newSprintRace = {
+          calendarRound: sprintObj.calendar_id,
+          raceName: sprintObj.race_name,
+          location: sprintObj.location,
+          raceType: sprintObj.race_type,
+          countryFlag: sprintObj.country_flag,
+          qualifyingStart: new Date(),
+          qualifyingDate: sprintObj.qualifying_date,
+          qualifyingTime: sprintObj.qualifying_time,
+          raceStart: new Date(),
+          raceDate: sprintObj.race_date,
+          raceTime: sprintObj.race_time,
+          raceImage: sprintObj.race_image,
+          trackName: sprintObj.track_name,
+          trackLayout: sprintObj.track_layout,
+          seasonId: currentSeason.seasonId,
+        };
+        await insertRaces(newSprintRace);
+        console.log(`Sprint race created for ${newSprintRace.raceName}`);
       }
     }
 
-    const alreadyExistingRace = await prisma.races.findFirst({
-      where: {
-        race_name: race.raceObj.race_name,
-        race_type: "Grand Prix",
-        race_date: race.raceObj.race_date,
-      },
-    });
+    const [alreadyExistingRace] = await db
+      .select()
+      .from(races)
+      .where(
+        and(
+          eq(races.raceName, race.raceObj.race_name),
+          eq(races.raceType, "Sprint"),
+          eq(races.raceDate, race.raceObj.race_date)
+        )
+      )
+      .limit(1);
+
     if (alreadyExistingRace) {
       const comparisonObject = {
         ...alreadyExistingRace,
-        calendar_id: alreadyExistingRace.calendar_round,
+        calendar_id: alreadyExistingRace.calendarRound,
         race_image: "",
       };
 
       const grandPrixComparisonObject = {
         ...race.raceObj,
         calendar_round: race.raceObj.calendar_id,
-        race_id: alreadyExistingRace.race_id,
+        race_id: alreadyExistingRace.raceId,
         race_image: "",
       };
 
       const areEqual = deepEqual(comparisonObject, grandPrixComparisonObject);
 
       if (areEqual) {
-        console.log(`No new updates for ${alreadyExistingRace.race_name} GP`);
+        console.log(`No new updates for ${alreadyExistingRace.raceName} GP`);
       } else {
         const raceObj = race.raceObj;
-        await prisma.races.update({
-          where: {
-            race_id: alreadyExistingRace.race_id,
-          },
-          data: {
-            calendar_round: raceObj.calendar_id,
-            race_name: raceObj.race_name,
+        await db
+          .update(races)
+          .set({
+            calendarRound: raceObj.calendar_id,
+            raceName: raceObj.race_name,
             location: raceObj.location,
-            race_type: raceObj.race_type,
-            country_flag: raceObj.country_flag,
-            qualifying_date: raceObj.qualifying_date,
-            qualifying_time: raceObj.qualifying_time,
-            race_date: raceObj.race_date,
-            race_time: raceObj.race_time,
-            track_name: raceObj.track_name,
-            track_layout: raceObj.track_layout,
-          },
-        });
+            raceType: raceObj.race_type,
+            countryFlag: raceObj.country_flag,
+            qualifyingDate: raceObj.qualifying_date,
+            qualifyingTime: raceObj.qualifying_time,
+            raceDate: raceObj.race_date,
+            raceTime: raceObj.race_time,
+            trackName: raceObj.track_name,
+            trackLayout: raceObj.track_layout,
+          })
+          .where(eq(races.raceId, alreadyExistingRace.raceId));
+
         console.log(`Updating ${race.raceObj.race_name} Sprint`);
       }
     } else {
       const raceObj = race.raceObj;
-      const newGrandPrix = await prisma.races.create({
-        data: {
-          calendar_round: raceObj.calendar_id,
-          race_name: raceObj.race_name,
-          location: raceObj.location,
-          race_type: raceObj.race_type,
-          country_flag: raceObj.country_flag,
-          qualifying_date: raceObj.qualifying_date,
-          qualifying_time: raceObj.qualifying_time,
-          race_date: raceObj.race_date,
-          race_time: raceObj.race_time,
-          race_image: raceObj.race_image,
-          track_name: raceObj.track_name,
-          track_layout: raceObj.track_layout,
-        },
-      });
-      console.log(`Grand prix created for ${newGrandPrix.race_name}`);
+      const newGrandPrix = {
+        calendarRound: raceObj.calendar_id,
+        raceName: raceObj.race_name,
+        location: raceObj.location,
+        raceType: raceObj.race_type,
+        countryFlag: raceObj.country_flag,
+        qualifyingStart: new Date(),
+        qualifyingDate: raceObj.qualifying_date,
+        qualifyingTime: raceObj.qualifying_time,
+        raceStart: new Date(),
+        raceDate: raceObj.race_date,
+        raceTime: raceObj.race_time,
+        raceImage: raceObj.race_image,
+        trackName: raceObj.track_name,
+        trackLayout: raceObj.track_layout,
+        seasonId: currentSeason.seasonId,
+      };
+      await insertRaces(newGrandPrix);
+      console.log(`Grand prix created for ${newGrandPrix.raceName}`);
     }
   });
 

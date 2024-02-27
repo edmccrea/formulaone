@@ -8,30 +8,33 @@ declare global {
 
     interface Locals {
       user: {
-        name: string;
-        admin: boolean;
+        userId: number;
+        email: string | null;
+        username: string | null;
+        avatar: string | null;
       };
       supabase: SupabaseClient;
       getSession(): Promise<Session | null>;
     }
     interface DatabaseRace {
-      race_id: BigInt;
-      race_name: string;
-      race_type: string;
-      country_flag: string;
-      qualifying_time: string;
-      qualifying_date: string;
-      race_time: string;
-      race_date: string;
+      raceId: number;
+      raceName: string;
+      raceType: string;
+      countryFlag: string;
+      qualifyingTime: string;
+      qualifyingDate: string;
+      raceTime: string;
+      raceDate: string;
       location: string;
-      track_name: string;
-      race_image: string;
-      track_layout: string;
-      calendar_round: number;
+      trackName: string;
+      raceImage: string;
+      trackLayout: string;
+      calendarRound: number;
     }
 
     interface Race {
-      id: BigInt;
+      raceId: number;
+      seasonId: number;
       name: string;
       type: string;
       flag: string;
@@ -46,31 +49,33 @@ declare global {
     }
 
     interface Bet {
-      user_id: BigInt;
+      betId: number;
+      userId: number;
+      raceId: number;
+      seasonId: number;
       first: string;
       second: string;
       third: string;
-      race_id: BigInt;
     }
 
     interface User {
-      user_id: BigInt;
+      userId: number;
       username: string;
       avatar: string;
       points: number;
       position: number;
-      constructor_bet: string;
+      constructorBet: string;
       admin: boolean;
+      userBets: Bet[];
     }
 
     interface Grid {
-      id: BigInt;
-      race_id: BigInt;
+      id: number;
+      raceId: number;
       grid: string[];
     }
 
     interface Result {
-      race_id: BigInt;
       first: string;
       second: string;
       third: string;
@@ -80,7 +85,7 @@ declare global {
 
     interface MappedBet {
       username: string;
-      user_id: BigInt;
+      userId: number;
       avatar: string;
       bets: {
         first: string;
@@ -90,13 +95,11 @@ declare global {
     }
 
     interface Comment {
-      id: BigInt;
-      race_id: BigInt;
-      user_id: BigInt;
-      created_at: Date;
-      comment: string;
-      username: string;
-      avatar: string;
+      commentId: number;
+      raceId: number;
+      userId: number;
+      timestamp: Date;
+      commentText: string;
     }
   }
 }
