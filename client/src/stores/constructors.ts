@@ -10,5 +10,5 @@ export const constructors = writable([
   "Williams",
   "Haas",
   "Sauber",
-  "Alpha Tauri",
+  "RB",
 ]);

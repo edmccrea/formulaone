@@ -11,7 +11,6 @@
   if (!commentUser) {
     throw new Error("User not found");
   }
-  console.log("date", comment.timestamp);
 
   function formatDate(date: Date) {
     const day = String(date.getDate()).padStart(2, "0");

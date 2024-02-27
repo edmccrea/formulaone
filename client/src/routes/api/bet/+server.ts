@@ -22,9 +22,17 @@ export const POST: RequestHandler = async ({ request }) => {
   } else {
     type NewBet = typeof bets.$inferInsert;
     const insertBet = async (bet: NewBet) => {
-      const res = await db.insert(bets).values(bet);
+      return await db.insert(bets).values(bet).returning({
+        betId: bets.betId,
+        userId: bets.userId,
+        raceId: bets.raceId,
+        seasonId: bets.seasonId,
+        first: bets.first,
+        second: bets.second,
+        third: bets.third,
+      });
     };
-    insertBet({
+    const insertedBet = insertBet({
       userId: betReq.userId,
       raceId: betReq.raceId,
       seasonId: betReq.seasonId,
@@ -33,6 +41,6 @@ export const POST: RequestHandler = async ({ request }) => {
       third: betReq.third,
     });
 
-    return new Response("Bet created", { status: 201 });
+    return new Response(JSON.stringify({ insertedBet }), { status: 201 });
   }
 };

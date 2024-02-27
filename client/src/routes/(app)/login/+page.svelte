@@ -2,19 +2,17 @@
   import { fade } from "svelte/transition";
   import { goto } from "$app/navigation";
   import { Circle } from "svelte-loading-spinners";
-
   import Button from "$lib/components/Button.svelte";
   import type { PageData } from "./$types";
   import type { SubmitFunction } from "@sveltejs/kit";
   import { enhance } from "$app/forms";
   import Input from "$lib/components/Input.svelte";
   import PasswordInput from "$lib/components/PasswordInput.svelte";
+  import { toast } from "svelte-sonner";
 
   export let data: PageData;
 
   let loading = false;
-  let loginFailed = false;
-  let failedLoginMessage = "";
 
   const submitLogin: SubmitFunction = async ({ formData }) => {
     loading = true;
@@ -24,9 +22,8 @@
     });
     if (error) {
       console.error(error);
+      toast.error(error.message);
       loading = false;
-      loginFailed = true;
-      failedLoginMessage = "Something went wrong";
     }
     goto("/");
   };
@@ -49,31 +46,6 @@
         <form method="POST" class="flex flex-col" use:enhance={submitLogin}>
           <Input name="email" placeholder="Email" />
           <PasswordInput name="password" placeholder="Password" />
-          {#if loginFailed}
-            <div
-              class="bg-red-200 rounded-t-sm mb-2 flex items-center p-2 border-l-4 border-l-red-700"
-              in:fade
-            >
-              <svg
-                class="mr-2"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                  stroke="#b91c1c"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-
-              <p class="text-red-700">{failedLoginMessage}</p>
-            </div>
-          {/if}
           <Button fullWidth={true} type="submit"
             >{#if loading}
               <div class="h-6 flex justify-center items-center">

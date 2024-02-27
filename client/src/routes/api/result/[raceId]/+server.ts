@@ -2,19 +2,26 @@ import { XMLParser } from "fast-xml-parser";
 
 import prisma from "$lib/prisma";
 import type { RequestHandler } from "./$types";
+import { db } from "$lib/drizzle/db";
+import { races, results } from "$lib/drizzle/schema";
+import { and, eq } from "drizzle-orm";
+
+type NewRaceResult = typeof results.$inferInsert;
+const insertResult = async (result: NewRaceResult) => {
+  const res = await db.insert(results).values(result);
+};
 
 export const GET: RequestHandler = async ({ params }) => {
   const parser = new XMLParser();
   const raceId = params.raceId;
 
-  const dbRace = await prisma.races.findFirst({
-    where: {
-      race_id: Number(raceId),
-    },
-  });
+  const [dbRace] = await db
+    .select()
+    .from(races)
+    .where(eq(races.raceId, Number(raceId)));
 
-  const url = `http://ergast.com/api/f1/current/${dbRace?.calendar_round}/results`;
-  const sprintUrl = `http://ergast.com/api/f1/current/${dbRace?.calendar_round}/sprint`;
+  const url = `http://ergast.com/api/f1/current/${dbRace.calendarRound}/results`;
+  const sprintUrl = `http://ergast.com/api/f1/current/${dbRace.calendarRound}/sprint`;
 
   const raceRes = await fetch(url);
   const raceXmlText = await raceRes.text();
@@ -38,7 +45,7 @@ export const GET: RequestHandler = async ({ params }) => {
   }
 
   updateLeaderboard();
-  return new Response(`Results fetched for ${dbRace?.race_name}`, {
+  return new Response(`Results fetched for ${dbRace.raceName}`, {
     status: 200,
   });
 };
@@ -54,36 +61,33 @@ async function saveTopThreeToDatabase(results: any, race: any) {
   }
 
   const raceType = race.SprintList ? "Sprint" : "Grand Prix";
-  const databaseRace = await prisma.races.findFirst({
-    where: {
-      race_name: race.RaceName,
-      race_type: raceType,
-    },
-  });
+  const [databaseRace] = await db
+    .select()
+    .from(races)
+    .where(
+      and(eq(races.raceName, race.raceName), eq(races.raceType, raceType))
+    );
 
   if (databaseRace) {
     const alreadyExistingResults = await prisma.results.findFirst({
       where: {
-        race_id: databaseRace.race_id,
+        race_id: databaseRace.raceId,
       },
     });
 
     if (alreadyExistingResults) {
       console.log(
-        `Results already exist for ${databaseRace.race_name} ${databaseRace.race_type}`
+        `Results already exist for ${databaseRace.raceName} ${databaseRace.raceType}`
       );
     } else {
       console.log(
-        `Creating results for ${databaseRace.race_name} ${databaseRace.race_type}`
+        `Creating results for ${databaseRace.raceName} ${databaseRace.raceType}`
       );
-      await prisma.results.create({
-        data: {
-          race_id: databaseRace.race_id,
-          first: topThree[0],
-          second: topThree[1],
-          third: topThree[2],
-        },
-      });
+      const results = {
+        raceId: databaseRace.raceId,
+        resultData: JSON.stringify(topThree),
+      };
+      insertResult(results);
     }
   } else {
     //Error handling

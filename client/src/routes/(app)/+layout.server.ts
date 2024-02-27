@@ -34,6 +34,7 @@ export const load = (async ({ locals: { getSession }, fetch }) => {
     allUsers.map(async (user) => {
       const userScore = await getUserScore(user.userId);
       const userConstructorBet = await getUserConstructorBet(user.userId);
+      const userBets = await getUserBets(user.userId);
 
       return {
         userId: user.userId,
@@ -43,6 +44,7 @@ export const load = (async ({ locals: { getSession }, fetch }) => {
         position: userScore?.position ?? 0,
         constructorBet: userConstructorBet?.constructorName ?? "",
         admin: user.admin,
+        userBets,
       };
     })
   );
@@ -68,6 +70,7 @@ export const load = (async ({ locals: { getSession }, fetch }) => {
         position: data.user.position,
         constructorBet: data.user.constructorBet,
         admin: data.user.admin,
+        userBets: data.user.userBets,
       };
     }
   }
@@ -155,4 +158,9 @@ async function getUserConstructorBet(userId: number) {
     .where(eq(constructorsBets.userId, userId))
     .limit(1);
   return bet[0];
+}
+
+async function getUserBets(userId: number) {
+  const userBets = await db.select().from(bets).where(eq(bets.userId, userId));
+  return userBets;
 }

@@ -6,6 +6,7 @@
   import { onMount } from "svelte";
   import { invalidate } from "$app/navigation";
   import { user } from "../../stores/user";
+  import { Toaster } from "svelte-sonner";
 
   export let data;
 
@@ -42,6 +43,7 @@
                 position: data.user.position,
                 constructorBet: data.user.constructorBet,
                 admin: data.user.admin,
+                userBets: data.user.userBets,
               };
             }
           } else {
@@ -74,6 +76,8 @@
 <main class="flex min-h-screen">
   <slot />
 </main>
+
+<Toaster />
 
 {#if $page.url.pathname !== "/login" && $page.url.pathname !== "/register"}
   <Footer />

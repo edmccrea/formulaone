@@ -66,6 +66,7 @@ declare global {
       position: number;
       constructorBet: string;
       admin: boolean;
+      userBets: Bet[];
     }
 
     interface Grid {

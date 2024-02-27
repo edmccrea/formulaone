@@ -1,6 +1,12 @@
 import type { RequestHandler } from "./$types";
 import { db } from "$lib/drizzle/db";
-import { users, scores, constructorsBets, seasons } from "$lib/drizzle/schema";
+import {
+  users,
+  scores,
+  constructorsBets,
+  seasons,
+  bets,
+} from "$lib/drizzle/schema";
 import { eq, and } from "drizzle-orm";
 
 export const POST: RequestHandler = async ({ request }) => {
@@ -44,11 +50,17 @@ export const POST: RequestHandler = async ({ request }) => {
       )
       .limit(1);
 
+    const userBets = await db
+      .select()
+      .from(bets)
+      .where(eq(bets.userId, user.userId));
+
     const mappedUser = {
       ...user,
       points: userScore?.score ?? 0,
       position: userScore?.position ?? 0,
       constructorBet: constructorBet?.constructorName ?? 0,
+      userBets,
     };
 
     return new Response(JSON.stringify({ user: mappedUser }), {

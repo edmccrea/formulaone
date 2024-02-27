@@ -3,7 +3,7 @@
   import { combineDateTime } from "$lib/utils/combine-date-time";
 
   export let race: App.Race;
-  export let bets: App.Bet[];
+  export let bets: App.Bet[] | undefined;
 
   const raceStart = combineDateTime(race.raceDate, race.raceTime);
   const dateToDisplay = raceStart.toDateString();
@@ -18,6 +18,7 @@
   let betPlaced = checkUserBet();
 
   function checkUserBet() {
+    if (!bets) return false;
     return bets.find((bet) => bet.raceId === race.raceId);
   }
 

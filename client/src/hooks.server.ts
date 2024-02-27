@@ -4,7 +4,7 @@ import {
 } from "$env/static/public";
 import { createSupabaseServerClient } from "@supabase/auth-helpers-sveltekit";
 import type { Handle } from "@sveltejs/kit";
-import { ENV } from "$env/static/private";
+import { UNDER_CONSTRUCTION } from "$env/static/private";
 import { redirect } from "@sveltejs/kit";
 
 const unProtectedRoutes = [
@@ -16,7 +16,10 @@ const unProtectedRoutes = [
 ];
 
 export const handle: Handle = async ({ event, resolve }) => {
-  if (ENV !== "dev" && event.url.pathname !== "/under-construction") {
+  if (
+    UNDER_CONSTRUCTION === "true" &&
+    event.url.pathname !== "/under-construction"
+  ) {
     redirect(303, "/under-construction");
   }
   event.locals.supabase = createSupabaseServerClient({

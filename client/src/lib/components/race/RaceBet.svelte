@@ -5,6 +5,8 @@
   import { drivers as driversStore } from "../../../stores/drivers";
   import Button from "../Button.svelte";
   import { createEventDispatcher } from "svelte";
+  import { toast } from "svelte-sonner";
+  import { user as userStore } from "../../../stores/user";
 
   export let race: App.Race;
   export let betTable: App.BetTable;
@@ -57,6 +59,7 @@
     });
 
     if (res.ok) {
+      toast.success("Bet placed");
       dispatch("betSubmitted", {
         username: user?.username,
         userId: user?.userId,
@@ -67,6 +70,10 @@
           third: selection.third,
         },
       });
+
+      const data = await res.json();
+      $userStore?.userBets.push(data.insertedBet);
+      console.log($userStore);
     }
   }
 
@@ -88,10 +95,19 @@
   <h3 class="mb-4">{betSubmitted ? "Your bet" : "Place your bet"}</h3>
 
   {#if betSubmitted}
-    <ol class="flex flex-col gap-2 mb-6">
-      <li class="text-xl">1. {selection.first}</li>
-      <li class="text-xl">2. {selection.second}</li>
-      <li class="text-xl">3. {selection.third}</li>
+    <ol class="flex flex-col gap-2 mb-6 p-4 rounded-md bg-green-50 shadow">
+      <li class="text-xl">
+        <span class="text-xs text-neutral-500">1.</span>
+        {selection.first}
+      </li>
+      <li class="text-xl">
+        <span class="text-xs text-neutral-500">2.</span>
+        {selection.second}
+      </li>
+      <li class="text-xl">
+        <span class="text-xs text-neutral-500">3.</span>
+        {selection.third}
+      </li>
     </ol>
     {#if raceStart > date}
       <Button type="button" on:click={handleEditBet}>Change bet</Button>

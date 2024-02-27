@@ -22,7 +22,7 @@
             {race.location}
           </span>
         </li>
-        <li class="mb-2 flex gap-1 items-center">
+        <li class="mb-2 flex gap-2 items-center text-sm">
           <img src="/icons/clock.svg" alt="" class="w-6 h-6" />
           <span class="text-lg">
             {qualyStartDateObject.toString().substring(0, 10) +
@@ -30,8 +30,8 @@
               race.qualyTime.substring(0, 5)}
           </span>
         </li>
-        <li class="mb-1 flex gap-1 items-center">
-          <img src="/icons/flag.svg" alt="" class="w-6 h-46" />
+        <li class="mb-1 flex gap-2 items-center text-sm">
+          <img src="/icons/flag.svg" alt="" class="w-6 h-42" />
           <span class="text-lg">
             {raceStartDateObject.toString().substring(0, 10) +
               ", " +

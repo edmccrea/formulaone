@@ -1,34 +1,21 @@
-import { fail, redirect } from "@sveltejs/kit";
-import type { Actions } from "./$types";
-import { db } from "$lib/drizzle/db";
+import { redirect } from "@sveltejs/kit";
 import { users } from "$lib/drizzle/schema";
 import type { PageServerLoad } from "./$types";
+import { eq } from "drizzle-orm";
+import { db } from "$lib/drizzle/db";
 
-export const load: PageServerLoad = (async ({ url, locals }) => {
-  //   const session = await locals.getSession();
-  //   if (session) {
-  //     redirect(303, "/");
-  //   }
-}) satisfies PageServerLoad;
-
-export const actions: Actions = {
-  default: async ({ request, locals }) => {
-    const body = Object.fromEntries(await request.formData());
-    const { username, avatar } = body;
-    const session = await locals.getSession();
-
-    type NewUser = typeof users.$inferInsert;
-    const insertUser = async (user: NewUser) => {
-      const res = await db.insert(users).values(user);
-    };
-    if (session && session.user.email) {
-      const newUser = {
-        email: session?.user.email,
-        username: username.toString(),
-        avatar: avatar.toString(),
-        admin: false,
-      };
-      await insertUser(newUser);
+export const load: PageServerLoad = (async ({ locals }) => {
+  const session = await locals.getSession();
+  if (session && session.user.email) {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, session.user.email));
+    if (user) {
+      redirect(303, "/");
     }
-  },
-};
+  }
+  if (!session) {
+    redirect(303, "/");
+  }
+}) satisfies PageServerLoad;
