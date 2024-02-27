@@ -31,7 +31,7 @@
 
 <div class="flex w-full main relative">
   <div class="md:hidden absolute top-0 left-0 w-screen h-screen -z-10">
-    <div class="w-full h-full absolute bg-black/80" />
+    <div class="w-full h-full absolute bg-white/95" />
     <img
       src="https://images.pexels.com/photos/12359137/pexels-photo-12359137.jpeg"
       alt=""
