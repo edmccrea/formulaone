@@ -24,7 +24,6 @@ export const load = (async ({ params }) => {
     };
     return newComment;
   });
-  console.log("user comments", userComments);
 
   let grid = null;
   if (raceGrid) {
