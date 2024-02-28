@@ -18,7 +18,12 @@
   const grid = data.grid;
   const result = data.result;
   const comments = data.comments;
-  $: betTable = createBetTable(data.users, data.bets);
+  let betTable: App.BetTable;
+  $: {
+    if (race) {
+      betTable = createBetTable(data.users, data.bets);
+    }
+  }
 
   const date = Date.now();
   const raceStartDateObject = combineDateTime(race.raceDate, race.raceTime);
@@ -51,7 +56,7 @@
       const user = betTable.find(
         (user) => Number(user.userId) === Number(bet.userId)
       );
-      if (user)
+      if (user && race?.raceId === bet.raceId)
         user.bets = {
           first: bet.first,
           second: bet.second,
