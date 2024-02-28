@@ -30,7 +30,10 @@ function mapSprintRace(race: Race) {
   return {
     race_name: race.RaceName,
     race_type: "Sprint",
-    country_flag: "WAITING FOR CLOUDINARY CONNECTION",
+    country_flag: `https://res.cloudinary.com/edmccrea/image/upload/v1695236190/F1/Flags/_${race.Circuit.Location.Country.replace(
+      /\s/g,
+      ""
+    )}.png`,
     qualifying_date: "UPDATE MANUALLY",
     qualifying_time: "UPDATE MANUALLY",
     race_date: race.Sprint!.Date,
@@ -39,9 +42,8 @@ function mapSprintRace(race: Race) {
       : "TBD",
     location: race.Circuit.Location.Locality,
     track_name: race.Circuit.CircuitName,
-    race_image:
-      "https://images.pexels.com/photos/12359137/pexels-photo-12359137.jpeg",
-    track_layout: "WAITING FOR CLOUDINARY CONNECTION",
+    race_image: `https://res.cloudinary.com/edmccrea/image/upload/c_scale,w_379/v1695140315/F1/Race%20Images/${race["@_round"]}-2.avif`,
+    track_layout: `https://res.cloudinary.com/edmccrea/image/upload/c_scale,w_300/v1708764272/F1/Track%20Layouts/Dark/${race["@_round"]}.avif`,
     calendar_id: Number(race["@_round"]),
   };
 }
@@ -51,7 +53,10 @@ function mapGrandPrix(race: Race) {
   return {
     race_name: race.RaceName,
     race_type: "Grand Prix",
-    country_flag: "WAITING FOR CLOUDINARY CONNECTION",
+    country_flag: `https://res.cloudinary.com/edmccrea/image/upload/v1695236190/F1/Flags/_${race.Circuit.Location.Country.replace(
+      /\s/g,
+      ""
+    )}.png`,
     qualifying_date: race.Qualifying?.Date ?? "TBD",
     qualifying_time: race.Qualifying?.Time
       ? convertTimeWithDate(
@@ -65,9 +70,8 @@ function mapGrandPrix(race: Race) {
       : "TBD",
     location: race.Circuit.Location.Locality,
     track_name: race.Circuit.CircuitName,
-    race_image:
-      "https://images.pexels.com/photos/12359137/pexels-photo-12359137.jpeg",
-    track_layout: "WAITING FOR CLOUDINARY CONNECTION",
+    race_image: `https://res.cloudinary.com/edmccrea/image/upload/c_scale,w_379/v1695140315/F1/Race%20Images/${race["@_round"]}.avif`,
+    track_layout: `https://res.cloudinary.com/edmccrea/image/upload/c_scale,w_300/v1708764272/F1/Track%20Layouts/Dark/${race["@_round"]}.avif`,
     calendar_id: Number(race["@_round"]),
   };
 }

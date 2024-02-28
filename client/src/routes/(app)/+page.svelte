@@ -75,7 +75,7 @@
     <!-- <div class="mt-8 animate-on-visible" use:elRef> -->
     <h2 class="font-bold text-2xl">Future Races</h2>
     <div
-      class="flex py-4 gap-4 w-full relative overflow-auto snap-x lg:snap-none"
+      class="flex py-4 gap-4 w-full relative overflow-auto snap-x lg:snap-none overflow-y-hidden"
     >
       {#if upcomingRaces.length > 0}
         {#each upcomingRaces as race}
@@ -95,7 +95,7 @@
   >
     <h2 class="font-bold text-2xl">Previous Races</h2>
     <div
-      class="flex py-4 gap-4 w-full relative overflow-auto snap-x lg:snap-none"
+      class="flex py-4 gap-4 w-full relative overflow-auto snap-x lg:snap-none overflow-y-hidden"
     >
       {#if previousRaces.length > 0}
         {#each previousRaces as race}
