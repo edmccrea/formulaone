@@ -34,10 +34,9 @@ function mapSprintRace(race: Race) {
     qualifying_date: "UPDATE MANUALLY",
     qualifying_time: "UPDATE MANUALLY",
     race_date: race.Sprint!.Date,
-    race_time: convertTimeWithDate(
-      race.Sprint!.Time,
-      new Date(race.Sprint!.Date)
-    ),
+    race_time: race.Sprint!.Time
+      ? convertTimeWithDate(race.Sprint!.Time, new Date(race.Sprint!.Date))
+      : "TBD",
     location: race.Circuit.Location.Locality,
     track_name: race.Circuit.CircuitName,
     race_image:
@@ -53,13 +52,17 @@ function mapGrandPrix(race: Race) {
     race_name: race.RaceName,
     race_type: "Grand Prix",
     country_flag: "WAITING FOR CLOUDINARY CONNECTION",
-    qualifying_date: race.Qualifying.Date,
-    qualifying_time: convertTimeWithDate(
-      race.Qualifying.Time,
-      new Date(race.Qualifying.Date)
-    ),
+    qualifying_date: race.Qualifying?.Date ?? "TBD",
+    qualifying_time: race.Qualifying?.Time
+      ? convertTimeWithDate(
+          race.Qualifying.Time,
+          new Date(race.Qualifying.Date)
+        )
+      : "TBD",
     race_date: race.Date,
-    race_time: convertTimeWithDate(race.Time, new Date(race.Date)),
+    race_time: race.Time
+      ? convertTimeWithDate(race.Time, new Date(race.Date))
+      : "TBD",
     location: race.Circuit.Location.Locality,
     track_name: race.Circuit.CircuitName,
     race_image:

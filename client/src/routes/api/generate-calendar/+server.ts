@@ -40,8 +40,7 @@ export const GET: RequestHandler = async ({ locals }) => {
         .where(
           and(
             eq(races.raceName, race.sprintObj.race_name),
-            eq(races.raceType, "Sprint"),
-            eq(races.raceDate, race.sprintObj.race_date)
+            eq(races.raceType, "Sprint")
           )
         )
         .limit(1);
@@ -76,11 +75,9 @@ export const GET: RequestHandler = async ({ locals }) => {
               raceName: sprintObj.race_name,
               location: sprintObj.location,
               raceType: sprintObj.race_type,
-              countryFlag: sprintObj.country_flag,
               raceDate: sprintObj.race_date,
               raceTime: sprintObj.race_time,
               trackName: sprintObj.track_name,
-              trackLayout: sprintObj.track_layout,
             })
             .where(eq(races.raceId, alreadyExistingRace.raceId));
           console.log(`Updating ${race.sprintObj.race_name} Sprint`);
@@ -115,8 +112,7 @@ export const GET: RequestHandler = async ({ locals }) => {
       .where(
         and(
           eq(races.raceName, race.raceObj.race_name),
-          eq(races.raceType, "Sprint"),
-          eq(races.raceDate, race.raceObj.race_date)
+          eq(races.raceType, "Grand Prix")
         )
       )
       .limit(1);
@@ -148,17 +144,15 @@ export const GET: RequestHandler = async ({ locals }) => {
             raceName: raceObj.race_name,
             location: raceObj.location,
             raceType: raceObj.race_type,
-            countryFlag: raceObj.country_flag,
             qualifyingDate: raceObj.qualifying_date,
             qualifyingTime: raceObj.qualifying_time,
             raceDate: raceObj.race_date,
             raceTime: raceObj.race_time,
             trackName: raceObj.track_name,
-            trackLayout: raceObj.track_layout,
           })
           .where(eq(races.raceId, alreadyExistingRace.raceId));
 
-        console.log(`Updating ${race.raceObj.race_name} Sprint`);
+        console.log(`Updating ${race.raceObj.race_name} GP`);
       }
     } else {
       const raceObj = race.raceObj;
