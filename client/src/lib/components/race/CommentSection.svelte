@@ -38,13 +38,15 @@
     });
 
     if (res.ok) {
+      const date = new Date();
+      date.setHours(date.getHours() + 1);
       comments = [
         ...comments,
         {
           commentId: 9999999999,
           raceId: raceId,
           userId: Number(user.userId),
-          timestamp: new Date(),
+          timestamp: date,
           commentText: newComment,
         },
       ];
