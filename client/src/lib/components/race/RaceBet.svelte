@@ -91,10 +91,14 @@
     </a>
   </div>
 {:else}
-  <h3 class="mb-4">{betSubmitted ? "Your bet" : "Place your bet"}</h3>
+  <h3 class="mb-2 text-neutral-500">
+    {betSubmitted ? "Your bet" : "Place your bet"}
+  </h3>
 
   {#if betSubmitted}
-    <ol class="flex flex-col gap-2 mb-6 p-4 rounded-md bg-green-50 shadow">
+    <ol
+      class="flex flex-col gap-2 mb-4 p-4 rounded-md border border-red-700/20 shadow-sm"
+    >
       <li class="text-xl">
         <span class="text-xs text-neutral-500">1.</span>
         {selection.first}
@@ -117,7 +121,7 @@
         name=""
         id="driver-one"
         bind:value={selection.first}
-        class="bg-inherit border border-zinc-500 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-zinc-400 transition-all ease-in-out duration-300 focus:outline-none"
+        class="bg-inherit border border-gray-400 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-gray-600 transition-all ease-in-out duration-300 focus:outline-none"
       >
         <option value="">First</option>
         {#each drivers as driver}
@@ -130,7 +134,7 @@
         name=""
         id="driver-one"
         bind:value={selection.second}
-        class="bg-inherit border border-zinc-500 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-zinc-400 transition-all ease-in-out duration-300 focus:outline-none"
+        class="bg-inherit border border-gray-400 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-gray-600 transition-all ease-in-out duration-300 focus:outline-none"
       >
         <option value="">Second</option>
         {#each drivers as driver}
@@ -143,7 +147,7 @@
         name=""
         id="driver-one"
         bind:value={selection.third}
-        class="bg-inherit border border-zinc-500 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-zinc-400 transition-all ease-in-out duration-300 focus:outline-none"
+        class="bg-inherit border border-gray-400 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-gray-600 transition-all ease-in-out duration-300 focus:outline-none"
       >
         <option value="">Third</option>
         {#each drivers as driver}

@@ -43,12 +43,12 @@
   </div>
   <div class="p-4">
     <div class="flex items-center gap-2">
-      <img src={race.flag} alt="" class="h-4 rounded-sm" />
+      <img src={race.flag} alt="" class="h-4 rounded-sm shadow-sm" />
       <h3 class="text-lg font-bold">{race.name}</h3>
     </div>
-    <p>{race.type}</p>
+    <p class="text-neutral-500">{race.type}</p>
     <div class="flex justify-between items-center">
-      <p class="text-sm mt-4">{dateToDisplay}</p>
+      <p class="text-sm mt-4 text-neutral-500">{dateToDisplay}</p>
       {#if isUpcoming && !betPlaced}
         <p
           class="w-fit mt-2 py-1 px-2 bg-yellow-200 text-yellow-900 rounded-md text-sm"

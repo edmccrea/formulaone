@@ -244,7 +244,7 @@
         </ol>
       {:else}
         <div class="flex w-full h-full justify-center lg:pt-12">
-          <p class="font-light">Grid not available yet</p>
+          <p class="font-light text-neutral-500">Grid not available yet</p>
         </div>
       {/if}
     </div>
