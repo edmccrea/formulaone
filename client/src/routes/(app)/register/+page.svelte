@@ -17,15 +17,17 @@
   let loading = false;
 
   const submitRegister: SubmitFunction = async ({ formData }) => {
-    const whitelsit = [
+    const whitelist = [
       "ed-mccrea@hotmail.co.uk",
       "mccreasteelem@aol.com",
       "peter@wrmontor.com",
       "emily.bengtsson@hotmail.com",
       "alastairpm@hotmail.com",
+      "andrus@wrmontor.com",
+      "cartlidgemartyn@gmail.com",
     ];
 
-    if (!whitelsit.includes(formData.get("email") as string)) {
+    if (!whitelist.includes(formData.get("email") as string)) {
       toast.error("You are not whitelisted, contact Ed");
       return;
     }
