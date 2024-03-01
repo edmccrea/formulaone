@@ -7,6 +7,7 @@
   import { createEventDispatcher } from "svelte";
   import { toast } from "svelte-sonner";
   import { user as userStore } from "../../../stores/user";
+  import { invalidateAll } from "$app/navigation";
 
   export let race: App.Race;
   export let betTable: App.BetTable;
@@ -62,7 +63,7 @@
       toast.success("Bet placed");
       dispatch("betSubmitted", {
         username: user?.username,
-        userId: user?.userId,
+        userId: Number(user?.userId),
         avatar: user?.avatar,
         bets: {
           first: selection.first,
@@ -73,6 +74,7 @@
 
       const data = await res.json();
       $userStore?.userBets.push(data.insertedBet);
+      invalidateAll();
     }
   }
 

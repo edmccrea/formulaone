@@ -19,7 +19,7 @@
 
   function checkUserBet() {
     if (!bets) return false;
-    return bets.find((bet) => bet.raceId === race.raceId);
+    return bets.find((bet) => Number(bet.raceId) === Number(race.raceId));
   }
 
   function goToRace() {

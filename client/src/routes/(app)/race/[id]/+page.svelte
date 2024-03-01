@@ -42,7 +42,7 @@
     users.forEach((user) => {
       betTable.push({
         username: user.username,
-        userId: Number(user.userId),
+        userId: user.userId,
         avatar: user.avatar,
         bets: {
           first: "",
@@ -56,7 +56,7 @@
       const user = betTable.find(
         (user) => Number(user.userId) === Number(bet.userId)
       );
-      if (user && race?.raceId === bet.raceId)
+      if (user && Number(race?.raceId) === Number(bet.raceId))
         user.bets = {
           first: bet.first,
           second: bet.second,
