@@ -6,7 +6,7 @@
 
   const commentUser = users.find(
     //TODO: fix why is this a string??
-    (user) => Number(user.userId) === comment.userId
+    (user) => Number(user.userId) === Number(comment.userId)
   );
   if (!commentUser) {
     throw new Error("User not found");
