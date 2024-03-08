@@ -68,7 +68,7 @@ export const drivers = writable([
   },
   {
     number: 55,
-    name: "Carlos Sainz",
+    name: "Oliver Bearman",
     team: "Ferrari",
     country: "Spain",
     image: "",
