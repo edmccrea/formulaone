@@ -3,24 +3,25 @@ import { db } from "$lib/drizzle/db";
 import { scores, users, seasons, constructorsBets } from "$lib/drizzle/schema";
 import { eq } from "drizzle-orm";
 import cloudinary from "cloudinary";
-import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } from "$env/static/private";
+import {
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET,
+  CLOUDINARY_CLOUD_NAME,
+} from "$env/static/private";
 
 cloudinary.v2.config({
-  cloud_name: "edmccrea",
+  cloud_name: CLOUDINARY_CLOUD_NAME,
   api_key: CLOUDINARY_API_KEY,
   api_secret: CLOUDINARY_API_SECRET,
 });
 
 type NewUser = typeof users.$inferInsert;
 const insertUser = async (user: NewUser) => {
-  const res = await db
-    .insert(users)
-    .values(user)
-    .returning({
-      insertedId: users.userId,
-      username: users.username,
-      avatar: users.avatar,
-    });
+  const res = await db.insert(users).values(user).returning({
+    insertedId: users.userId,
+    username: users.username,
+    avatar: users.avatar,
+  });
   return res;
 };
 
