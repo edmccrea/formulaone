@@ -32,9 +32,11 @@ export const load = (async ({ locals: { getSession }, fetch }) => {
   const allUsers = allUsersPromise;
   const mappedUsers = await Promise.all(
     allUsers.map(async (user) => {
-      const userScore = await getUserScore(user.userId);
-      const userConstructorBet = await getUserConstructorBet(user.userId);
-      const userBets = await getUserBets(user.userId);
+      const [userScore, userConstructorBet, userBets] = await Promise.all([
+        getUserScore(user.userId),
+        getUserConstructorBet(user.userId),
+        getUserBets(user.userId),
+      ]);
 
       return {
         userId: user.userId,
