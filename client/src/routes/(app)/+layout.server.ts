@@ -109,6 +109,8 @@ function mapRaces(
       raceDate: race.raceDate,
       image: race.raceImage,
       trackLayout: race.trackLayout,
+      raceStart: race.raceStart,
+      qualifyingStart: race.qualifyingStart,
     };
   });
 }
@@ -118,23 +120,23 @@ function sortRaces(mappedRaces: App.Race[]) {
   const oneDay = 86400000;
   const previousRaces = mappedRaces
     .filter((race) => {
-      const raceStartMillis = new Date(race.raceDate).getTime();
+      const raceStartMillis = race.raceStart.getTime();
       return raceStartMillis < date;
     })
     .sort((a, b) => {
-      const aMillis = new Date(a.raceDate).getTime();
-      const bMillis = new Date(b.raceDate).getTime();
+      const aMillis = a.raceStart.getTime();
+      const bMillis = b.raceStart.getTime();
       return bMillis - aMillis;
     });
 
   const upcomingRaces = mappedRaces
     .filter((race) => {
-      const raceStartMillis = new Date(race.raceDate).getTime();
+      const raceStartMillis = race.raceStart.getTime();
       return raceStartMillis > date - oneDay;
     })
     .sort((a, b) => {
-      const aMillis = new Date(a.raceDate).getTime();
-      const bMillis = new Date(b.raceDate).getTime();
+      const aMillis = a.raceStart.getTime();
+      const bMillis = b.raceStart.getTime();
       return aMillis - bMillis;
     });
 

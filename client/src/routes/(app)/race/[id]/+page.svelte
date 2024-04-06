@@ -5,7 +5,6 @@
   import RaceBet from "$lib/components/race/RaceBet.svelte";
   import RaceInfo from "$lib/components/race/RaceInfo.svelte";
   import CommentSection from "$lib/components/race/CommentSection.svelte";
-  import { combineDateTime } from "$lib/utils/combine-date-time";
   import { user as userStore } from "../../../../stores/user";
 
   export let data;
@@ -26,9 +25,7 @@
   }
 
   const date = Date.now();
-  const raceStartDateObject = combineDateTime(race.raceDate, race.raceTime);
-  const qualyStartDateObject = combineDateTime(race.qualyDate, race.qualyTime);
-  const raceStartMillis = raceStartDateObject.getTime();
+  const raceStartMillis = race.raceStart.getTime();
 
   function showBet(bet: string, username: string) {
     if (!bet) return "";
@@ -136,7 +133,7 @@
     <div
       class="bg-neutral-50 p-8 rounded-md border border-neutral-200 shadow-sm"
     >
-      <RaceInfo {race} {raceStartDateObject} {qualyStartDateObject} />
+      <RaceInfo {race} />
     </div>
     <div
       class="bg-neutral-50 p-8 rounded-md border border-neutral-200 shadow-sm"

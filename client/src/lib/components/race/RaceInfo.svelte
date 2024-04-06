@@ -1,7 +1,5 @@
 <script lang="ts">
   export let race: App.Race;
-  export let qualyStartDateObject: Date;
-  export let raceStartDateObject: Date;
 </script>
 
 <div class="flex flex-col justify-center">
@@ -10,7 +8,7 @@
     <div>
       <h1 class="font-bold text-3xl">{race.name}</h1>
       <p class="text-neutral-500">
-        {race.type} &middot; {raceStartDateObject.toDateString()}
+        {race.type} &middot; {race.raceStart.toDateString()}
       </p>
     </div>
   </div>
@@ -25,19 +23,25 @@
           </span>
         </li>
         <li class="mb-2 flex gap-2 items-center text-sm">
-          <img src="/icons/clock.svg" alt="" class="w-6 h-6" />
-          <span class="text-lg">
-            {qualyStartDateObject.toString().substring(0, 10) +
+          <img src="/icons/clock.svg" alt="" class="w-5 h-5" />
+          <span class="text-neutral-500">
+            {race.qualifyingStart.toString().substring(0, 10) +
               ", " +
-              race.qualyTime.substring(0, 5)}
+              race.qualifyingStart.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
           </span>
         </li>
         <li class="mb-1 flex gap-2 items-center text-sm">
-          <img src="/icons/flag.svg" alt="" class="w-6 h-42" />
-          <span class="text-lg">
-            {raceStartDateObject.toString().substring(0, 10) +
+          <img src="/icons/flag.svg" alt="" class="w-5 h-42" />
+          <span class="text-neutral-500">
+            {race.raceStart.toString().substring(0, 10) +
               ", " +
-              race.raceTime.substring(0, 5)}</span
+              race.raceStart.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}</span
           >
         </li>
 

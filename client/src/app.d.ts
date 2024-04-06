@@ -30,6 +30,8 @@ declare global {
       raceImage: string;
       trackLayout: string;
       calendarRound: number;
+      raceStart: Date;
+      qualifyingStart: Date;
     }
 
     interface Race {
@@ -46,6 +48,8 @@ declare global {
       raceDate: string;
       image: string;
       trackLayout: string;
+      raceStart: Date;
+      qualifyingStart: Date;
     }
 
     interface Bet {

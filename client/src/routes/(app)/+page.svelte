@@ -11,7 +11,6 @@
 
   export let data: PageData;
   const users: App.User[] = data.users;
-  const bets: App.Bet[] = data.bets;
   const previousRaces: App.Race[] = data.previousRaces;
   const upcomingRaces: App.Race[] = data.upcomingRaces;
   const date = Date.now();
@@ -79,7 +78,7 @@
     >
       {#if upcomingRaces.length > 0}
         {#each upcomingRaces as race}
-          {#if new Date(race.raceDate).getTime() > date}
+          {#if race.raceStart.getTime() > date}
             <RaceCard {race} bets={$user?.userBets} />
           {/if}
         {/each}
@@ -99,7 +98,7 @@
     >
       {#if previousRaces.length > 0}
         {#each previousRaces as race}
-          {#if new Date(race.raceDate).getTime() < date}
+          {#if race.raceStart.getTime() < date}
             <RaceCard {race} bets={$user?.userBets} />
           {/if}
         {/each}

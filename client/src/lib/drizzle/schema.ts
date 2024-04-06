@@ -54,8 +54,10 @@ export const races = pgTable("races", {
   raceName: text("race_name").notNull(),
   raceType: text("race_type").notNull(),
   countryFlag: text("country_flag").notNull(),
-  qualifyingStart: timestamp("qualifying_start").notNull(),
-  raceStart: timestamp("race_start").notNull(),
+  qualifyingStart: timestamp("qualifying_start", {
+    withTimezone: true,
+  }).notNull(),
+  raceStart: timestamp("race_start", { withTimezone: true }).notNull(),
   location: text("location").notNull(),
   trackName: text("track_name").notNull(),
   raceImage: text("race_image").notNull(),
