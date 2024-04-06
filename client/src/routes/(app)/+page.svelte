@@ -34,7 +34,7 @@
 
 <div
   in:fade
-  class="w-full h-full mx-4 md:mx-auto max-w-sm md:max-w-2xl lg:max-w-6xl lg:px-8 mt-28 mb-12 flex flex-col flex-1"
+  class="w-full h-full px-4 md:mx-auto max-w-sm md:max-w-2xl lg:max-w-6xl lg:px-8 mt-28 mb-12 flex flex-col flex-1"
 >
   <h1 class="text-5xl lg:text-7xl font-bold mb-4 font-gradient">
     Formula One Bets
@@ -49,7 +49,7 @@
 
   <div class="flex flex-col lg:flex-row lg:gap-8">
     <div
-      class="mt-8 lg:order-2 bg-neutral-50 p-8 border border-neutral-200 shadow-sm px-4 py-8 md:p-8 rounded-md h-fit w-full"
+      class="mt-8 lg:order-2 bg-neutral-50 p-8 border border-neutral-200 shadow-sm px-4 py-8 md:p-8 rounded-md h-fit w-full overflow-hidden"
     >
       <h2 class="font-bold text-2xl mb-4">Upcoming Race</h2>
       <!-- If race is this week, then display a countdown -->
