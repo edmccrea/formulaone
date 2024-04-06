@@ -11,9 +11,10 @@ import {
 import { and, eq } from "drizzle-orm";
 
 export const load = (async ({ locals: { getSession }, fetch }) => {
-  const [currentSeasonPromise, allUsersPromise] = await Promise.all([
+  const [currentSeasonPromise, allUsersPromise, session] = await Promise.all([
     db.select().from(seasons).where(eq(seasons.currentSeason, true)).limit(1),
     db.select().from(users),
+    getSession(),
   ]);
   const [currentSeason] = currentSeasonPromise;
   const currentSeasonRaces = await db
@@ -50,8 +51,6 @@ export const load = (async ({ locals: { getSession }, fetch }) => {
       };
     })
   );
-
-  const session = await getSession();
 
   let user = null;
   if (session) {
