@@ -9,6 +9,10 @@ import {
 } from "$lib/drizzle/schema";
 import { eq, and } from "drizzle-orm";
 
+export const config = {
+  runtime: "edge",
+};
+
 export const POST: RequestHandler = async ({ request }) => {
   try {
     const [currentSeason] = await db
