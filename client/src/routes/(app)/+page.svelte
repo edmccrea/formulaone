@@ -78,9 +78,7 @@
     >
       {#if upcomingRaces.length > 0}
         {#each upcomingRaces as race}
-          {#if race.raceStart.getTime() > date}
-            <RaceCard {race} bets={$user?.userBets} />
-          {/if}
+          <RaceCard {race} bets={$user?.userBets} />
         {/each}
       {:else}
         <p>There are no upcoming races.</p>
