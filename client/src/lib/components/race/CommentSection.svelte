@@ -34,19 +34,18 @@
         raceId: Number(raceId),
         userId: Number(user.userId),
         commentText: newComment,
+        timestamp: new Date().toISOString(),
       }),
     });
 
     if (res.ok) {
-      const date = new Date();
-      date.setHours(date.getHours() + 1);
       comments = [
         ...comments,
         {
           commentId: 9999999999,
           raceId: raceId,
           userId: Number(user.userId),
-          timestamp: date,
+          timestamp: new Date(),
           commentText: newComment,
         },
       ];
@@ -54,6 +53,7 @@
         (a, b) =>
           new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
       );
+
       newComment = "";
     }
   }

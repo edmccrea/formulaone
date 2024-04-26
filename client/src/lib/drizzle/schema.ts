@@ -32,7 +32,7 @@ export const comments = pgTable("comments", {
   userId: serial("user_id").references(() => users.userId),
   raceId: serial("race_id").references(() => races.raceId),
   commentText: text("comment_text").notNull(),
-  timestamp: timestamp("timestamp").notNull(),
+  timestamp: timestamp("timestamp", { withTimezone: true }).notNull(),
 });
 
 export const constructorsBets = pgTable("constructors_bets", {

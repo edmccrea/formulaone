@@ -5,13 +5,12 @@ import type { RequestHandler } from "./$types";
 export const POST: RequestHandler = async ({ request }) => {
   try {
     const commentReq = await request.json();
-    const { raceId, userId, commentText } = commentReq;
+    const { raceId, userId, commentText, timestamp } = commentReq;
     const comment = {
       raceId,
       userId,
       commentText,
-      //TODO: fix the timezone
-      timestamp: new Date(),
+      timestamp: new Date(timestamp),
     };
 
     type NewComment = typeof comments.$inferInsert;
