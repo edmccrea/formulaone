@@ -14,7 +14,11 @@
   </div>
 
   <div class="flex flex-col lg:flex-row gap-4 lg:gap-8 mt-2">
-    <img src={race.trackLayout} alt="" class="mt-4 max-h-40 w-max" />
+    <img
+      src={race.trackLayout}
+      alt=""
+      class="mt-4 max-h-40 w-max h-auto max-w-48"
+    />
     <div class="w-full">
       <ul class="text-sm">
         <li class="mb-3">
