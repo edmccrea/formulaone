@@ -4,6 +4,7 @@ export const drivers = writable([
   {
     number: 1,
     name: "Max Verstappen",
+    value: "Max Verstappen",
     team: "Red Bull Racing",
     country: "Netherlands",
     image: "",
@@ -17,6 +18,7 @@ export const drivers = writable([
   {
     number: 11,
     name: "Sergio Pérez",
+    value: "Sergio Pérez",
     team: "Red Bull Racing",
     country: "Mexico",
     image: "",
@@ -30,6 +32,7 @@ export const drivers = writable([
   {
     number: 44,
     name: "Lewis Hamilton",
+    value: "Lewis Hamilton",
     team: "Mercedes",
     country: "United Kingdom",
     image: "",
@@ -43,6 +46,7 @@ export const drivers = writable([
   {
     number: 63,
     name: "George Russell",
+    value: "George Russell",
     team: "Mercedes",
     country: "United Kingdom",
     image: "",
@@ -56,6 +60,7 @@ export const drivers = writable([
   {
     number: 16,
     name: "Charles Leclerc",
+    value: "Charles Leclerc",
     team: "Ferrari",
     country: "Monaco",
     image: "",
@@ -69,6 +74,7 @@ export const drivers = writable([
   {
     number: 55,
     name: "Carlos Sainz",
+    value: "Carlos Sainz",
     team: "Ferrari",
     country: "Spain",
     image: "",
@@ -82,6 +88,7 @@ export const drivers = writable([
   {
     number: 14,
     name: "Fernando Alonso",
+    value: "Fernando Alonso",
     team: "Aston Martin",
     country: "Spain",
     image: "",
@@ -95,6 +102,7 @@ export const drivers = writable([
   {
     number: 18,
     name: "Lance Stroll",
+    value: "Lance Stroll",
     team: "Aston Martin",
     country: "Canada",
     image: "",
@@ -108,6 +116,7 @@ export const drivers = writable([
   {
     number: 4,
     name: "Lando Norris",
+    value: "Lando Norris",
     team: "McLaren",
     country: "United Kingdom",
     image: "",
@@ -122,6 +131,7 @@ export const drivers = writable([
   {
     number: 81,
     name: "Oscar Piastri",
+    value: "Oscar Piastri",
     team: "McLaren",
     country: "Australia",
     image: "",
@@ -135,6 +145,7 @@ export const drivers = writable([
   {
     number: 31,
     name: "Esteban Ocon",
+    value: "Esteban Ocon",
     team: "Alpine",
     country: "France",
     image: "",
@@ -148,6 +159,7 @@ export const drivers = writable([
   {
     number: 10,
     name: "Pierre Gasly",
+    value: "Pierre Gasly",
     team: "Alpine",
     country: "France",
     image: "",
@@ -161,6 +173,7 @@ export const drivers = writable([
   {
     number: 23,
     name: "Alexander Albon",
+    value: "Alexander Albon",
     team: "Williams",
     country: "Thailand",
     image: "",
@@ -174,6 +187,7 @@ export const drivers = writable([
   {
     number: 2,
     name: "Logan Sargeant",
+    value: "Logan Sargeant",
     team: "Williams",
     country: "United States of America",
     image: "",
@@ -187,6 +201,7 @@ export const drivers = writable([
   {
     number: 27,
     name: "Nico Hulkenberg",
+    value: "Nico Hulkenberg",
     team: "Haas",
     country: "Germany",
     image: "",
@@ -200,6 +215,7 @@ export const drivers = writable([
   {
     number: 20,
     name: "Kevin Magnussen",
+    value: "Kevin Magnussen",
     team: "Haas",
     country: "Denmark",
     image: "",
@@ -213,6 +229,7 @@ export const drivers = writable([
   {
     number: 77,
     name: "Valtteri Bottas",
+    value: "Valtteri Bottas",
     team: "Alfa Romeo",
     country: "Finland",
     image: "",
@@ -226,6 +243,7 @@ export const drivers = writable([
   {
     number: 24,
     name: "Zhou Guanyu",
+    value: "Zhou Guanyu",
     team: "Alfa Romeo",
     country: "China",
     image: "",
@@ -239,6 +257,7 @@ export const drivers = writable([
   {
     number: 22,
     name: "Yuki Tsunoda",
+    value: "Yuki Tsunoda",
     team: "Alpha Tauri",
     country: "Japan",
     image: "",
@@ -252,6 +271,7 @@ export const drivers = writable([
   {
     number: 3,
     name: "Daniel Ricciardo",
+    value: "Daniel Ricciardo",
     team: "Alpha Tauri",
     country: "Australia",
     image: "",
