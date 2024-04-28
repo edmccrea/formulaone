@@ -1,6 +1,7 @@
 <script lang="ts">
   import { get } from "svelte/store";
   import { fade } from "svelte/transition";
+  import { Select } from "bits-ui";
 
   import { drivers as driversStore } from "../../../stores/drivers";
   import Button from "../Button.svelte";
@@ -8,6 +9,7 @@
   import { toast } from "svelte-sonner";
   import { user as userStore } from "../../../stores/user";
   import { invalidateAll } from "$app/navigation";
+  import { flyAndScale } from "$lib/utils/transitions";
 
   export let race: App.Race;
   export let betTable: App.BetTable;
@@ -26,6 +28,21 @@
     third: "",
   };
 
+  $: firstSelect = {
+    name: "",
+    value: "",
+  };
+
+  $: secondSelect = {
+    name: "",
+    value: "",
+  };
+
+  $: thirdSelect = {
+    name: "",
+    value: "",
+  };
+
   let betSubmitted = false;
   const userBets = betTable.find((bet) => bet.username === user?.username);
   if (userBets?.bets.first && userBets?.bets.second && userBets?.bets.third) {
@@ -34,6 +51,11 @@
       first: userBets.bets.first,
       second: userBets.bets.second,
       third: userBets.bets.third,
+    };
+
+    firstSelect = {
+      name: userBets.bets.first,
+      value: userBets.bets.first,
     };
   }
 
@@ -80,6 +102,11 @@
 
   function handleEditBet() {
     betSubmitted = false;
+    selection = {
+      first: "",
+      second: "",
+      third: "",
+    };
   }
 </script>
 
@@ -119,45 +146,125 @@
     {/if}
   {:else}
     <form action="" on:submit={handleSubmit} class="flex flex-col gap-3">
-      <select
-        name=""
-        id="driver-one"
-        bind:value={selection.first}
-        class="bg-inherit border border-gray-400 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-gray-600 transition-all ease-in-out duration-300 focus:outline-none"
+      <Select.Root
+        items={drivers}
+        selected={firstSelect}
+        onSelectedChange={(selected) => {
+          selected && (selection.first = selected.value);
+        }}
       >
-        <option value="">First</option>
-        {#each drivers as driver}
-          {#if driver.name !== selection.second && driver.name !== selection.third}
-            <option value={driver.name}>{driver.name}</option>
-          {/if}
-        {/each}
-      </select>
-      <select
-        name=""
-        id="driver-one"
-        bind:value={selection.second}
-        class="bg-inherit border border-gray-400 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-gray-600 transition-all ease-in-out duration-300 focus:outline-none"
+        <Select.Trigger
+          class="bg-inherit border border-gray-400 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-gray-600 transition-all ease-in-out duration-300 focus:outline-none flex justify-between"
+          aria-label="First"
+        >
+          <Select.Value
+            class="block text-left text-neutral-500"
+            placeholder="First"
+          />
+          <img src="/chevron-down.svg" alt="" />
+        </Select.Trigger>
+        <Select.Content
+          class="w-full rounded-xl border border-muted px-1 py-3 shadow-sm outline-none bg-neutral-50 overflow-y-auto"
+          transition={flyAndScale}
+          sideOffset={8}
+          fitViewport={true}
+        >
+          {#each drivers as driver}
+            {#if driver.name !== selection.second && driver.name !== selection.third}
+              <Select.Item
+                class="flex h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-red-100"
+                value={driver.value}
+                label={driver.name}
+              >
+                {driver.name}
+                <Select.ItemIndicator class="ml-auto" asChild={false}
+                ></Select.ItemIndicator>
+              </Select.Item>
+            {/if}
+          {/each}
+        </Select.Content>
+        <Select.Input name="first" />
+      </Select.Root>
+
+      <Select.Root
+        items={drivers}
+        selected={secondSelect}
+        onSelectedChange={(selected) => {
+          selected && (selection.second = selected.value);
+        }}
       >
-        <option value="">Second</option>
-        {#each drivers as driver}
-          {#if driver.name !== selection.first && driver.name !== selection.third}
-            <option value={driver.name}>{driver.name}</option>
-          {/if}
-        {/each}
-      </select>
-      <select
-        name=""
-        id="driver-one"
-        bind:value={selection.third}
-        class="bg-inherit border border-gray-400 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-gray-600 transition-all ease-in-out duration-300 focus:outline-none"
+        <Select.Trigger
+          class="bg-inherit border border-gray-400 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-gray-600 transition-all ease-in-out duration-300 focus:outline-none flex justify-between"
+          aria-label="Second"
+        >
+          <Select.Value
+            class="block text-left text-neutral-500"
+            placeholder="Second"
+          />
+          <img src="/chevron-down.svg" alt="" />
+        </Select.Trigger>
+        <Select.Content
+          class="w-full rounded-xl border border-muted px-1 py-3 shadow-sm outline-none bg-neutral-50 overflow-y-auto"
+          transition={flyAndScale}
+          sideOffset={8}
+          fitViewport={true}
+        >
+          {#each drivers as driver}
+            {#if driver.name !== selection.first && driver.name !== selection.third}
+              <Select.Item
+                class="flex h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-red-100"
+                value={driver.value}
+                label={driver.name}
+              >
+                {driver.name}
+                <Select.ItemIndicator class="ml-auto" asChild={false}
+                ></Select.ItemIndicator>
+              </Select.Item>
+            {/if}
+          {/each}
+        </Select.Content>
+        <Select.Input name="second" />
+      </Select.Root>
+
+      <Select.Root
+        items={drivers}
+        selected={thirdSelect}
+        onSelectedChange={(selected) => {
+          selected && (selection.third = selected.value);
+        }}
       >
-        <option value="">Third</option>
-        {#each drivers as driver}
-          {#if driver.name !== selection.first && driver.name !== selection.second}
-            <option value={driver.name}>{driver.name}</option>
-          {/if}
-        {/each}
-      </select>
+        <Select.Trigger
+          class="bg-inherit border border-gray-400 rounded-md py-2 px-4 shadow-inner hover:cursor-pointer hover:border-gray-600 transition-all ease-in-out duration-300 focus:outline-none flex justify-between"
+          aria-label="Third"
+        >
+          <Select.Value
+            class="block text-left text-neutral-500"
+            placeholder="Third"
+          />
+          <img src="/chevron-down.svg" alt="" />
+        </Select.Trigger>
+        <Select.Content
+          class="w-full rounded-xl border border-muted px-1 py-3 shadow-sm outline-none bg-neutral-50 overflow-y-auto"
+          transition={flyAndScale}
+          sideOffset={8}
+          fitViewport={true}
+        >
+          {#each drivers as driver}
+            {#if driver.name !== selection.second && driver.name !== selection.first}
+              <Select.Item
+                class="flex h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-red-100"
+                value={driver.value}
+                label={driver.name}
+              >
+                {driver.name}
+                <Select.ItemIndicator class="ml-auto" asChild={false}
+                ></Select.ItemIndicator>
+              </Select.Item>
+            {/if}
+          {/each}
+        </Select.Content>
+        <Select.Input name="third" />
+      </Select.Root>
 
       {#if selection.first && selection.second && selection.third}
         {#if raceStart < date}
@@ -173,15 +280,3 @@
     </form>
   {/if}
 {/if}
-
-<style>
-  select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url("/chevron-down.svg");
-    background-repeat: no-repeat;
-    background-position: calc(100% - 1rem) center;
-    background-size: 1em;
-  }
-</style>
