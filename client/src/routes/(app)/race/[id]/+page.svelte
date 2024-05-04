@@ -230,11 +230,13 @@
           {#each grid as driver, index}
             <div class="flex mb-1">
               <div>
-                <span>{index + 1}.</span>
+                <span class="text-sm text-neutral-500">{index + 1}.</span>
               </div>
               <div class="pl-2">
                 <li>{driver.name}</li>
-                <span class="text-sm font-light">{driver.lapTime}</span>
+                <span class="text-sm font-light text-neutral-500"
+                  >{driver.lapTime}</span
+                >
               </div>
             </div>
           {/each}
