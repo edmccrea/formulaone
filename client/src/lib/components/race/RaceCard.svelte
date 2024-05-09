@@ -49,19 +49,19 @@
       <p class="text-sm mt-4 text-neutral-500">{dateToDisplay}</p>
       {#if isUpcoming && !betPlaced}
         <p
-          class="w-fit mt-2 py-1 px-2 bg-yellow-200 text-yellow-900 rounded-md text-sm"
+          class="w-fit mt-2 py-1 px-2 bg-gradient-to-r to-30% from-yellow-300/80 to-yellow-200 text-yellow-900 rounded-md text-sm"
         >
           Bet not placed
         </p>
       {:else if isUpcoming && betPlaced}
         <p
-          class="w-fit mt-2 py-1 px-2 bg-sky-200 text-sky-900 rounded-md text-sm"
+          class="w-fit mt-2 py-1 px-2 bg-gradient-to-r to-30% from-sky-300/70 to-sky-200 text-sky-900 rounded-md text-sm"
         >
           Bet placed
         </p>
       {:else}
         <p
-          class="w-fit mt-2 py-1 px-2 bg-green-200 text-green-900 rounded-md text-sm"
+          class="w-fit mt-2 py-1 px-2 bg-gradient-to-r to-30% from-green-300/80 to-green-200 text-green-900 rounded-md text-sm"
         >
           Race finished
         </p>

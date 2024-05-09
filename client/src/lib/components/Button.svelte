@@ -8,7 +8,7 @@
   {disabled}
   on:click
   {type}
-  class="bg-red-500 hover:bg-red-700 rounded-md py-1 px-2 transition-all ease-in-out duration-300 text-neutral-50 {fullWidth
+  class="bg-gradient-to-r to-30% from-red-600/80 to-red-500 hover:bg-red-700 rounded-md py-1 px-2 transition-all ease-in-out duration-300 text-neutral-50 {fullWidth
     ? 'w-full'
     : 'w-fit'}"
 >
