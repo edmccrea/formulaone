@@ -6,6 +6,7 @@
   import RaceInfo from "$lib/components/race/RaceInfo.svelte";
   import CommentSection from "$lib/components/race/CommentSection.svelte";
   import { user as userStore } from "../../../../stores/user";
+  import Avatar from "$lib/components/Avatar.svelte";
 
   export let data;
   const race = data.allRaces.find((race) => race.raceId === data.raceId);
@@ -41,6 +42,9 @@
         username: user.username,
         userId: user.userId,
         avatar: user.avatar,
+        position: user.position,
+        points: user.points,
+        constructorBet: user.constructorBet,
         bets: {
           first: "",
           second: "",
@@ -181,13 +185,15 @@
                   <tr
                     class="border-b border-b-neutral-200 py-2 hover:bg-neutral-200/30 transition-all ease-in-out duration-300 hover:cursor-default"
                   >
-                    <td class="py-3 px-2"
-                      ><img
-                        src={bet.avatar}
-                        alt=""
-                        class="h-8 w-8 rounded-full border border-slate-600 object-cover"
-                      /></td
-                    >
+                    <td class="py-3 px-2">
+                      <Avatar
+                        name={bet.username}
+                        avatar={bet.avatar}
+                        points={bet.points}
+                        position={bet.position}
+                        constructorBet={bet.constructorBet}
+                      />
+                    </td>
                     <td class="py-3 px-2">{bet.username}</td>
                     <td class="py-3 px-2"
                       ><span

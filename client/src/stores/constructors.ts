@@ -1,7 +1,7 @@
 import { writable } from "svelte/store";
 
 export const constructors = writable([
-  "Red Bull Racing",
+  "Red Bull",
   "Mercedes",
   "Ferrari",
   "Aston Martin",

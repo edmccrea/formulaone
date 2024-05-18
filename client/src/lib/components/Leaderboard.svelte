@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Avatar from "./Avatar.svelte";
+
   export let users: App.User[];
   const orderedUsers = users.sort((a, b) => b.points - a.points);
 </script>
@@ -20,13 +22,15 @@
         <tr
           class="border-b border-b-neutral-200 hover:bg-neutral-100 duration-200 ease-in-out transition-all"
         >
-          <td class="py-2 px-4 min-w-10"
-            ><img
-              class="w-8 h-8 min-w-8 rounded-full border border-slate-600 object-cover"
-              src={user.avatar}
-              alt=""
-            /></td
-          >
+          <td class="py-2 px-4 min-w-10">
+            <Avatar
+              name={user.username}
+              avatar={user.avatar}
+              points={user.points}
+              position={user.position}
+              constructorBet={user.constructorBet}
+            />
+          </td>
           <td
             class="py-2 px-2 max-w-[150px] overflow-hidden text-ellipsis whitespace-nowrap"
             >{user.username}</td

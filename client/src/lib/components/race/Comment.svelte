@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
   import { formatDistanceToNow } from "date-fns";
+  import Avatar from "../Avatar.svelte";
 
   export let comment: App.Comment;
   export let users: App.User[];
@@ -15,10 +16,12 @@
 </script>
 
 <div class="flex gap-4 mt-4" in:fade>
-  <img
-    src={commentUser.avatar}
-    alt=""
-    class="h-8 w-8 object-cover rounded-full border border-slate-600"
+  <Avatar
+    name={commentUser.username}
+    avatar={commentUser.avatar}
+    points={commentUser.points}
+    position={commentUser.position}
+    constructorBet={commentUser.constructorBet}
   />
   <div class="flex flex-col">
     <div class="flex gap-2 items-baseline">

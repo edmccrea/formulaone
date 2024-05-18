@@ -2,21 +2,9 @@
   import type { Session } from "@supabase/supabase-js";
   import { user } from "../../stores/user";
   import Button from "./Button.svelte";
+  import { getPositionSuffix } from "../utils/get-position-suffix";
 
   export let session: Session | null;
-
-  function getPositionSuffix(position: number) {
-    switch (position) {
-      case 1:
-        return "st";
-      case 2:
-        return "nd";
-      case 3:
-        return "rd";
-      default:
-        return "th";
-    }
-  }
 
   const positionSuffix = $user ? getPositionSuffix($user.position) : "";
 </script>

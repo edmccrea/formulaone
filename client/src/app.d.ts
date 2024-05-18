@@ -91,6 +91,9 @@ declare global {
       username: string;
       userId: number;
       avatar: string;
+      position: number;
+      points: number;
+      constructorBet: string;
       bets: {
         first: string;
         second: string;
