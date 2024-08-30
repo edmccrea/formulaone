@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Lando Norris",
+    "lapTime": "1:09.673"
+  },
+  {
+    "name": "Max Verstappen",
+    "lapTime": "1:10.029"
+  },
+  {
+    "name": "Oscar Piastri",
+    "lapTime": "1:10.172"
+  },
+  {
+    "name": "George Russell",
+    "lapTime": "1:10.244"
+  },
+  {
+    "name": "Sergio Perez",
+    "lapTime": "1:10.416"
+  },
+  {
+    "name": "Charles Leclerc",
+    "lapTime": "1:10.582"
+  },
+  {
+    "name": "Fernando Alonso",
+    "lapTime": "1:10.633"
+  },
+  {
+    "name": "Alex Albon",
+    "lapTime": "1:10.653"
+  },
+  {
+    "name": "Lance Stroll",
+    "lapTime": "1:10.857"
+  },
+  {
+    "name": "Pierre Gasly",
+    "lapTime": "1:10.977"
+  },
+  {
+    "name": "Carlos Sainz",
+    "lapTime": "1:10.914"
+  },
+  {
+    "name": "Lewis Hamilton",
+    "lapTime": "1:10.948"
+  },
+  {
+    "name": "Yuki Tsunoda",
+    "lapTime": "1:10.955"
+  },
+  {
+    "name": "Niko Hülkenberg",
+    "lapTime": "1:11.215"
+  },
+  {
+    "name": "Kevin Magnussen",
+    "lapTime": "1:11.295"
+  },
+  {
+    "name": "Daniel Ricciardo",
+    "lapTime": "1:11.943"
+  },
+  {
+    "name": "Esteban Ocon",
+    "lapTime": "1:11.995"
+  },
+  {
+    "name": "Valterri Bottas",
+    "lapTime": "1:12.168"
+  },
+  {
+    "name": "Zhou Guanyu",
+    "lapTime": "1:13.261"
+  },
+  {
+    "name": "Logan Sargeant",
+    "lapTime": "N/A"
+  }
+]
