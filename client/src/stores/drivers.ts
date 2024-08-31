@@ -186,10 +186,10 @@ export const drivers = writable([
   },
   {
     number: 2,
-    name: "Logan Sargeant",
-    value: "Logan Sargeant",
+    name: "Franco Colapinto",
+    value: "Franco Colapinto",
     team: "Williams",
-    country: "United States of America",
+    country: "Argentina",
     image: "",
     points: 0,
     wins: 0,
