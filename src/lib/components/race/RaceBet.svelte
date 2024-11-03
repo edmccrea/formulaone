@@ -96,7 +96,7 @@
 
       const data = await res.json();
       $userStore?.userBets.push(data.insertedBet);
-      invalidateAll();
+      await invalidateAll();
     }
   }
 
