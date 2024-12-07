@@ -1,82 +1,82 @@
 [
   {
-    "name": "Max Verstappen",
-    "lapTime": "1:20.520"
-  },
-  {
-    "name": "George Russell",
-    "lapTime": "1:20.575"
-  },
-  {
     "name": "Lando Norris",
-    "lapTime": "1:20.772"
+    "lapTime": "1:22.595"
   },
   {
     "name": "Oscar Piastri",
-    "lapTime": "1:20.829"
-  },
-  {
-    "name": "Charles Leclerc",
-    "lapTime": "1:20.852"
-  },
-  {
-    "name": "Lewis Hamilton",
-    "lapTime": "1:21.011"
+    "lapTime": "1:22.804"
   },
   {
     "name": "Carlos Sainz",
-    "lapTime": "1:21.041"
-  },
-  {
-    "name": "Fernando Alonso",
-    "lapTime": "1:21.251"
-  },
-  {
-    "name": "Sergio Perez",
-    "lapTime": "1:21.425"
-  },
-  {
-    "name": "Kevin Magnussen",
-    "lapTime": "1:21.500"
-  },
-  {
-    "name": "Pierre Gasly",
-    "lapTime": "1:21.437"
-  },
-  {
-    "name": "Zhou Guanyu",
-    "lapTime": "1:21.501"
-  },
-  {
-    "name": "Valterri Bottas",
-    "lapTime": "1:21.731"
-  },
-  {
-    "name": "Yuki Tsunoda",
-    "lapTime": "1:21.771"
-  },
-  {
-    "name": "Lance Stroll",
-    "lapTime": "1:21.911"
-  },
-  {
-    "name": "Alex Albon",
-    "lapTime": "1:22.390"
-  },
-  {
-    "name": "Liam Lawson",
-    "lapTime": "1:22.411"
+    "lapTime": "1:22.824"
   },
   {
     "name": "Niko Hülkenberg",
-    "lapTime": "1:22.442"
+    "lapTime": "1:22.886"
+  },
+  {
+    "name": "Max Verstappen",
+    "lapTime": "1:22.945"
+  },
+  {
+    "name": "Pierre Gasly",
+    "lapTime": "1:22.984"
+  },
+  {
+    "name": "George Russell",
+    "lapTime": "1:23.132"
+  },
+  {
+    "name": "Fernando Alonso",
+    "lapTime": "1:23.196"
+  },
+  {
+    "name": "Valterri Bottas",
+    "lapTime": "1:23.204"
+  },
+  {
+    "name": "Sergio Perez",
+    "lapTime": "1:23.264"
+  },
+  {
+    "name": "Yuki Tsunoda",
+    "lapTime": "1:23.419"
+  },
+  {
+    "name": "Liam Lawson",
+    "lapTime": "1:23.472"
+  },
+  {
+    "name": "Lance Stroll",
+    "lapTime": "1:23.784"
+  },
+  {
+    "name": "Charles Leclerc",
+    "lapTime": "1:23.833"
+  },
+  {
+    "name": "Kevin Magnussen",
+    "lapTime": "1:23.877"
+  },
+  {
+    "name": "Alex Albon",
+    "lapTime": "1:23.821"
+  },
+  {
+    "name": "Zhou Guanyu",
+    "lapTime": "1:23.880"
+  },
+  {
+    "name": "Lewis Hamilton",
+    "lapTime": "1:23.887"
   },
   {
     "name": "Franco Colapinto",
-    "lapTime": "1:22.594"
+    "lapTime": "1:23.912"
   },
   {
-    "name": "Esteban Ocon",
-    "lapTime": "1:22.714"
+    "name": "Jack Doohan",
+    "lapTime": "1:24.105"
   }
 ]
