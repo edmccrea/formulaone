@@ -9,14 +9,35 @@ import {
   users,
 } from "$lib/drizzle/schema";
 import { and, eq } from "drizzle-orm";
+import { error } from "@sveltejs/kit";
 
 export const load = (async ({ locals: { getSession }, fetch }) => {
-  const [currentSeasonPromise, allUsersPromise, session] = await Promise.all([
-    db.select().from(seasons).where(eq(seasons.currentSeason, true)).limit(1),
-    db.select().from(users),
+  const currentSeasonResponse = await db
+    .select()
+    .from(seasons)
+    .where(eq(seasons.currentSeason, true));
+  const currentSeason = currentSeasonResponse.at(0);
+  if (!currentSeason) {
+    error(404, "Current season not found");
+  }
+  const [allUsersPromise, session] = await Promise.all([
+    db
+      .select({
+        userId: users.userId,
+        username: users.username,
+        avatar: users.avatar,
+        admin: users.admin,
+      })
+      .from(users)
+      .innerJoin(
+        scores,
+        and(
+          eq(scores.userId, users.userId),
+          eq(scores.seasonId, currentSeason.seasonId),
+        ),
+      ),
     getSession(),
   ]);
-  const [currentSeason] = currentSeasonPromise;
   const currentSeasonRaces = await db
     .select()
     .from(races)
@@ -34,8 +55,8 @@ export const load = (async ({ locals: { getSession }, fetch }) => {
   const mappedUsers = await Promise.all(
     allUsers.map(async (user) => {
       const [userScore, userConstructorBet, userBets] = await Promise.all([
-        getUserScore(user.userId),
-        getUserConstructorBet(user.userId),
+        getUserScore(user.userId, currentSeason.seasonId),
+        getUserConstructorBet(user.userId, currentSeason.seasonId),
         getUserBets(user.userId),
       ]);
 
@@ -49,7 +70,7 @@ export const load = (async ({ locals: { getSession }, fetch }) => {
         admin: user.admin,
         userBets,
       };
-    })
+    }),
   );
 
   let user = null;
@@ -90,7 +111,7 @@ export const load = (async ({ locals: { getSession }, fetch }) => {
 
 function mapRaces(
   races: App.DatabaseRace[],
-  currentSeasonId: number
+  currentSeasonId: number,
 ): App.Race[] {
   if (!races) return [];
   return races.map((race) => {
@@ -145,21 +166,25 @@ function sortRaces(mappedRaces: App.Race[]) {
   };
 }
 
-async function getUserScore(userId: number) {
+async function getUserScore(userId: number, currentSeasonId: number) {
   const userScore = await db
     .select({ score: scores.score, position: scores.position })
     .from(scores)
-    .where(and(eq(scores.userId, userId), eq(scores.seasonId, 1)))
+    .where(and(eq(scores.userId, userId), eq(scores.seasonId, currentSeasonId)))
     .limit(1);
   return userScore[0];
 }
 
-async function getUserConstructorBet(userId: number) {
+async function getUserConstructorBet(userId: number, currentSeasonId: number) {
   const bet = await db
     .select({ constructorName: constructorsBets.constructorName })
     .from(constructorsBets)
-    .where(eq(constructorsBets.userId, userId))
-    .limit(1);
+    .where(
+      and(
+        eq(constructorsBets.userId, userId),
+        eq(constructorsBets.seasonId, currentSeasonId),
+      ),
+    );
   return bet[0];
 }
 
