@@ -10,9 +10,10 @@ import { redirect } from "@sveltejs/kit";
 const unProtectedRoutes = [
   "/login",
   "/register",
-  "/api/generate-calendar",
-  "/api/grid",
-  "/api/result",
+  "/api/calendar/update",
+  "/api/qualifying/results",
+  "/api/race/results",
+  "/api/leaderboard/update",
 ];
 
 export const handle: Handle = async ({ event, resolve }) => {
