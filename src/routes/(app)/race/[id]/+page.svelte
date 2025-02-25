@@ -55,7 +55,7 @@
 
     bets.forEach((bet) => {
       const user = betTable.find(
-        (user) => Number(user.userId) === Number(bet.userId)
+        (user) => Number(user.userId) === Number(bet.userId),
       );
       if (user && Number(race?.raceId) === Number(bet.raceId))
         user.bets = {
@@ -76,7 +76,7 @@
   function colorCodeResult(
     betPosition: "first" | "second" | "third",
     result: App.Result,
-    bet: App.MappedBet
+    bet: App.MappedBet,
   ) {
     const resultArray = Object.keys(result)
       .filter((key) => key !== "raceId")
@@ -155,7 +155,9 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 md:cols w-full gap-8 mt-8">
+  <div
+    class="grid grid-cols-1 md:grid-cols-3 items-start md:cols w-full gap-8 mt-8"
+  >
     <div class="col-span-2 h-fit">
       <div
         class="bg-neutral-50 p-8 border border-neutral-200 shadow-sm px-4 py-8 md:p-8 rounded-md h-fit"
@@ -248,8 +250,14 @@
           {/each}
         </ol>
       {:else}
-        <div class="flex w-full h-full justify-center lg:pt-12">
-          <p class="font-light text-neutral-500">Grid not available yet</p>
+        <div class="flex w-full h-full justify-center">
+          {#if race.type === "Grand Prix"}
+            <p class="font-light text-neutral-500">Grid not available yet</p>
+          {:else if race.type === "Sprint"}
+            <p class="font-light text-neutral-500 text-center">
+              Grid not available for sprint races. Go look it up!
+            </p>
+          {/if}
         </div>
       {/if}
     </div>
