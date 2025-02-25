@@ -13,7 +13,10 @@ const unProtectedRoutes = [
   "/api/calendar/update",
   "/api/qualifying/results",
   "/api/race/results",
+  "/api/sprint/results",
   "/api/leaderboard/update",
+  "/api/driver-standings/update",
+  "/api/constructor-standings/update",
 ];
 
 export const handle: Handle = async ({ event, resolve }) => {
