@@ -40,6 +40,7 @@ export const POST: RequestHandler = async ({ request }) => {
         and(
           eq(races.calendarRound, parseInt(data.MRData.RaceTable.round)),
           eq(races.seasonId, firstSeason.seasonId),
+          eq(races.raceType, "Grand Prix"),
         ),
       );
 
