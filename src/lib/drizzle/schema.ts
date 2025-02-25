@@ -40,6 +40,7 @@ export const constructorsBets = pgTable("constructors_bets", {
   userId: serial("user_id").references(() => users.userId),
   seasonId: serial("season_id").references(() => seasons.seasonId),
   constructorName: text("constructor_name"),
+  constructorId: text("constructor_id"),
 });
 
 export const grids = pgTable("grids", {
@@ -87,4 +88,20 @@ export const seasons = pgTable("seasons", {
   seasonId: serial("season_id").primaryKey(),
   year: integer("year"),
   currentSeason: boolean("current_season").notNull(),
+});
+
+export const driverStandings = pgTable("driver_standings", {
+  id: serial("id").primaryKey(),
+  seasonId: integer("season_id")
+    .references(() => seasons.seasonId)
+    .notNull(),
+  standingsData: text("standings_data").notNull(),
+});
+
+export const constructorStandings = pgTable("constructor_standings", {
+  id: serial("id").primaryKey(),
+  seasonId: integer("season_id")
+    .references(() => seasons.seasonId)
+    .notNull(),
+  standingsData: text("standings_data").notNull(),
 });
