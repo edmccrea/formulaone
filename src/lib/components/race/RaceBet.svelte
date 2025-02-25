@@ -172,7 +172,7 @@
           {#each drivers as driver}
             {#if driver.name !== selection.second && driver.name !== selection.third}
               <Select.Item
-                class="flex h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-red-100"
+                class="flex h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-neutral-100"
                 value={driver.value}
                 label={driver.name}
               >
@@ -212,7 +212,7 @@
           {#each drivers as driver}
             {#if driver.name !== selection.first && driver.name !== selection.third}
               <Select.Item
-                class="flex h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-red-100"
+                class="flex h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-neutral-100"
                 value={driver.value}
                 label={driver.name}
               >
@@ -252,7 +252,7 @@
           {#each drivers as driver}
             {#if driver.name !== selection.second && driver.name !== selection.first}
               <Select.Item
-                class="flex h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-red-100"
+                class="flex h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-neutral-100"
                 value={driver.value}
                 label={driver.name}
               >
