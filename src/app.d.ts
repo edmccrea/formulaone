@@ -69,6 +69,7 @@ declare global {
       points: number;
       position: number;
       constructorBet: string;
+      constructorId: string;
       admin: boolean;
       userBets: Bet[];
     }
