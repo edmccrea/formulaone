@@ -16,7 +16,7 @@
         <div
           class="flex gap-3 border-b border-b-neutral-200 pb-2 last:border-b-0 last:pb-0"
         >
-          <div>
+          <div class="p-1 rounded-md bg-neutral-200/80">
             <img src={driver.helmet} alt="" class="h-12" />
           </div>
           <div class="flex-1">
@@ -29,7 +29,14 @@
               </p>
             </div>
             <div class="flex gap-2 text-neutral-500">
-              <p class="text-sm">{driver.constructor}</p>
+              <div class="text-sm flex items-center gap-2">
+                <img
+                  src={`https://res.cloudinary.com/edmccrea/image/upload/v1740431201/F1/Constructors/${driver.constructorId}.png`}
+                  alt=""
+                  class="h-3"
+                />
+                {driver.constructor}
+              </div>
               <p class="text-sm">·</p>
               <p class="text-sm">{driver.wins} wins</p>
             </div>
