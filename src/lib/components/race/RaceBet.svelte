@@ -172,11 +172,18 @@
           {#each drivers as driver}
             {#if driver.name !== selection.second && driver.name !== selection.third}
               <Select.Item
-                class="flex h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-neutral-100"
+                class="flex gap-1 h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-neutral-100"
                 value={driver.value}
                 label={driver.name}
               >
-                {driver.name}
+                <div class="w-7 flex items-center justify-center">
+                  <img
+                    src={`https://res.cloudinary.com/edmccrea/image/upload/v1740431201/F1/Constructors/${driver.constructorId}.png`}
+                    alt=""
+                    class="h-3"
+                  />
+                </div>
+                <span>{driver.name}</span>
                 <Select.ItemIndicator class="ml-auto" asChild={false}
                 ></Select.ItemIndicator>
               </Select.Item>
@@ -212,11 +219,18 @@
           {#each drivers as driver}
             {#if driver.name !== selection.first && driver.name !== selection.third}
               <Select.Item
-                class="flex h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-neutral-100"
+                class="flex gap-1 h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-neutral-100"
                 value={driver.value}
                 label={driver.name}
               >
-                {driver.name}
+                <div class="w-7 flex items-center justify-center">
+                  <img
+                    src={`https://res.cloudinary.com/edmccrea/image/upload/v1740431201/F1/Constructors/${driver.constructorId}.png`}
+                    alt=""
+                    class="h-3"
+                  />
+                </div>
+                <span>{driver.name}</span>
                 <Select.ItemIndicator class="ml-auto" asChild={false}
                 ></Select.ItemIndicator>
               </Select.Item>
@@ -252,11 +266,18 @@
           {#each drivers as driver}
             {#if driver.name !== selection.second && driver.name !== selection.first}
               <Select.Item
-                class="flex h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-neutral-100"
+                class="flex gap-1 h-10 w-full select-none items-center rounded-md py-3 pl-5 pr-1.5 text-sm outline-none transition-all duration-75 data-[highlighted]:bg-neutral-100"
                 value={driver.value}
                 label={driver.name}
               >
-                {driver.name}
+                <div class="w-7 flex items-center justify-center">
+                  <img
+                    src={`https://res.cloudinary.com/edmccrea/image/upload/v1740431201/F1/Constructors/${driver.constructorId}.png`}
+                    alt=""
+                    class="h-3"
+                  />
+                </div>
+                <span>{driver.name}</span>
                 <Select.ItemIndicator class="ml-auto" asChild={false}
                 ></Select.ItemIndicator>
               </Select.Item>
