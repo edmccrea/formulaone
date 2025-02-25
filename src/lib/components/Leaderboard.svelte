@@ -36,7 +36,16 @@
             >{user.username}</td
           >
           <td class="py-2 px-4">{user.points}</td>
-          <td class="py-2 px-4">{user.constructorBet}</td>
+          <td class="py-2 px-4 flex items-center gap-1">
+            <div class="w-5 flex justify-center items-center">
+              <img
+                src={`https://res.cloudinary.com/edmccrea/image/upload/v1740431201/F1/Constructors/${user.constructorId}.png`}
+                alt=""
+                class="h-3"
+              />
+            </div>
+            {user.constructorBet}</td
+          >
         </tr>
       {/each}
     </tbody>

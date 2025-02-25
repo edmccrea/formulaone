@@ -67,6 +67,7 @@ export const load = (async ({ locals: { getSession }, fetch }) => {
         points: userScore?.score ?? 0,
         position: userScore?.position ?? 0,
         constructorBet: userConstructorBet?.constructorName ?? "",
+        constructorId: userConstructorBet?.constructorId ?? "",
         admin: user.admin,
         userBets,
       };
@@ -177,7 +178,10 @@ async function getUserScore(userId: number, currentSeasonId: number) {
 
 async function getUserConstructorBet(userId: number, currentSeasonId: number) {
   const bet = await db
-    .select({ constructorName: constructorsBets.constructorName })
+    .select({
+      constructorName: constructorsBets.constructorName,
+      constructorId: constructorsBets.constructorId,
+    })
     .from(constructorsBets)
     .where(
       and(
