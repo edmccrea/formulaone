@@ -28,7 +28,7 @@
                 >
               </p>
             </div>
-            <div class="flex gap-2">
+            <div class="flex gap-2 text-neutral-500">
               <p class="text-sm">{driver.constructor}</p>
               <p class="text-sm">·</p>
               <p class="text-sm">{driver.wins} wins</p>
@@ -64,7 +64,7 @@
                 >
               </p>
             </div>
-            <div class="flex gap-2">
+            <div class="flex gap-2 text-neutral-500">
               <p class="text-sm">{constructor.wins} wins</p>
             </div>
           </div>
