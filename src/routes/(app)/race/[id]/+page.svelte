@@ -85,11 +85,11 @@
     const userBet = betTable.find((bet) => bet.username === user?.username);
     if (!userBet) return "";
     if (bet.bets[betPosition] === result[betPosition]) {
-      return "text-emerald-500";
+      return "text-emerald-600";
     } else if (resultArray.includes(bet.bets[betPosition])) {
-      return "text-sky-500";
+      return "text-sky-600";
     } else if (!resultArray.includes(bet.bets[betPosition])) {
-      return "text-red-500";
+      return "text-red-600";
     } else {
       return "";
     }
