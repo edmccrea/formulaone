@@ -2,8 +2,13 @@ import { eq } from "drizzle-orm";
 import { db } from "$lib/drizzle/db";
 import type { RequestHandler } from "./$types";
 import { constructorStandings, seasons } from "$lib/drizzle/schema";
+import { API_KEY } from "$env/static/private";
 
 export const POST: RequestHandler = async ({ request }) => {
+  const apiKey = request.headers.get("x-api-key");
+  if (apiKey !== API_KEY) {
+    return new Response("Unauthorized", { status: 401 });
+  }
   try {
     const req = await request.json();
     const response = await fetch(

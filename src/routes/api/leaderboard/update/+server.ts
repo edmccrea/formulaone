@@ -2,8 +2,13 @@ import { db } from "$lib/drizzle/db";
 import { races, seasons, results, bets, scores } from "$lib/drizzle/schema";
 import { eq, and, desc } from "drizzle-orm";
 import type { RequestHandler } from "./$types";
+import { API_KEY } from "$env/static/private";
 
-export const POST: RequestHandler = async () => {
+export const POST: RequestHandler = async ({ request }) => {
+  const apiKey = request.headers.get("x-api-key");
+  if (apiKey !== API_KEY) {
+    return new Response("Unauthorized", { status: 401 });
+  }
   try {
     const currentSeasonsResults = await db
       .select()
