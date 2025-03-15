@@ -59,16 +59,20 @@ export const POST: RequestHandler = async ({ request }) => {
       .from(grids)
       .where(eq(grids.raceId, first.raceId));
 
+    console.log(existingResults);
     if (existingResults) {
       await db
         .update(grids)
         .set({ gridData: JSON.stringify(formattedResults) })
         .where(eq(grids.raceId, first.raceId));
     } else {
-      await db.insert(grids).values({
+      console.log("inserting");
+      const inserted = await db.insert(grids).values({
         raceId: first.raceId,
         gridData: JSON.stringify(formattedResults),
       });
+
+      console.log(inserted);
     }
 
     return new Response("Qualifying results updated successfully", {
