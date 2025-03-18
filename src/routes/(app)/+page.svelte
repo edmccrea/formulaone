@@ -53,7 +53,7 @@
       <h2 class="font-bold text-2xl mb-4">Upcoming Race</h2>
       <!-- If race is this week, then display a countdown -->
       {#if upcomingRaces.length > 0}
-        <RaceCard race={upcomingRaces[0]} bets={$user?.userBets} />
+        <RaceCard race={upcomingRaces[0]} bets={data.userBets} />
       {:else}
         <p>The season has ended!</p>
       {/if}
@@ -78,7 +78,7 @@
     >
       {#if upcomingRaces.length > 0}
         {#each upcomingRaces as race}
-          <RaceCard {race} bets={$user?.userBets} />
+          <RaceCard {race} bets={data.userBets} />
         {/each}
       {:else}
         <p>There are no upcoming races.</p>
@@ -97,7 +97,7 @@
       {#if previousRaces.length > 0}
         {#each previousRaces as race}
           {#if race.raceStart.getTime() < date}
-            <RaceCard {race} bets={$user?.userBets} />
+            <RaceCard {race} bets={data.userBets} />
           {/if}
         {/each}
       {:else}

@@ -107,6 +107,7 @@ export const load = (async ({ locals: { getSession }, fetch }) => {
     currentSeason,
     session: await getSession(),
     user,
+    userBets: user?.userBets,
   };
 }) satisfies LayoutServerLoad;
 

@@ -29,5 +29,6 @@ export const load = (async ({ fetch, data, depends }) => {
     bets: data.bets,
     currentSeason: data.currentSeason,
     user: data.user,
+    userBets: data.userBets,
   };
 }) satisfies LayoutLoad;
