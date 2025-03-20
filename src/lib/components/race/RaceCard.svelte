@@ -6,14 +6,23 @@
 
   const dateToDisplay = race.raceStart.toDateString();
   const twoHours = 1000 * 60 * 60 * 2;
+  const sixHours = 1000 * 60 * 60 * 6;
 
   function isRaceUpcoming() {
     const now = new Date();
     return race.raceStart.getTime() - now.getTime() + twoHours > 0;
   }
 
+  function isRaceWithinSixHours() {
+    const now = new Date();
+    const timeToRace = race.raceStart.getTime() - now.getTime();
+    return timeToRace > 0 && timeToRace <= sixHours;
+  }
+
   let isUpcoming = isRaceUpcoming();
   let betPlaced = checkUserBet();
+
+  $: isUrgent = isRaceWithinSixHours() && !betPlaced;
 
   function checkUserBet() {
     if (!bets) return false;
@@ -30,8 +39,18 @@
   tabindex="0"
   on:click={goToRace}
   on:keyup={goToRace}
-  class="bg-neutral-50 border border-neutral-200 shadow-md rounded-md w-72 h-80 hover:cursor-pointer hover:bg-neutral-200/20 hover:-translate-y-0.5 transition-all ease-in-out duration-300 shrink-0 snap-start"
+  class="bg-neutral-50 border border-neutral-200 shadow-md rounded-md w-72 h-80 hover:cursor-pointer hover:bg-neutral-200/20 hover:-translate-y-0.5 transition-all ease-in-out duration-300 shrink-0 snap-start {isUrgent
+    ? 'relative'
+    : ''}"
 >
+  {#if isUrgent}
+    <span class="absolute flex h-3 w-3 -top-1 -right-1">
+      <span
+        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"
+      ></span>
+      <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+    </span>
+  {/if}
   <div class="h-3/5">
     <img
       src={race.image}
@@ -49,9 +68,11 @@
       <p class="text-sm mt-4 text-neutral-500">{dateToDisplay}</p>
       {#if isUpcoming && !betPlaced}
         <p
-          class="w-fit mt-2 py-1 px-2 bg-gradient-to-r to-30% from-yellow-300/80 to-yellow-200 text-yellow-900 rounded-md text-sm"
+          class="w-fit mt-2 py-1 px-2 bg-gradient-to-r to-30% {isUrgent
+            ? 'from-red-300/80 to-red-200 text-red-900'
+            : 'from-yellow-300/80 to-yellow-200 text-yellow-900'} rounded-md text-sm"
         >
-          Bet not placed
+          {isUrgent ? "Bet soon!" : "Bet not placed"}
         </p>
       {:else if isUpcoming && betPlaced}
         <p
