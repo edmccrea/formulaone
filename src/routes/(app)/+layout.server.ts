@@ -92,6 +92,7 @@ export const load = (async ({ locals: { getSession }, fetch }) => {
         points: data.user.points,
         position: data.user.position,
         constructorBet: data.user.constructorBet,
+        constructorId: data.user.constructorId,
         admin: data.user.admin,
         userBets: data.user.userBets,
       };

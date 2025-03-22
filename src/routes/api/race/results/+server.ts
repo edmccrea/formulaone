@@ -12,7 +12,7 @@ export const POST: RequestHandler = async ({ request }) => {
   try {
     const req = await request.json();
     const response = await fetch(
-      `http://api.jolpi.ca/ergast/f1/${req.season}/${req.calendarRound ? req.calendarRound : "last"}/results`,
+      `http://api.jolpi.ca/ergast/f1/${req.season}/${req.calendarRound ? req.calendarRound : "next"}/results`,
     );
 
     const data = (await response.json()) as RaceResponse;
