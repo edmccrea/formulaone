@@ -2,6 +2,7 @@
   "name": "F1 Bets",
   "short_name": "F1 Bets",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#f7f7f7",
   "theme_color": "#f7f7f7",
