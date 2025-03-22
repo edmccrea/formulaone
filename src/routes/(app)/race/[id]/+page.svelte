@@ -20,7 +20,7 @@
   const comments = data.comments;
   let betTable: App.BetTable;
   $: {
-    if (race) {
+    if (race && data.bets) {
       betTable = createBetTable(data.users, data.bets);
     }
   }
@@ -142,7 +142,7 @@
     <div
       class="bg-neutral-50 p-8 rounded-md border border-neutral-200 shadow-sm"
     >
-      {#key user}
+      {#key [race.raceId, user]}
         <RaceBet
           {race}
           {betTable}
@@ -163,7 +163,7 @@
         class="bg-neutral-50 p-8 border border-neutral-200 shadow-sm px-4 py-8 md:p-8 rounded-md h-fit"
       >
         <div class="overflow-auto">
-          {#key betTable || user}
+          {#key [betTable, user, race.raceId]}
             <table>
               <thead class="border-b border-b-gray-400 bg-neutral-200/10">
                 <tr class="hover:cursor-default">
