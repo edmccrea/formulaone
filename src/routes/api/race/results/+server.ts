@@ -16,8 +16,11 @@ export const POST: RequestHandler = async ({ request }) => {
     );
 
     const data = (await response.json()) as RaceResponse;
-
-    const raceResults = data.MRData.RaceTable.Races[0].Results;
+    const availableRaces = data.MRData.RaceTable.Races;
+    if (!availableRaces || availableRaces.length === 0) {
+      return new Response("No race data available yet", { status: 200 });
+    }
+    const raceResults = availableRaces[0].Results;
 
     const season = await db
       .select()

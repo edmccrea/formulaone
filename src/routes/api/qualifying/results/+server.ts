@@ -17,7 +17,12 @@ export const POST: RequestHandler = async ({ request }) => {
 
     const data = (await response.json()) as QualifyingResponse;
 
-    const qualifyingResults = data.MRData.RaceTable.Races[0].QualifyingResults;
+    const availableRaces = data.MRData.RaceTable.Races;
+    if (!availableRaces || availableRaces.length === 0) {
+      return new Response("No wualifying data available yet", { status: 200 });
+    }
+
+    const qualifyingResults = availableRaces[0].QualifyingResults;
 
     const season = await db
       .select()
