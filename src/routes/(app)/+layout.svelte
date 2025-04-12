@@ -4,7 +4,7 @@
   import Navbar from "$lib/components/Navbar.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import { onMount } from "svelte";
-  import { invalidate } from "$app/navigation";
+  import { invalidate, invalidateAll } from "$app/navigation";
   import { user } from "../../stores/user";
   import { Toaster } from "svelte-sonner";
 
@@ -18,6 +18,7 @@
   $: ({ supabase, session } = data);
 
   onMount(() => {
+    window.addEventListener("visibilitychange", handleVisibilityChange);
     const { data } = supabase.auth.onAuthStateChange(
       async (event, _session) => {
         if (_session?.expires_at !== session?.expires_at) {
@@ -56,6 +57,10 @@
     );
     return () => data.subscription.unsubscribe();
   });
+
+  function handleVisibilityChange() {
+    void invalidateAll();
+  }
 
   const hiddenNavRoutes = ["/login", "/register", "/under-construction"];
 </script>
