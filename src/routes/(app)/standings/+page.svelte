@@ -16,7 +16,7 @@
         <div
           class="flex gap-3 border-b border-b-neutral-200 pb-2 last:border-b-0 last:pb-0"
         >
-          <div class="p-1 rounded-md bg-neutral-200/80">
+          <div class="p-1 rounded-md bg-neutral-200/80 min-h-12 min-w-12">
             <img src={driver.helmet} alt="" class="h-12" />
           </div>
           <div class="flex-1">
